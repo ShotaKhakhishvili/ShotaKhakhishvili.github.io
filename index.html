@@ -152,6 +152,7 @@
             color: white;
             font-size: 18px;
             margin: 20px auto; /* Centering on the page */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         .circle-section:hover{
             transform: translateY(-5px); /* Slight lift effect on hover */
@@ -259,10 +260,9 @@
 
 <section class="portfolio">
     <h2 style = "font-size: 250%; text-align: center; height: 200%">Projects</h2>
-    <div class="circle-section">
+    <button class="circle-section", onclick="openModal('modal1')">
         <h3 style = "font-size: 125%; color:#17254a ">Survival Game</h3>
-        <button onclick="openModal('modal1')">View Showcase</button>
-    </div>
+    </button>
     <div class="project", style = "background-size: 100% 200%; background-image: url(pic_trapshooter.PNG); background-repeat: no-repeat; background-position: center">
         <h3 style = "font-size: 125%; color:#17254a;">Trapshooter</h3>
         <button onclick="openModal('modal2')">View Showcase</button>
