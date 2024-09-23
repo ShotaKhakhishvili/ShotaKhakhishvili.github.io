@@ -91,7 +91,6 @@
             border: 2px solid #ffffff; /* White border for buttons */
             padding: 10px 20px;
             color: white;
-            margin: 20%;
             font-size: 1em;
             cursor: pointer;
             border-radius: 5px;
@@ -139,6 +138,19 @@
         .modal-content a {
             color: #ffffff;
             font-size: 1.1em;
+        }
+        .circle-section {
+            width: 200px;
+            height: 200px;
+            background-color: #ff6347; /* Tomato color */
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            font-size: 18px;
+            margin: 20px auto; /* Centering on the page */
         }
         footer {
             background-color: #0a1a2f;
@@ -227,7 +239,7 @@
 
 <section class="portfolio">
     <h2 style = "font-size: 250%; text-align: center; height: 200%">Projects</h2>
-    <div class="project", style = "background-size: 100% 200%; background-image: url(pic_survivalGame.PNG); background-repeat: no-repeat; background-position: center;">
+    <div class="circle-section">
         <h3 style = "font-size: 125%; color:#17254a ">Survival Game</h3>
         <button onclick="openModal('modal1')">View Showcase</button>
     </div>
