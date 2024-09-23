@@ -71,20 +71,23 @@
             box-shadow: 0 0 5px 5px #797979;/* White glow */
         }
         .portfolio .project {
-            background-color: radial-gradient(circle, #03060a 20%, #060c14 80%); /* White project cards */
-            border: 1px solid #ffffff;
-            color: #ffffff; /* Dark Blue text */
-            padding: 20px;
-            margin: 10px 0;
-            border-radius: 5px;
+            width: 200px;
+            height: 200px;
+            background-color: #ff6347; /* Tomato color */
+            display: flex;
+            align-items: center;
+            justify-content: center;
             text-align: center;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+            color: white;
+            font-size: 18px;
+            margin: 5%; /* Centering on the page */
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         .projectSection {
             width: 200px;
             height: 200px;
             background-color: #ff6347; /* Tomato color */
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -98,16 +101,13 @@
             box-shadow: 0 0 5px 5px rgba(255, 255, 255, 0.5); /* White glow */
         }
         .portfolio .project button {
-            width: 200px;
-            height: 200px;
-            background-color: #ff6347; /* Tomato color */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
+            background-color: #0a1a2f; /* Dark Blue Button */
+            border: 2px solid #ffffff; /* White border for buttons */
+            padding: 10px 20px;
             color: white;
-            font-size: 18px;
-            margin: 5%; /* Centering on the page */
+            font-size: 1em;
+            cursor: pointer;
+            border-radius: 5px;
             transition: all 0.3s ease;
         }
         .portfolio .project button:hover {
