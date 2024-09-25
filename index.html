@@ -13,94 +13,143 @@
             background: radial-gradient(circle, #17254a 20%, #1b262a 80%);
             color: white;
         }
+
         header {
-            background-color: radial-gradient(circle, #17254a 20%, #1b262a 80%); /* Dark Blue */
-            border-bottom: 4px solid #ffffff; /* Solid white underline */
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background-color: #17254a;
             padding: 20px;
             text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
         }
+
         header h1 {
             margin: 0;
             font-size: 2.5em;
             color: white;
+            animation: glow 2s infinite alternate;
         }
-        header p {
-            font-size: 1.2em;
-            color: #ffffff;
-        }
+
         section {
             margin: 5%;
         }
+
         h2 {
-            border-bottom: 2px solid #ffffff; /* White section title underline */
+            border-bottom: 2px solid #ffffff;
             padding-bottom: 10px;
             color: white;
         }
 
-        .skills ul {
-            list-style-type: none;
-            border-color: #ffffff;
-            border-width: 1px;
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 10px #ffffff, 0 0 20px #ffffff;
+            }
+            to {
+                text-shadow: 0 0 20px #ff6347, 0 0 30px #ff6347;
+            }
         }
-        .skills insides{
-            justify-content: space-around;
-            flex-wrap: wrap;
-            display: flex; 
-            justify-content: center; 
-            list-style-type: none; 
+
+        /* Skills Section */
+        .skills h2 {
+            text-align: center; /* Center the header */
+            font-size: 2.5em;   /* Make the header stand out */
+            margin-bottom: 20px; /* Add some spacing */
+            color: white;
+            border-bottom: 2px solid #ffffff; /* Optional, keep it consistent with the other headers */
+            padding-bottom: 10px;
         }
-        .skills li {
-            flex: 1; 
+
+        .skills {
+            margin: 5%;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .skill-card {
+            background: #19293f;
+            border: 1px solid #ffffff;
+            border-radius: 10px;
+            padding: 20px;
             text-align: center;
-            size: 50%;
-            text-align: center;
-            text-transform: capitalize;
-            background-color: radial-gradient(circle, #03060a 20%, #060c14 80%); /* Darker Blue for skill boxes */
-            border-color: #ffffff;
-            color-scheme: solid;
-            color: #ffffff;
-            border-width: 1px;
-            border-style: solid;
-            margin: 1%;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-        .skills li:hover {
-            color: white; /* Change text color on hover */
-            box-shadow: 0 0 5px 5px #797979;/* White glow */
+        .skill-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(255, 255, 255, 0.3);
         }
-        .portfolio .project {
-            background-color: radial-gradient(circle, #03060a 20%, #060c14 80%); /* White project cards */
-            border: 1px solid #ffffff;
-            color: #ffffff; /* Dark Blue text */
-            padding: 20px;
-            margin: 10px 0;
-            border-radius: 5px;
-            text-align: center;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .portfolio .project:hover {
-            transform: translateY(-5px); /* Slight lift effect on hover */
-            box-shadow: 0 0 5px 5px rgba(255, 255, 255, 0.5); /* White glow */
-        }
-        .portfolio .project button {
-            background-color: #0a1a2f; /* Dark Blue Button */
-            border: 2px solid #ffffff; /* White border for buttons */
-            padding: 10px 20px;
+
+        .skill-card h3 {
+            margin: 0;
+            font-size: 1.5em;
             color: white;
-            font-size: 1em;
+        }
+
+        .progress-bar {
+            margin-top: 10px;
+            width: 100%;
+            height: 10px;
+            background: #ffffff;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background: #ff6347;
+            border-radius: 10px;
+        }
+
+        /* Portfolio (Projects) */
+        .portfolio {
+            margin-top: 50px;
+        }
+
+        .projects {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .project-card {
+            position: relative;
+            background: #19293f;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
             cursor: pointer;
-            border-radius: 5px;
-            transition: all 0.3s ease;
         }
-        .portfolio .project button:hover {
-            background-color: rgb(236, 236, 236); /* White on hover */
-            color: #0a1a2f; /* Dark blue text on hover */
-            box-shadow: 0 0 5px 5px rgba(255, 255, 255, 0.5); /* White glow */
+
+        .project-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(255, 255, 255, 0.3);
         }
+
+        .project-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .project-card .details {
+            padding: 20px;
+            background: #19293f;
+        }
+
+        .project-card h3 {
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .project-card p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9em;
+        }
+
         /* Modal styles */
         .modal {
             display: none;
@@ -126,65 +175,35 @@
             width: 100%;
             border-radius: 10px;
         }
+
         .close {
             color: white;
             float: right;
             font-size: 1.5em;
-            font-weight: bold;
             cursor: pointer;
         }
+
         .close:hover {
-            color: #ffffff;
+            color: #ff6347;
         }
-        .modal-content a {
-            color: #ffffff;
-            font-size: 1.1em;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
+
+        @keyframes fadeInModal {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
         }
-        .circle-section {
-            width: 200px;
-            height: 200px;
-            background-color: #ff6347; /* Tomato color */
-            border: 5px solid #ffffff;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: white;
-            font-size: 18px;
-            margin: 20px auto; /* Centering on the page */
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .circle-section:hover{
-            transform: translateY(-5px); /* Slight lift effect on hover */
-            box-shadow: 0 0 5px 5px rgba(255, 255, 255, 0.5); /* White glow */
-        }
-        .circle-section button{
-            background-color: #0a1a2f; /* Dark Blue Button */
-            border: 2px solid #ffffff; /* White border for buttons */
-            padding: 10px 20px;
-            color: white;
-            font-size: 1em;
-            cursor: pointer;
-            border-radius: 5px;
-            transition: all 0.3s ease;
-        }
-        .circle-section button:hover{
-            background-color: rgb(236, 236, 236); /* White on hover */
-            color: #0a1a2f; /* Dark blue text on hover */
-            box-shadow: 0 0 5px 5px rgba(255, 255, 255, 0.5); /* White glow */
-        }
+
         footer {
             background-color: #0a1a2f;
             text-align: center;
             padding: 10px;
-            position: fixed;
-            width: 100%;
-            bottom: 0;
             color: white;
+            position: relative;
+            bottom: 0;
+            width: 100%;
         }
     </style>
 </head>
@@ -195,86 +214,168 @@
     <p>Game Developer</p>
 </header>
 
-<section class="skills" >
-    <h2 style = "font-size: 250%; text-align: center">Skills</h2>
-    <ul>
-        <section style = "background: #19293f; padding: 20px;
-        justify-content: space-around;
-        flex: 1 1 150px;
-        flex-wrap: wrap;">
-            <h2 style = "margin-left: 10%; margin-right: 10%; text-align: center">Game Engines</h2>
-            <insides>
-                <li><h3>Unreal Engine 5</h3>
-                    <p>3 years Of Experience</p>
-                </li>
-                <li><h3>Unity</h3>
-                    <p>1.5 years Of Experience</p>
-                </li>
-                <li><h3>Roblox Studio</h3>
-                    <p>6 Months Of Experience</p>
-                </li>
-            </insides>
-        </section>
-        <section style="background: #19293f; padding: 20px; 
-        justify-content: space-around;
-        flex: 1 1 150px;
-        flex-wrap: wrap;">
-            <h2 style="margin-left: 10%; margin-right: 10%; text-align: center;">Coding</h2>
-            <insides>
-                <li>
-                    <h3>C++</h3>
-                    <p>5 years of coding</p>
-                </li>
-                <li>
-                    <h3>UE Blueprints</h3>
-                    <p>3 years of coding</p>
-                </li>
-                <li>
-                    <h3>C#</h3>
-                    <p>1.5 years of coding</p>
-                </li>
-                <li>
-                    <h3>C (RobotC for lego robotics)</h3>
-                    <p>1.5 years of coding</p>
-                </li>
-            </insides>
-        </section>
-        <section style = "background: #19293f; padding: 20px;">
-            <h2 style = "margin-left: 10%; margin-right: 10%; text-align: center">General</h2>
-            <insides>
-                <li>
-                    <h3>Github</h3>
-                </li>
-                <li>
-                    <h3>Math</h3>
-                </li>
-                <li>
-                    <h3>Physics</h3>
-                </li>
-                <li>
-                    <h3>Problem-Solving</h3>
-                </li>
-                <li>
-                    <h3>Communication</h3>
-                </li>
-            </insides>
-        </section>
-    </ul>
+<!-- Skills Section -->
+<section>
+    <h2>Engine Experiences</h2>
+    <div class="skills">
+        <div class="skill-card">
+            <h3>Unreal Engine 5</h3>
+            <div class="progress-bar">
+                <div class="progress" style="width: 80%;"></div>
+            </div>
+        </div>
+        <div class="skill-card">
+            <h3>Unity</h3>
+            <div class="progress-bar">
+                <div class="progress" style="width: 70%;"></div>
+            </div>
+        </div>
+        <div class="skill-card">
+            <h3>Roblox Studio</h3>
+            <div class="progress-bar">
+                <div class="progress" style="width: 50%;"></div>
+            </div>
+        </div>
+    </div>
+    <h2>Coding Experiences</h2>
+    <div class = "skills">
+        <div class="skill-card">
+            <h3>C++</h3>
+            <div class="progress-bar">
+                <div class="progress" style="width: 90%;"></div>
+            </div>
+        </div>
+        <div class="skill-card">
+            <h3>C#</h3>
+            <div class="progress-bar">
+                <div class="progress" style="width: 60%;"></div>
+            </div>
+        </div>
+        <div class="skill-card">
+            <h3>C</h3>
+            <div class="progress-bar">
+                <div class="progress" style="width: 60%;"></div>
+            </div>
+        </div>
+        <div class="skill-card">
+            <h3>Lua</h3>
+            <div class="progress-bar">
+                <div class="progress" style="width: 50%;"></div>
+            </div>
+        </div>
+        <div class="skill-card">
+            <h3>HTML</h3>
+            <div class="progress-bar">
+                <div class="progress" style="width: 30%;"></div>
+            </div>
+        </div>
+    </div>
+
+    <h2>Programmer Skills</h2>
+    <div class = "skills">
+        <div class="skill-card">
+            <h3>Competitive Programming</h3>
+            <div class="progress-bar">
+                <div class="progress" style="width: 80%;"></div>
+            </div>
+        </div>
+        <div class="skill-card">
+            <h3>Robo-Programming</h3>
+            <div class="progress-bar">
+                <div class="progress" style="width: 70%;"></div>
+            </div>
+        </div>
+        <div class="skill-card">
+            <h3>Git</h3>
+            <div class="progress-bar">
+                <div class="progress" style="width: 60%;"></div>
+            </div>
+        </div>
+        <div class="skill-card">
+            <h3>Machine Learning</h3>
+            <div class="progress-bar">
+                <div class="progress" style="width: 40%;"></div>
+            </div>
+        </div>
+    </div>
+
+    <h2>General Skills</h2>
+    <div class = "skills">
+        <div class="skill-card">
+            <h3>Dedication</h3>
+            <div class="progress-bar">
+                <div class="progress" style="width: 90%;"></div>
+            </div>
+        </div>
+        <div class="skill-card">
+            <h3>Problem-Solving</h3>
+            <div class="progress-bar">
+                <div class="progress" style="width: 80%;"></div>
+            </div>
+        </div>
+        <div class="skill-card">
+            <h3>Math</h3>
+            <div class="progress-bar">
+                <div class="progress" style="width: 70%;"></div>
+            </div>
+        </div>
+        <div class="skill-card">
+            <h3>Fast Learner</h3>
+            <div class="progress-bar">
+                <div class="progress" style="width: 70%;"></div>
+            </div>
+        </div>
+        <div class="skill-card">
+            <h3>Communication</h3>
+            <div class="progress-bar">
+                <div class="progress" style="width: 65%;"></div>
+            </div>
+        </div>
+        <div class="skill-card">
+            <h3>Physics</h3>
+            <div class="progress-bar">
+                <div class="progress" style="width: 50%;"></div>
+            </div>
+        </div>
+    </div>
 </section>
 
+<!-- Portfolio Section -->
 <section class="portfolio">
-    <h2 style = "font-size: 250%; text-align: center; height: 200%">Projects</h2>
-    <section style="display:flex; justify-content: space-around; flex: 1 1 150px; flex-wrap: wrap;">
-        <button class="circle-section", onclick="openModal('modal1')", style = "background-size: 180% 100%; background-image: url(pic_survivalGame.PNG); background-repeat: no-repeat; background-position: center">
-        </button>
-        <button class="circle-section", onclick="openModal('modal2')", style = "background-size: 140% 100%; background-image: url(pic_trapshooter.PNG); background-repeat: no-repeat; background-position: center">
-        </button>
-        <button class="circle-section", onclick="openModal('modal3')", style = "background-size: 170% 100%; background-image: url(pic_subwaySurfers.png); background-repeat: no-repeat; background-position: center">
-        </button>
-        <button class="circle-section", onclick="openModal('modal4')", style = "background-size: 160% 100%; background-image: url(pic_MLCars.png); background-repeat: no-repeat; background-position: center">
-        </button>
+    <h2>Projects</h2>
+    <div class="projects">
+        <div class="project-card" onclick="openModal('modal1')">
+            <img src="pic_survivalGame.PNG" alt="Survival Game">
+            <div class="details">
+                <h3>Survival Game</h3>
+                <p>A showcase of survival game mechanics in UE5.</p>
+            </div>
         </div>
-    </section>
+
+        <div class="project-card" onclick="openModal('modal2')">
+            <img src="pic_trapshooter.PNG" alt="Trapshooter">
+            <div class="details">
+                <h3>Trapshooter</h3>
+                <p>An arcade shooter game built in UE5.</p>
+            </div>
+        </div>
+
+        <div class="project-card" onclick="openModal('modal3')">
+            <img src="pic_subwaySurfers.png" alt="Subway Surfers Remake">
+            <div class="details">
+                <h3>Subway Surfers Remake</h3>
+                <p>A remake of the popular Subway Surfers game using UE5.</p>
+            </div>
+        </div>
+
+        <div class="project-card" onclick="openModal('modal4')">
+            <img src="pic_MLCars.png" alt="Self-Taught Cars">
+            <div class="details">
+                <h3>ML Self-Taught Cars</h3>
+                <p>Machine learning algorithm based self-taught cars project in UE5.</p>
+            </div>
+        </div>
+    </div>
 </section>
 
 <!-- Modal 1 -->
@@ -327,6 +428,8 @@
         <p><a href="your-download-link-3.zip" download>Download a Packaged Project</a></p>
     </div>
 </div>
+
+<!-- More modals for other projects -->
 
 <footer>
     <p>&copy; 2024 Shota Khakhishvili. All rights reserved.</p>
