@@ -288,7 +288,7 @@
   <div id="projects-section" class="section-content">
     <h2>Projects</h2>
 
-    <h3>Unreal Engine 5 Games</h3>
+    <h3>Unreal Engine 5 Projects</h3>
     <div class="projects-grid">
       <div class="project-card" onclick="openModal('modal1')">
         <img src="pic_survivalGame.PNG" alt="Survival Game" />
@@ -306,10 +306,10 @@
         <img src="pic_ElementBending.png" alt="Bending Simulator" />
         <div class="details"><h4>Bending Simulator</h4><p>A combat-style simulation in UE5, inspired by Avatar: The Last Airbender.</p></div>
       </div>
-    </div>
-
-    <h3>Machine Learning</h3>
-    <div class="projects-grid">
+      <div class="project-card" onclick="openModal('modal6')">
+        <img src="pic_BendItAll.png" alt="Bend It All" />
+        <div class="details"><h4>Bend It All</h4><p>A combat-centered, stylized sandbox game based on the theme "Control The Environment".</p></div>
+      </div>
       <div class="project-card" onclick="openModal('modal4')">
         <img src="pic_MLCars.png" alt="Self-Taught Cars" />
         <div class="details"><h4>ML Self-Taught Cars</h4><p>Machine learning algorithm based self-taught cars project in UE5.</p></div>
@@ -369,7 +369,14 @@
       <p><a href="https://drive.google.com/drive/folders/1VTmhzg7KgtnbwpTgZ28eysDPRsQNvti-?usp=drive_link" target="_blank">Download a Packaged Project</a></p>
     </div>
   </div>
-
+  <div id="modal6" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('modal6')">&times;</span>
+      <h4>Bend It All</h4>
+      <video controls><source src="BendItAll_Showcase.mp4" type="video/mp4"/></video>
+      <p><a href="https://drive.google.com/drive/folders/1VTmhzg7KgtnbwpTgZ28eysDPRsQNvti-?usp=drive_link" target="_blank">Download a Packaged Project</a></p>
+    </div>
+  </div>
   <!-- Footer -->
   <footer>&copy; 2024 Shota Khakhishvili. All rights reserved.</footer>
 
