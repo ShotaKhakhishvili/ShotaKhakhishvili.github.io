@@ -62,7 +62,7 @@
       "title": "Procedural Surface Generation",
       "description": "Chunk-based terrain system with LOD, spatial hashing, and multithreaded generation. Reduces frame hitches by 8.5x through async chunk loading and memory pooling.",
       "tags": ["C++", "UE5", "Multithreading", "Optimization"],
-      "thumbnail": "pic_proceduralSurface.png",
+      "thumbnail": "pic_ProceduralSurface.png",
       "video": "ProceduralSurface.mp4",
       "downloadUrl": "https://github.com/ShotaKhakhishvili/Procedural-Surface-Terrain-Generation",
       "codeUrl": "https://github.com/ShotaKhakhishvili/Procedural-Surface-Terrain-Generation"

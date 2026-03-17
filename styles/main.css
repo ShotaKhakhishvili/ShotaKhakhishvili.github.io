@@ -449,6 +449,7 @@ h2 {
 
 .link-button:hover {
   background: linear-gradient(135deg, #f4d992, #e6c77a);
+  color: #111111;
   filter: brightness(1.01);
   box-shadow: 0 0 18px rgba(244, 217, 146, 0.25);
 }

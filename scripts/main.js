@@ -135,7 +135,7 @@ function renderProjects() {
           ${project.tags.map((tag) => `<span class="tag">${tag}</span>`).join('')}
         </div>
         <div class="project-links">
-          <a class="link-button" href="${project.codeUrl}" target="_blank" rel="noreferrer">GitHub</a>
+          <a class="link-button" href="${project.codeUrl}" target="_blank" rel="noreferrer">Project Link</a>
         </div>
       </div>
     </article>
