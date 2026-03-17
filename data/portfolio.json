@@ -1,0 +1,187 @@
+{
+  "profile": {
+    "name": "Shota Khakhishvili",
+    "title": "UE5 Gameplay Programmer",
+    "intro": "I build gameplay-first experiences in Unreal Engine 5, from fast arcade loops to simulation prototypes. My focus is responsive controls, clear game feel, and clean gameplay systems.",
+    "projectCount": "10+",
+    "engineCount": 3,
+    "focusAreas": [
+      "Gameplay programming and combat systems",
+      "Prototyping and iteration in UE5",
+      "Player feel, tuning, and polish"
+    ],
+    "email": "shota.khakhishvili@gmail.com",
+    "social": {
+      "linkedin": "https://www.linkedin.com/in/shota-khakhishvili-a544b2325/",
+      "github": "https://github.com/shotakhakhishvili",
+      "instagram": "https://www.instagram.com/shota_khakhishvili/"
+    }
+  },
+  "skillsIntro": "Core competencies in Unreal Engine gameplay programming, rapid prototyping, and practical systems used to ship playable experiences.",
+  "skills": [
+    {
+      "category": "Languages & Engines",
+      "items": [
+        { "name": "C++", "proficiency": 85 },
+        { "name": "Unreal Engine 5", "proficiency": 85 },
+        { "name": "Unity", "proficiency": 45 },
+        { "name": "Roblox Studio", "proficiency": 40 },
+        { "name": "OpenGL", "proficiency": 75 }
+      ]
+    },
+    {
+      "category": "Systems Programming",
+      "items": [
+        { "name": "Multithreading & Concurrency", "proficiency": 80 },
+        { "name": "Performance Optimization", "proficiency": 75 },
+        { "name": "Plugin Architecture", "proficiency": 80 }
+      ]
+    },
+    {
+      "category": "Gameplay Systems",
+      "items": [
+        { "name": "UE Blueprints", "proficiency": 85 },
+        { "name": "State Machines & FSMs", "proficiency": 85 },
+        { "name": "Ability Systems", "proficiency": 80 },
+        { "name": "Data Systems & Queries", "proficiency": 75 }
+      ]
+    },
+    {
+      "category": "Additional",
+      "items": [
+        { "name": "Dedication", "proficiency": 95 },
+        { "name": "Competitive Programming", "proficiency": 60 },
+        { "name": "Machine Learning Integration", "proficiency": 60 }
+      ]
+    }
+  ],
+  "projectsIntro": "Selected systems, engine, simulation, and gameplay projects focused on performance, modular architecture, and practical implementation.",
+  "projects": [
+    {
+      "id": 15,
+      "title": "Procedural Surface Generation",
+      "description": "Chunk-based terrain system with LOD, spatial hashing, and multithreaded generation. Reduces frame hitches by 8.5x through async chunk loading and memory pooling.",
+      "tags": ["C++", "UE5", "Multithreading", "Optimization"],
+      "thumbnail": "pic_proceduralSurface.png",
+      "video": "ProceduralSurface.mp4",
+      "downloadUrl": "https://github.com/ShotaKhakhishvili/Procedural-Surface-Terrain-Generation",
+      "codeUrl": "https://github.com/ShotaKhakhishvili/Procedural-Surface-Terrain-Generation"
+    },
+    {
+      "id": 7,
+      "title": "KIU Infinite Runner (Custom Engine)",
+      "description": "An infinite runner prototype built in 48 hours with a custom C++/OpenGL framework, combining real-time rendering, instancing, and modular gameplay systems.",
+      "tags": ["C++", "OpenGL", "Engine", "Graphics"],
+      "thumbnail": "pic_WolfRunner.png",
+      "video": "WolfRunner.mp4",
+      "downloadUrl": "https://github.com/ShotaKhakhishvili/KIU_ClubEngine",
+      "codeUrl": "https://github.com/ShotaKhakhishvili/KIU_ClubEngine"
+    },
+    {
+      "id": 8,
+      "title": "UE5 Data Table Query Plugin",
+      "description": "Plugin architecture enabling relational data management with SQL-like queries in Blueprints. Demonstrates plugin development, serialization, and data abstraction patterns.",
+      "tags": ["UE5", "Plugin", "Systems", "C++"],
+      "thumbnail": "pic_UE_SQL.png",
+      "video": "UE_SQL.mp4",
+      "downloadUrl": "https://github.com/ShotaKhakhishvili/UE5-Data-Query-System",
+      "codeUrl": "https://github.com/ShotaKhakhishvili/UE5-Data-Query-System"
+    },
+    {
+      "id": 14,
+      "title": "ISS Cupola Simulator (NASA Space Apps)",
+      "description": "3D spatial simulation with zero-gravity interaction systems, deployed via Pixel Streaming. Features input abstraction layer and real-time environment feedback.",
+      "tags": ["UE5", "Simulation", "PixelStreaming", "Systems"],
+      "thumbnail": "pic_Cupola.png",
+      "video": "Cupola.mp4",
+      "downloadUrl": "https://github.com/ShotaKhakhishvili/BeyondTheWindow",
+      "codeUrl": "https://github.com/ShotaKhakhishvili/BeyondTheWindow"
+    },
+    {
+      "id": 13,
+      "title": "PropGenie (3D Renovation Simulator)",
+      "description": "Real-time UI-driven asset spawning and customization system in UE5. Demonstrates data binding, material swapping, and dynamic property exposure.",
+      "tags": ["UE5", "Simulation", "UI", "Tools"],
+      "thumbnail": "pic_PropGenie.png",
+      "video": "PropGenie.mp4",
+      "downloadUrl": "https://github.com/ShotaKhakhishvili/PropGenie",
+      "codeUrl": "https://github.com/ShotaKhakhishvili/PropGenie"
+    },
+    {
+      "id": 6,
+      "title": "ML Self-Taught Cars",
+      "description": "Machine learning agent training system in UE5. Demonstrates neural network integration with gameplay mechanics and reward loop design.",
+      "tags": ["UE5", "MachineLearning", "Systems"],
+      "thumbnail": "pic_MLCars.png",
+      "video": "Self-TaughtCars_Showcase.mp4",
+      "downloadUrl": "https://drive.google.com/drive/folders/1VTmhzg7KgtnbwpTgZ28eysDPRsQNvti-?usp=drive_link",
+      "codeUrl": "https://drive.google.com/drive/folders/1VTmhzg7KgtnbwpTgZ28eysDPRsQNvti-?usp=drive_link"
+    },
+    {
+      "id": 12,
+      "title": "Goat Ate Vineyard (Global Game Jam)",
+      "description": "Transformation state machine with counter-progression hierarchy. Systems-driven gameplay where each form enables/disables abilities in structured ruleset.",
+      "tags": ["UE5", "Gameplay", "Systems", "GameJam"],
+      "thumbnail": "pic_GoatAteVineYard.png",
+      "video": "GoatAteVineYard.mp4",
+      "downloadUrl": "https://github.com/ShotaKhakhishvili/GoatAteVineYard",
+      "codeUrl": "https://github.com/ShotaKhakhishvili/GoatAteVineYard"
+    },
+    {
+      "id": 2,
+      "title": "Trapshooter",
+      "description": "Input-responsive arcade shooter demonstrating polished feel through precise control mapping, lag compensation, and rapid feedback loops.",
+      "tags": ["UE5", "Arcade", "Gameplay"],
+      "thumbnail": "pic_trapshooter.PNG",
+      "video": "Trapshooter_Showcase.mp4",
+      "downloadUrl": "https://drive.google.com/drive/folders/1VTmhzg7KgtnbwpTgZ28eysDPRsQNvti-?usp=drive_link",
+      "codeUrl": "https://drive.google.com/drive/folders/1VTmhzg7KgtnbwpTgZ28eysDPRsQNvti-?usp=drive_link"
+    },
+    {
+      "id": 4,
+      "title": "Bending Simulator",
+      "description": "Ability system with chained state transitions and balanced resource flow. Demonstrates combat loop design through elemental control mechanics.",
+      "tags": ["UE5", "Gameplay", "Combat"],
+      "thumbnail": "pic_ElementBending.png",
+      "video": "ElementBending_Showcase.mp4",
+      "downloadUrl": "https://drive.google.com/drive/folders/1VTmhzg7KgtnbwpTgZ28eysDPRsQNvti-?usp=drive_link",
+      "codeUrl": "https://drive.google.com/drive/folders/1VTmhzg7KgtnbwpTgZ28eysDPRsQNvti-?usp=drive_link"
+    },
+    {
+      "id": 1,
+      "title": "Survival Game",
+      "description": "Progression system with crafting loops and resource management. Demonstrates data-driven gameplay and systemic player interaction.",
+      "tags": ["UE5", "Gameplay"],
+      "thumbnail": "pic_survivalGame.PNG",
+      "video": "SurvivalGame_Showcase.mp4",
+      "downloadUrl": "https://drive.google.com/drive/folders/1VTmhzg7KgtnbwpTgZ28eysDPRsQNvti-?usp=drive_link",
+      "codeUrl": "https://drive.google.com/drive/folders/1VTmhzg7KgtnbwpTgZ28eysDPRsQNvti-?usp=drive_link"
+    },
+    {
+      "id": 3,
+      "title": "Subway Surfers Remake",
+      "description": "Procedural lane navigation with tuned traversal feel. Implements constant-forward movement and reactive lane-switching feedback.",
+      "tags": ["UE5", "Gameplay", "Remake"],
+      "thumbnail": "pic_subwaySurfers.png",
+      "video": "SubwaySurfers_Showcase.mp4",
+      "downloadUrl": "https://drive.google.com/drive/folders/1VTmhzg7KgtnbwpTgZ28eysDPRsQNvti-?usp=drive_link",
+      "codeUrl": "https://drive.google.com/drive/folders/1VTmhzg7KgtnbwpTgZ28eysDPRsQNvti-?usp=drive_link"
+    },
+    {
+      "id": 5,
+      "title": "Bend It All",
+      "description": "Environmental manipulation sandbox with physics-based interactions. Demonstrates constraint-based gameplay and dynamic object linking systems.",
+      "tags": ["UE5", "Gameplay", "Physics"],
+      "thumbnail": "pic_BendItAll.png",
+      "video": "BendItAll_Showcase.mp4",
+      "downloadUrl": "https://drive.google.com/drive/folders/1VTmhzg7KgtnbwpTgZ28eysDPRsQNvti-?usp=drive_link",
+      "codeUrl": "https://drive.google.com/drive/folders/1VTmhzg7KgtnbwpTgZ28eysDPRsQNvti-?usp=drive_link"
+    }
+  ],
+  "contactIntro": "Open to UE5 gameplay programming roles, prototype-heavy collaboration, and teams that value strong player experience.",
+  "contactDescription": "Reach out by email or connect through platforms below. I am always interested in discussing gameplay systems, combat feel, and how to ship polished, fun interactive experiences.",
+  "footer": {
+    "year": 2024,
+    "author": "Shota Khakhishvili"
+  }
+}

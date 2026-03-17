@@ -2,415 +2,279 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Shota Khakhishvili</title>
-  <style>
-    /* -------------------------
-       Global Styles
-    ------------------------- */
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #1e1e2f;
-      color: #ececec;
-      line-height: 1.5;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-    a { color: #2a9d8f; text-decoration: none; }
-    a:hover { text-decoration: underline; }
-
-    /* -------------------------
-       Header
-    ------------------------- */
-    header {
-      padding: 30px 20px;
-      text-align: center;
-      background-color: #2a2a3d;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-    }
-    .site-title { font-size: 2.5rem; font-weight: 600; color: #e9c46a; }
-    .site-subtitle { font-size: 1.2rem; color: #adb5bd; }
-
-    /* -------------------------
-       Menu Buttons
-    ------------------------- */
-    .menu {
-      display: flex;
-      justify-content: center;
-      gap: 40px;
-      margin: 40px 0 20px;
-    }
-    .menu-item {
-      font-size: 1.5rem;
-      font-weight: 500;
-      color: #adb5bd;
-      position: relative;
-      cursor: pointer;
-      transition: color 0.3s ease;
-    }
-    .menu-item::after {
-      content: '';
-      position: absolute;
-      bottom: -5px;
-      left: 50%;
-      width: 0;
-      height: 2px;
-      background-color: #2a9d8f;
-      transition: width 0.3s ease, left 0.3s ease;
-    }
-    .menu-item:hover { color: #e9c46a; }
-    .menu-item:hover::after { width: 100%; left: 0; }
-    .menu-item.active {
-      color: #2a9d8f;
-    }
-    .menu-item.active::after {
-      width: 100%;
-      left: 0;
-      background-color: #e9c46f;
-    }
-
-    /* -------------------------
-       Sections (Hidden Initially)
-    ------------------------- */
-    .section-content {
-      display: none;
-      width: 90%;
-      margin: 0 auto 40px;
-      padding: 0 20px;
-      animation: fadeIn 0.3s ease-out;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    /* -------------------------
-       Section Headings
-    ------------------------- */
-    .section-content h2 { font-size: 2rem; margin-bottom: 20px; color: #e9c46a; text-align: center; }
-    .section-content h3 { font-size: 1.5rem; margin-bottom: 15px; color: #2a9d8f; text-align: center; }
-
-    /* -------------------------
-       Skills Grid
-    ------------------------- */
-    .skills-grid {
-      display: grid;
-      gap: 20px;
-      margin-bottom: 30px;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    }
-    .skill-card {
-      background-color: #2a2a3d;
-      border-radius: 8px;
-      padding: 20px;
-      text-align: center;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.4);
-      transition: transform 0.3s, box-shadow 0.3s;
-    }
-    .skill-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-    }
-    .skill-card h4 { font-size:1.2rem; margin-bottom:10px; color:#ececec; }
-    .progress-bar {
-      width: 100%; height: 8px; background: #3d3d4e; border-radius: 4px; overflow: hidden;
-    }
-    .progress { height: 100%; background: #2a9d8f; }
-
-    /* -------------------------
-       Projects Grid
-    ------------------------- */
-    .projects-grid {
-      display: grid;
-      gap: 20px;
-      margin-bottom: 30px;
-      justify-content: center;
-      align-items: center;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 25%));
-    }
-    .project-card {
-      background-color: #2a2a3d;
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.4);
-      transition: transform 0.3s, box-shadow 0.3s;
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-    }
-    .project-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-    }
-    .project-card img { aspect-ratio:16/9; width:100%; object-fit:cover; }
-    .project-card .details { padding:15px; text-align:center; }
-    .project-card .details h4 { margin-bottom:8px; color:#ececec; }
-    .project-card .details p { color:#adb5bd; font-size:.9rem; }
-
-    /* -------------------------
-       Modal Styles
-    ------------------------- */
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 1001;
-      inset: 0;
-      background-color: rgba(30,30,47,0.9);
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-    .modal-content {
-      background-color: #2a2a3d;
-      padding: 20px;
-      border-radius: 8px;
-      width: 90%;
-      max-width: 700px;
-      position: relative;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-      animation: fadeIn 0.3s ease-out;
-    }
-    .modal-content video { width: 100%; border-radius:6px; margin-bottom:15px; }
-    .modal-content h4 { font-size:1.4rem; margin-bottom:10px; color:#e9c46a; text-align:center; }
-    .modal-content a { color:#2a9d8f; font-weight:500; }
-    .close {
-      position: absolute;
-      top: 10px; right: 15px;
-      font-size: 1.4rem; color: #ececec;
-      cursor: pointer;
-    }
-    .close:hover { color: #e9c46a; }
-
-    /* -------------------------
-       Contact List (centered)
-    ------------------------- */
-    .contact-list {
-      list-style: none;
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      margin: 20px 0;
-    }
-    .contact-list a {
-      color: #2a9d8f;
-      font-size: 1.5rem;
-      transition: color 0.3s;
-    }
-    .contact-list a:hover { color: #e9c46a; }
-
-    /* -------------------------
-       Footer
-    ------------------------- */
-    footer {
-      margin-top: auto;
-      background-color: #2a2a3d;
-      text-align: center;
-      padding: 15px;
-      color: #adb5bd;
-      font-size: .9rem;
-    }
-
-    @media (max-width:1200px) {
-      .skills-grid, .projects-grid { grid-template-columns:1fr; }
-    }
-  </style>
-  <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Portfolio of Shota Khakhishvili, UE5 Gameplay Programmer focused on performant gameplay systems and production-ready implementation." />
+  <meta property="og:title" content="Shota Khakhishvili | UE5 Gameplay Programmer" />
+  <meta property="og:description" content="Portfolio showcasing systems, gameplay, and technical projects." />
+  <meta property="og:image" content="pic_proceduralSurface.png" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Shota Khakhishvili | UE5 Gameplay Programmer" />
+  <meta name="twitter:description" content="Portfolio showcasing systems, gameplay, and technical projects." />
+  <meta name="twitter:image" content="pic_proceduralSurface.png" />
+  <title>Shota Khakhishvili | UE5 Gameplay Programmer</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="shortcut icon" href="favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles/main.css" />
 </head>
 <body>
-  <!-- Header -->
-  <header>
-    <div class="site-title">Shota Khakhishvili</div>
-    <div class="site-subtitle">Game Developer</div>
+  <header class="site-header" aria-label="Top navigation">
+    <nav class="container site-nav">
+      <a class="brand" href="#home" aria-label="Scroll to home section">Shota Khakhishvili</a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-label="Toggle navigation" id="navToggle">Menu</button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#home" class="active">Home</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
   </header>
 
-  <!-- Menu -->
-  <div class="menu">
-    <div id="skills-btn" class="menu-item">Skills</div>
-    <div id="projects-btn" class="menu-item">Projects</div>
-    <div id="contact-btn" class="menu-item">Contact</div>
-  </div>
+  <main>
+    <section class="hero" id="home">
+      <div class="container hero-layout">
+        <article class="hero-main reveal">
+          <p class="eyebrow">UE5 Gameplay Programmer</p>
+          <h1>Shota Khakhishvili</h1>
+          <p class="intro">I build gameplay-first experiences in Unreal Engine 5, from fast arcade loops to simulation prototypes. My focus is responsive controls, clear game feel, and clean gameplay systems.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#projects">View Projects</a>
+            <a class="btn btn-ghost" href="mailto:shota.khakhishvili@gmail.com">Email Me</a>
+          </div>
+        </article>
 
-  <!-- Skills Section -->
-  <div id="skills-section" class="section-content">
-    <h2>Skills</h2>
-
-    <h3>Engine Experiences</h3>
-    <div class="skills-grid">
-      <div class="skill-card">
-        <h4>Unreal Engine 5</h4>
-        <div class="progress-bar"><div class="progress" style="width:80%;"></div></div>
+        <aside class="hero-card reveal" aria-label="Quick profile metrics">
+          <div class="metric">
+            <strong><span class="metric-tech">UE5</span></strong>
+            <span>for <span class="metric-tech">3+ Year</span></span>
+          </div>
+          <div class="metric">
+            <strong><span class="metric-tech">C++</span></strong>
+            <span>for <span class="metric-tech">5+ Year</span></span>
+          </div>
+          <div class="metric">
+            <strong>10+</strong>
+            <span>Portfolio Projects</span>
+          </div>
+          <ul class="focus-list">
+            <li>Gameplay programming and combat systems</li>
+            <li>Prototyping and iteration in UE5</li>
+            <li>Player feel, tuning, and polish</li>
+          </ul>
+        </aside>
       </div>
-      <div class="skill-card">
-        <h4>Unity</h4>
-        <div class="progress-bar"><div class="progress" style="width:70%;"></div></div>
+    </section>
+
+    <section id="projects" aria-labelledby="projectsTitle">
+      <div class="container">
+        <div class="section-head reveal">
+          <h2 id="projectsTitle">Projects</h2>
+          <p>Selected systems, engine, simulation, and gameplay projects focused on performance, modular architecture, and practical implementation.</p>
+        </div>
+
+        <div class="projects-grid">
+          <article class="project-card reveal" data-title="Procedural Surface Generation" data-video="ProceduralSurface.mp4" data-download="https://github.com/ShotaKhakhishvili/Procedural-Surface-Terrain-Generation" role="button" tabindex="0">
+            <img class="project-thumb" src="pic_proceduralSurface.png" alt="Procedural Surface Generation screenshot" loading="lazy" />
+            <div class="project-body">
+              <h3>Procedural Surface Generation</h3>
+              <p>A chunk-based procedural terrain system in Unreal Engine 5 featuring LOD and multithreaded chunk generation, built to reduce freezing and improve runtime performance by about 8.5x.</p>
+              <div class="tag-row"><span class="tag">UE5</span><span class="tag">Procedural</span><span class="tag">Multithreading</span><span class="tag">Optimization</span></div>
+            </div>
+          </article>
+
+          <article class="project-card reveal" data-title="KIU Infinite Runner (Custom Engine)" data-video="WolfRunner.mp4" data-download="https://github.com/ShotaKhakhishvili/KIU_ClubEngine" role="button" tabindex="0">
+            <img class="project-thumb" src="pic_WolfRunner.png" alt="KIU Infinite Runner screenshot" loading="lazy" />
+            <div class="project-body">
+              <h3>KIU Infinite Runner (Custom Engine)</h3>
+              <p>An infinite runner prototype built in 48 hours with a custom C++/OpenGL framework, combining real-time rendering, instancing, and modular gameplay systems.</p>
+              <div class="tag-row"><span class="tag">C++</span><span class="tag">OpenGL</span><span class="tag">Engine</span><span class="tag">Gameplay</span></div>
+            </div>
+          </article>
+
+          <article class="project-card reveal" data-title="UE5 Data Table Query Plugin" data-video="UE_SQL.mp4" data-download="https://github.com/ShotaKhakhishvili/UE5-Data-Query-System" role="button" tabindex="0">
+            <img class="project-thumb" src="pic_UE_SQL.png" alt="UE5 Data Table Query Plugin screenshot" loading="lazy" />
+            <div class="project-body">
+              <h3>UE5 Data Table Query Plugin</h3>
+              <p>A custom Unreal Engine 5 plugin enabling relational-style data management with runtime tables and SQL-like queries directly from Blueprints.</p>
+              <div class="tag-row"><span class="tag">UE5</span><span class="tag">Plugin</span><span class="tag">Systems</span><span class="tag">Data</span></div>
+            </div>
+          </article>
+
+          <article class="project-card reveal" data-title="ISS Cupola Simulator (NASA Space Apps)" data-video="Cupola.mp4" data-download="https://github.com/ShotaKhakhishvili/BeyondTheWindow" role="button" tabindex="0">
+            <img class="project-thumb" src="pic_Cupola.png" alt="ISS Cupola Simulator screenshot" loading="lazy" />
+            <div class="project-body">
+              <h3>ISS Cupola Simulator (NASA Space Apps)</h3>
+              <p>A UE5 simulation of ISS-like tasks in zero-gravity, featuring interactive systems such as object manipulation and environmental scanning, deployed via Pixel Streaming for browser access.</p>
+              <div class="tag-row"><span class="tag">UE5</span><span class="tag">Simulation</span><span class="tag">Pixel Streaming</span><span class="tag">Systems</span></div>
+            </div>
+          </article>
+
+          <article class="project-card reveal" data-title="PropGenie (3D Renovation Simulator)" data-video="PropGenie.mp4" data-download="https://github.com/ShotaKhakhishvili/PropGenie" role="button" tabindex="0">
+            <img class="project-thumb" src="pic_PropGenie.png" alt="PropGenie screenshot" loading="lazy" />
+            <div class="project-body">
+              <h3>PropGenie (3D Renovation Simulator)</h3>
+              <p>A 3D floor-plan simulation tool in Unreal Engine 5 enabling real-time furniture and material customization with first- and third-person exploration.</p>
+              <div class="tag-row"><span class="tag">UE5</span><span class="tag">Simulation</span><span class="tag">Tools</span><span class="tag">UI</span></div>
+            </div>
+          </article>
+
+          <article class="project-card reveal" data-title="Machine Learning Self-Taught Cars" data-video="Self-TaughtCars_Showcase.mp4" data-download="https://drive.google.com/drive/folders/1VTmhzg7KgtnbwpTgZ28eysDPRsQNvti-?usp=drive_link" role="button" tabindex="0">
+            <img class="project-thumb" src="pic_MLCars.png" alt="Machine learning cars project screenshot" loading="lazy" />
+            <div class="project-body">
+              <h3>ML Self-Taught Cars</h3>
+              <p>Machine-learning-driven vehicle training experiments in UE5 focused on autonomous behavior loops.</p>
+              <div class="tag-row"><span class="tag">UE5</span><span class="tag">ML</span></div>
+            </div>
+          </article>
+
+          <article class="project-card reveal" data-title="Goat Ate Vineyard (Global Game Jam)" data-video="GoatAteVineYard.mp4" data-download="https://github.com/ShotaKhakhishvili/GoatAteVineYard" role="button" tabindex="0">
+            <img class="project-thumb" src="pic_GoatAteVineYard.png" alt="Goat Ate Vineyard screenshot" loading="lazy" />
+            <div class="project-body">
+              <h3>Goat Ate Vineyard (Global Game Jam)</h3>
+              <p>A stylized gameplay-driven project inspired by Georgian folklore, featuring character transformation mechanics where each form counters the next in a structured progression system.</p>
+              <div class="tag-row"><span class="tag">UE5</span><span class="tag">Gameplay</span><span class="tag">Systems</span><span class="tag">Game Jam</span></div>
+            </div>
+          </article>
+
+          <article class="project-card reveal" data-title="Trapshooter" data-video="Trapshooter_Showcase.mp4" data-download="https://drive.google.com/drive/folders/1VTmhzg7KgtnbwpTgZ28eysDPRsQNvti-?usp=drive_link" role="button" tabindex="0">
+            <img class="project-thumb" src="pic_trapshooter.PNG" alt="Trapshooter screenshot" loading="lazy" />
+            <div class="project-body">
+              <h3>Trapshooter</h3>
+              <p>An arcade shooter project with responsive controls, combat feedback, and repeatable challenge loops.</p>
+              <div class="tag-row"><span class="tag">UE5</span><span class="tag">Arcade</span></div>
+            </div>
+          </article>
+
+          <article class="project-card reveal" data-title="Bending Simulator" data-video="ElementBending_Showcase.mp4" data-download="https://drive.google.com/drive/folders/1VTmhzg7KgtnbwpTgZ28eysDPRsQNvti-?usp=drive_link" role="button" tabindex="0">
+            <img class="project-thumb" src="pic_ElementBending.png" alt="Bending simulator screenshot" loading="lazy" />
+            <div class="project-body">
+              <h3>Bending Simulator</h3>
+              <p>A combat-style simulation inspired by elemental control, ability chaining, and encounter flow.</p>
+              <div class="tag-row"><span class="tag">UE5</span><span class="tag">Combat</span></div>
+            </div>
+          </article>
+
+          <article class="project-card reveal" data-title="Survival Game" data-video="SurvivalGame_Showcase.mp4" data-download="https://drive.google.com/drive/folders/1VTmhzg7KgtnbwpTgZ28eysDPRsQNvti-?usp=drive_link" role="button" tabindex="0">
+            <img class="project-thumb" src="pic_survivalGame.PNG" alt="Survival Game screenshot" loading="lazy" />
+            <div class="project-body">
+              <h3>Survival Game</h3>
+              <p>A showcase of survival game mechanics in UE5 with systemic interaction and player progression.</p>
+              <div class="tag-row"><span class="tag">UE5</span><span class="tag">Gameplay</span></div>
+            </div>
+          </article>
+
+          <article class="project-card reveal" data-title="Subway Surfers Remake" data-video="SubwaySurfers_Showcase.mp4" data-download="https://drive.google.com/drive/folders/1VTmhzg7KgtnbwpTgZ28eysDPRsQNvti-?usp=drive_link" role="button" tabindex="0">
+            <img class="project-thumb" src="pic_subwaySurfers.png" alt="Subway Surfers remake screenshot" loading="lazy" />
+            <div class="project-body">
+              <h3>Subway Surfers Remake</h3>
+              <p>A remake using UE5 systems with traversal tuning and constant-forward gameplay pacing.</p>
+              <div class="tag-row"><span class="tag">UE5</span><span class="tag">Remake</span></div>
+            </div>
+          </article>
+
+          <article class="project-card reveal" data-title="Bend It All" data-video="BendItAll_Showcase.mp4" data-download="https://drive.google.com/drive/folders/1VTmhzg7KgtnbwpTgZ28eysDPRsQNvti-?usp=drive_link" role="button" tabindex="0">
+            <img class="project-thumb" src="pic_BendItAll.png" alt="Bend It All screenshot" loading="lazy" />
+            <div class="project-body">
+              <h3>Bend It All</h3>
+              <p>A stylized sandbox combat game built around the theme Control The Environment.</p>
+              <div class="tag-row"><span class="tag">UE5</span><span class="tag">Sandbox</span></div>
+            </div>
+          </article>
+        </div>
       </div>
-      <div class="skill-card">
-        <h4>Roblox Studio</h4>
-        <div class="progress-bar"><div class="progress" style="width:50%;"></div></div>
+    </section>
+
+    <section id="skills" aria-labelledby="skillsTitle">
+      <div class="container">
+        <div class="section-head reveal">
+          <h2 id="skillsTitle">Skills</h2>
+          <p>Engine depth, language experience, and practical strengths used to ship prototypes quickly and iterate with purpose.</p>
+        </div>
+
+        <div class="skill-columns">
+          <article class="skill-panel reveal">
+            <h3>Engine Experience</h3>
+            <div class="meter-list">
+              <div class="meter"><div class="label-row"><span>Unreal Engine 5</span><span>85%</span></div><div class="track"><div class="fill" style="width:85%"></div></div></div>
+              <div class="meter"><div class="label-row"><span>Unity</span><span>45%</span></div><div class="track"><div class="fill" style="width:45%"></div></div></div>
+              <div class="meter"><div class="label-row"><span>Roblox Studio</span><span>40%</span></div><div class="track"><div class="fill" style="width:40%"></div></div></div>
+            </div>
+          </article>
+
+          <article class="skill-panel reveal">
+            <h3>Coding Experience</h3>
+            <div class="meter-list">
+              <div class="meter"><div class="label-row"><span>C++</span><span>80%</span></div><div class="track"><div class="fill" style="width:80%"></div></div></div>
+              <div class="meter"><div class="label-row"><span>UE Blueprints</span><span>85%</span></div><div class="track"><div class="fill" style="width:85%"></div></div></div>
+              <div class="meter"><div class="label-row"><span>Java</span><span>65%</span></div><div class="track"><div class="fill" style="width:65%"></div></div></div>
+              <div class="meter"><div class="label-row"><span>C#</span><span>55%</span></div><div class="track"><div class="fill" style="width:55%"></div></div></div>
+              <div class="meter"><div class="label-row"><span>Lua</span><span>55%</span></div><div class="track"><div class="fill" style="width:55%"></div></div></div>
+            </div>
+          </article>
+
+          <article class="skill-panel reveal">
+            <h3>Programming Strengths</h3>
+            <div class="meter-list">
+              <div class="meter"><div class="label-row"><span>Gameplay Programming</span><span>80%</span></div><div class="track"><div class="fill" style="width:80%"></div></div></div>
+              <div class="meter"><div class="label-row"><span>Competitive Programming</span><span>60%</span></div><div class="track"><div class="fill" style="width:60%"></div></div></div>
+              <div class="meter"><div class="label-row"><span>Robo-Programming</span><span>75%</span></div><div class="track"><div class="fill" style="width:75%"></div></div></div>
+              <div class="meter"><div class="label-row"><span>Machine Learning</span><span>40%</span></div><div class="track"><div class="fill" style="width:40%"></div></div></div>
+            </div>
+          </article>
+
+          <article class="skill-panel reveal">
+            <h3>General Strengths</h3>
+            <div class="meter-list">
+              <div class="meter"><div class="label-row"><span>Dedication</span><span>95%</span></div><div class="track"><div class="fill" style="width:95%"></div></div></div>
+              <div class="meter"><div class="label-row"><span>Problem Solving</span><span>80%</span></div><div class="track"><div class="fill" style="width:80%"></div></div></div>
+              <div class="meter"><div class="label-row"><span>Communication</span><span>80%</span></div><div class="track"><div class="fill" style="width:80%"></div></div></div>
+              <div class="meter"><div class="label-row"><span>Math</span><span>70%</span></div><div class="track"><div class="fill" style="width:70%"></div></div></div>
+              <div class="meter"><div class="label-row"><span>Fast Learning</span><span>70%</span></div><div class="track"><div class="fill" style="width:70%"></div></div></div>
+            </div>
+          </article>
+        </div>
       </div>
-    </div>
+    </section>
 
-    <h3>Coding Experiences</h3>
-    <div class="skills-grid">
-      <div class="skill-card"><h4>C++</h4><div class="progress-bar"><div class="progress" style="width:80%;"></div></div></div>
-      <div class="skill-card"><h4>UE Blueprints</h4><div class="progress-bar"><div class="progress" style="width:80%;"></div></div></div>
-      <div class="skill-card"><h4>Java</h4><div class="progress-bar"><div class="progress" style="width:65%;"></div></div></div>
-      <div class="skill-card"><h4>C#</h4><div class="progress-bar"><div class="progress" style="width:55%;"></div></div></div>
-      <div class="skill-card"><h4>Lua</h4><div class="progress-bar"><div class="progress" style="width:55%;"></div></div></div>
-      <div class="skill-card"><h4>C</h4><div class="progress-bar"><div class="progress" style="width:50%;"></div></div></div>
-      <div class="skill-card"><h4>Assembly</h4><div class="progress-bar"><div class="progress" style="width:35%;"></div></div></div>
-    </div>
+    <section id="contact" aria-labelledby="contactTitle">
+      <div class="container">
+        <div class="section-head reveal">
+          <h2 id="contactTitle">Contact</h2>
+          <p>Open to UE5 gameplay programming roles, prototype-heavy collaboration, and teams that value strong player experience.</p>
+        </div>
 
-    <h3>Programmer Skills</h3>
-    <div class="skills-grid">
-      <div class="skill-card"><h4>Gameplay Programming</h4><div class="progress-bar"><div class="progress" style="width:80%;"></div></div></div>
-      <div class="skill-card"><h4>Competitive Programming</h4><div class="progress-bar"><div class="progress" style="width:80%;"></div></div></div>
-      <div class="skill-card"><h4>Robo-Programming</h4><div class="progress-bar"><div class="progress" style="width:70%;"></div></div></div>
-      <div class="skill-card"><h4>Machine Learning</h4><div class="progress-bar"><div class="progress" style="width:40%;"></div></div></div>
-    </div>
-
-    <h3>In General</h3>
-    <div class="skills-grid">
-      <div class="skill-card"><h4>Dedication</h4><div class="progress-bar"><div class="progress" style="width:90%;"></div></div></div>
-      <div class="skill-card"><h4>Problem-Solving</h4><div class="progress-bar"><div class="progress" style="width:80%;"></div></div></div>
-      <div class="skill-card"><h4>Communication</h4><div class="progress-bar"><div class="progress" style="width:80%;"></div></div></div>
-      <div class="skill-card"><h4>Math</h4><div class="progress-bar"><div class="progress" style="width:70%;"></div></div></div>
-      <div class="skill-card"><h4>Fast Learning</h4><div class="progress-bar"><div class="progress" style="width:70%;"></div></div></div>
-      <div class="skill-card"><h4>Physics</h4><div class="progress-bar"><div class="progress" style="width:50%;"></div></div></div>
-    </div>
-  </div>
-
-  <!-- Projects Section -->
-  <div id="projects-section" class="section-content">
-    <h2>Projects</h2>
-
-    <h3>Unreal Engine 5 Projects</h3>
-    <div class="projects-grid">
-      <div class="project-card" onclick="openModal('modal1')">
-        <img src="pic_survivalGame.PNG" alt="Survival Game" />
-        <div class="details"><h4>Survival Game</h4><p>A showcase of survival game mechanics in UE5.</p></div>
+        <div class="contact-shell reveal">
+          <p>Reach out by email or connect through platforms below. I am always interested in discussing gameplay systems, combat feel, and how to ship polished, fun interactive experiences.</p>
+          <ul class="contact-list" aria-label="Social links">
+            <li><a href="mailto:shota.khakhishvili@gmail.com">Email</a></li>
+            <li><a href="https://www.linkedin.com/in/shota-khakhishvili-a544b2325/" target="_blank" rel="noreferrer">LinkedIn</a></li>
+            <li><a href="https://github.com/shotakhakhishvili" target="_blank" rel="noreferrer">GitHub</a></li>
+            <li><a href="https://www.instagram.com/shota_khakhishvili/" target="_blank" rel="noreferrer">Instagram</a></li>
+          </ul>
+        </div>
       </div>
-      <div class="project-card" onclick="openModal('modal2')">
-        <img src="pic_trapshooter.PNG" alt="Trapshooter" />
-        <div class="details"><h4>Trapshooter</h4><p>An arcade shooter game built in UE5.</p></div>
-      </div>
-      <div class="project-card" onclick="openModal('modal3')">
-        <img src="pic_subwaySurfers.png" alt="Subway Surfers Remake" />
-        <div class="details"><h4>Subway Surfers Remake</h4><p>A remake of the popular Subway Surfers game using UE5.</p></div>
-      </div>
-      <div class="project-card" onclick="openModal('modal5')">
-        <img src="pic_ElementBending.png" alt="Bending Simulator" />
-        <div class="details"><h4>Bending Simulator</h4><p>A combat-style simulation in UE5, inspired by Avatar: The Last Airbender.</p></div>
-      </div>
-      <div class="project-card" onclick="openModal('modal6')">
-        <img src="pic_BendItAll.png" alt="Bend It All" />
-        <div class="details"><h4>Bend It All</h4><p>A combat-centered, stylized sandbox game based on the theme "Control The Environment".</p></div>
-      </div>
-      <div class="project-card" onclick="openModal('modal4')">
-        <img src="pic_MLCars.png" alt="Self-Taught Cars" />
-        <div class="details"><h4>ML Self-Taught Cars</h4><p>Machine learning algorithm based self-taught cars project in UE5.</p></div>
-      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">&copy; 2024 Shota Khakhishvili. All rights reserved.</div>
+  </footer>
+
+  <div class="modal" id="projectModal" aria-hidden="true" role="dialog" aria-labelledby="modalTitle">
+    <div class="modal-card">
+      <button class="modal-close" id="modalClose" aria-label="Close modal">&times;</button>
+      <h3 class="modal-title" id="modalTitle"></h3>
+      <video controls id="modalVideo">
+        <source id="modalVideoSource" src="" type="video/mp4" />
+      </video>
+      <a class="modal-link" id="modalDownload" href="#" target="_blank" rel="noreferrer">Link To The Project</a>
     </div>
   </div>
 
-  <!-- Contact Section -->
-  <div id="contact-section" class="section-content">
-    <h2>Contact</h2>
-    <ul class="contact-list">
-      <li><a href="mailto:shota.khakhishvili@gmail.com" aria-label="Email"><i class="fas fa-envelope"></i></a></li>
-      <li><a href="https://www.linkedin.com/in/shota-khakhishvili-a544b2325/" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a></li>
-      <li><a href="https://github.com/shotakhakhishvili" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a></li>
-      <li><a href="https://www.instagram.com/shota_khakhishvili/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a></li>
-    </ul>
-  </div>
-
-  <!-- Modals -->
-  <div id="modal1" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="closeModal('modal1')">&times;</span>
-      <h4>Survival Game</h4>
-      <video controls><source src="SurvivalGame_Showcase.mp4" type="video/mp4"/></video>
-      <p><a href="https://drive.google.com/drive/folders/1VTmhzg7KgtnbwpTgZ28eysDPRsQNvti-?usp=drive_link" target="_blank">Download a Packaged Project</a></p>
-    </div>
-  </div>
-  <div id="modal2" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="closeModal('modal2')">&times;</span>
-      <h4>Trapshooter</h4>
-      <video controls><source src="Trapshooter_Showcase.mp4" type="video/mp4"/></video>
-      <p><a href="https://drive.google.com/drive/folders/1VTmhzg7KgtnbwpTgZ28eysDPRsQNvti-?usp=drive_link" target="_blank">Download a Packaged Project</a></p>
-    </div>
-  </div>
-  <div id="modal3" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="closeModal('modal3')">&times;</span>
-      <h4>Subway Surfers Remake</h4>
-      <video controls><source src="SubwaySurfers_Showcase.mp4" type="video/mp4"/></video>
-      <p><a href="https://drive.google.com/drive/folders/1VTmhzg7KgtnbwpTgZ28eysDPRsQNvti-?usp=drive_link" target="_blank">Download a Packaged Project</a></p>
-    </div>
-  </div>
-  <div id="modal4" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="closeModal('modal4')">&times;</span>
-      <h4>Machine Learning Self-Taught Cars</h4>
-      <video controls><source src="Self-TaughtCars_Showcase.mp4" type="video/mp4"/></video>
-      <p><a href="https://drive.google.com/drive/folders/1VTmhzg7KgtnbwpTgZ28eysDPRsQNvti-?usp=drive_link" target="_blank">Download a Packaged Project</a></p>
-    </div>
-  </div>
-  <div id="modal5" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="closeModal('modal5')">&times;</span>
-      <h4>Bending Simulator</h4>
-      <video controls><source src="ElementBending_Showcase.mp4" type="video/mp4"/></video>
-      <p><a href="https://drive.google.com/drive/folders/1VTmhzg7KgtnbwpTgZ28eysDPRsQNvti-?usp=drive_link" target="_blank">Download a Packaged Project</a></p>
-    </div>
-  </div>
-  <div id="modal6" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="closeModal('modal6')">&times;</span>
-      <h4>Bend It All</h4>
-      <video controls><source src="BendItAll_Showcase.mp4" type="video/mp4"/></video>
-      <p><a href="https://drive.google.com/drive/folders/1VTmhzg7KgtnbwpTgZ28eysDPRsQNvti-?usp=drive_link" target="_blank">Download a Packaged Project</a></p>
-    </div>
-  </div>
-  <!-- Footer -->
-  <footer>&copy; 2024 Shota Khakhishvili. All rights reserved.</footer>
-
-  <script>
-    // tab navigation
-    function hideAllSections() {
-      document.querySelectorAll('.section-content').forEach(s => s.style.display = 'none');
-      document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active'));
-    }
-    function showSection(btnId, secId) {
-      hideAllSections();
-      document.getElementById(secId).style.display = 'block';
-      document.getElementById(btnId).classList.add('active');
-    }
-    document.getElementById('skills-btn').onclick    = () => showSection('skills-btn','skills-section');
-    document.getElementById('projects-btn').onclick  = () => showSection('projects-btn','projects-section');
-    document.getElementById('contact-btn').onclick   = () => showSection('contact-btn','contact-section');
-    window.addEventListener('DOMContentLoaded', ()=> showSection('projects-btn','projects-section'));
-
-    // modals + pause on close
-    function openModal(id) {
-      document.getElementById(id).style.display = 'flex';
-    }
-    function closeModal(id) {
-      const modal = document.getElementById(id);
-      modal.style.display = 'none';
-      const vid = modal.querySelector('video');
-      if (vid) vid.pause();
-    }
-    window.addEventListener('click', e => {
-      document.querySelectorAll('.modal').forEach(modal => {
-        if (e.target === modal) closeModal(modal.id);
-      });
-    });
-  </script>
+  <script src="scripts/main.js"></script>
 </body>
 </html>
