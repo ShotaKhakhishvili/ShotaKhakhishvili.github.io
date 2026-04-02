@@ -72,63 +72,102 @@ export interface ContactLink {
 const portfolio = portfolioData as PortfolioSchema;
 
 const copyOverrides: Record<string, { shortSummary: string; compactBullets?: string[] }> = {
-  "Procedural Surface Generation": {
-    shortSummary: "Chunked UE5 terrain runtime built for deterministic streaming and stable frame time.",
+  "Procedural Terrain System": {
+    shortSummary: "Multithreaded terrain generation system with chunk-based streaming.",
     compactBullets: [
-      "Async generation queues keep heavy mesh work off the game thread.",
-      "Spatial partitioning plus LOD policy stabilizes traversal frame time."
+      "background thread generation",
+      "chunk loading/unloading",
+      "runtime performance considerations",
+      "modular system structure"
     ]
   },
   "UE5 Data Table Query Plugin": {
-    shortSummary: "UE5 C++ plugin that adds SQL-style data queries without gameplay-table coupling.",
+    shortSummary: "UE5 C++ plugin project for SQL-style querying of gameplay data tables.",
     compactBullets: [
-      "C++ modules preserve Blueprint ergonomics with schema-aware query APIs.",
-      "Data abstraction isolates query execution from gameplay systems."
+      "schema-aware query API",
+      "Blueprint integration layer",
+      "decoupled data access logic"
     ]
   },
   "KIU Infinite Runner (Custom Engine)": {
-    shortSummary: "Custom C++ and OpenGL runtime tuned for stable spawn, simulation, and render loops.",
+    shortSummary: "Custom C++ and OpenGL runner project with a public Wolf Runner playable release.",
     compactBullets: [
-      "Module boundaries separate simulation, rendering, and gameplay update paths.",
-      "Instanced rendering strategy maintains pacing during continuous spawning."
+      "separate simulation and rendering loops",
+      "instanced rendering pipeline",
+      "released demo build"
     ]
   },
   "ISS Cupola Simulator (NASA Space Apps)": {
-    shortSummary: "Zero-gravity interaction simulator shipped under strict pixel-streaming constraints.",
+    shortSummary: "Zero-gravity UE5 simulation project built for NASA Space Apps with Pixel Streaming demo support.",
     compactBullets: [
-      "Input abstraction supports multiple interaction modes without control coupling.",
-      "Runtime object interaction loops tuned for stable manipulation behavior."
+      "input abstraction system",
+      "low-gravity object interaction",
+      "Pixel Streaming demo setup"
     ]
   },
   "PropGenie (3D Renovation Simulator)": {
-    shortSummary: "Real-time renovation tool with data-bound spawning and live material state updates.",
+    shortSummary: "UE5 renovation simulator prototype with runtime asset placement and material editing.",
     compactBullets: [
-      "Data-bound controls update object properties in real time.",
-      "Dynamic material and asset hooks keep iteration fast for design passes."
+      "UI-driven asset spawning",
+      "runtime material swapping",
+      "data-bound property controls"
     ]
   },
   "ML Self-Taught Cars": {
-    shortSummary: "UE5 ML training loop for autonomous driving behavior and reward tuning.",
-    compactBullets: ["Runtime feedback loop links sensor state to policy updates."]
+    shortSummary: "UE5 machine-learning driving prototype for testing reward shaping and control policies.",
+    compactBullets: [
+      "sensor-to-control training loop",
+      "reward function experimentation",
+      "runtime telemetry feedback"
+    ]
   },
   "Goat Ate Vineyard (Global Game Jam)": {
-    shortSummary: "Transformation-state gameplay system where each form changes available abilities.",
-    compactBullets: ["Counter-progression rules enforce clear system-level interaction logic."]
+    shortSummary: "Game jam prototype built around a transformation state machine and form-based abilities.",
+    compactBullets: [
+      "form-specific ability rules",
+      "state transition logic",
+      "progression constraint handling"
+    ]
   },
   Trapshooter: {
-    shortSummary: "Arcade shooter prototype focused on input latency, feedback timing, and loop clarity."
+    shortSummary: "Arcade shooter prototype focused on input timing and combat feedback loops.",
+    compactBullets: [
+      "low-latency input mapping",
+      "hit and recoil feedback",
+      "iterative combat loop tuning"
+    ]
   },
   "Bending Simulator": {
-    shortSummary: "Elemental combat prototype with chained ability states and controlled resource flow."
+    shortSummary: "Elemental combat prototype with chained ability states and resource gating.",
+    compactBullets: [
+      "ability state chaining",
+      "resource consumption rules",
+      "combat flow testing"
+    ]
   },
   "Survival Game": {
-    shortSummary: "UE5 survival systems prototype with crafting, progression, and resource loops."
+    shortSummary: "Survival gameplay prototype with crafting progression and resource management systems.",
+    compactBullets: [
+      "crafting recipe system",
+      "resource collection loop",
+      "progression state tracking"
+    ]
   },
   "Subway Surfers Remake": {
-    shortSummary: "Constant-forward runner remake with tuned lane-switch response and traversal pacing."
+    shortSummary: "Runner remake prototype with lane switching, obstacle spawning, and movement timing.",
+    compactBullets: [
+      "lane transition handling",
+      "procedural obstacle flow",
+      "forward-movement timing control"
+    ]
   },
   "Bend It All": {
-    shortSummary: "Physics-driven environment control sandbox built around dynamic object constraints."
+    shortSummary: "Physics gameplay prototype centered on environmental manipulation and constraint-based interaction.",
+    compactBullets: [
+      "physics constraint linking",
+      "dynamic object interaction",
+      "sandbox rule prototyping"
+    ]
   }
 };
 
@@ -141,7 +180,7 @@ type CurationInput = {
 };
 
 const curatedPresentationByTitle: Record<string, CurationInput> = {
-  "Procedural Surface Generation": {
+  "Procedural Terrain System": {
     priorityTier: "hero",
     layoutMode: "pinned",
     entrySide: "left",
@@ -286,7 +325,7 @@ const normalizeProject = (project: PortfolioProject): Project => {
 export const heroChips: readonly string[] = ["UE5", "C++", "Gameplay Systems", "Plugins", "Multithreading", "Rendering"];
 
 export const heroValueStatement =
-  "UE5 C++ systems for stable frame time, modular architecture, and fast shipping.";
+  "Building modular gameplay systems, plugins, and runtime features in UE5 and C++.";
 
 export const projects: Project[] = portfolio.projects
   .map(normalizeProject)
@@ -310,12 +349,12 @@ export const supportingCinematicProjects: CinematicProject[] = cinematicProjects
 );
 
 export const coreSignals: CoreSignal[] = [
-  { title: "UE5 Systems", text: "Deterministic gameplay frameworks." },
-  { title: "C++ Architecture", text: "Clean modules, strong ownership." },
-  { title: "Plugins", text: "Reusable engine-side tooling." },
-  { title: "Multithreading", text: "Stable frame-time under load." },
-  { title: "Rendering", text: "Practical real-time pipeline control." },
-  { title: "Shippable Gameplay", text: "Fast iteration to playable builds." }
+  { title: "UE5 Systems", text: "Built and tested gameplay systems in UE5 C++." },
+  { title: "C++ Architecture", text: "Designed modular code with clear ownership." },
+  { title: "Plugins", text: "Implemented reusable UE5 plugin tooling." },
+  { title: "Multithreading", text: "Used async tasks for heavy runtime work." },
+  { title: "Rendering", text: "Built OpenGL and UE rendering experiments." },
+  { title: "Gameplay Implementation", text: "Iterated prototypes into playable builds." }
 ];
 
 export const contactLinks: ContactLink[] = [

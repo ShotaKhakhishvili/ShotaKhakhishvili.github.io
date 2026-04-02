@@ -59,9 +59,9 @@ export function CinematicProjectFlowSection() {
       <Container>
         <Reveal>
           <header className="mb-12 space-y-3 md:mb-16">
-            <p className="text-xs font-medium uppercase tracking-[0.22em] text-accent">Cinematic Project Flow</p>
+            <p className="text-xs font-medium uppercase tracking-[0.22em] text-accent">Project Sequence</p>
             <h2 className="max-w-3xl text-3xl font-semibold tracking-tight text-textMain md:text-5xl">
-              Remaining projects, sequenced with intent.
+              Additional systems and gameplay prototypes.
             </h2>
           </header>
         </Reveal>
@@ -71,7 +71,7 @@ export function CinematicProjectFlowSection() {
             <Reveal>
               <div className="space-y-2">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-accent/90">Marquee Projects</p>
-                <p className="max-w-2xl text-sm text-textMuted">High-signal systems shown with full cinematic emphasis.</p>
+                <p className="max-w-2xl text-sm text-textMuted">Primary projects shown with full technical detail.</p>
               </div>
             </Reveal>
 

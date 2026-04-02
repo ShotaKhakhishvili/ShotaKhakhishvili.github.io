@@ -21,7 +21,7 @@ export default function Home() {
       <header className="sticky top-0 z-40 border-b border-line/40 bg-bg/72 backdrop-blur-sm">
         <Container className="flex h-12 items-center justify-between">
           <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-textMuted">
-            Shota Khakhishvili | UE5 C++ Systems
+            Shota Khakhishvili | UE5 C++ Gameplay and Systems
           </p>
           <nav aria-label="Section navigation" className="hidden items-center gap-4 md:flex">
             {navLinks.map((link) => (

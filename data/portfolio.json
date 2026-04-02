@@ -1,8 +1,8 @@
 {
   "profile": {
     "name": "Shota Khakhishvili",
-    "title": "UE5 Gameplay Programmer",
-    "intro": "I build gameplay-first experiences in Unreal Engine 5, from fast arcade loops to simulation prototypes. My focus is responsive controls, clear game feel, and clean gameplay systems.",
+    "title": "UE5 C++ Gameplay and Systems Programmer",
+    "intro": "I build gameplay and systems prototypes in Unreal Engine 5, from arcade mechanics to simulation features. My focus is input handling, gameplay architecture, and practical runtime implementation.",
     "projectCount": "10+",
     "engineCount": 3,
     "focusAreas": [
@@ -17,7 +17,7 @@
       "instagram": "https://www.instagram.com/shota_khakhishvili/"
     }
   },
-  "skillsIntro": "Core competencies in Unreal Engine gameplay programming, rapid prototyping, and practical systems used to ship playable experiences.",
+  "skillsIntro": "Core competencies in Unreal Engine gameplay programming, rapid prototyping, and practical systems implementation.",
   "skills": [
     {
       "category": "Languages & Engines",
@@ -55,12 +55,12 @@
       ]
     }
   ],
-  "projectsIntro": "Selected systems, engine, simulation, and gameplay projects focused on performance, modular architecture, and practical implementation.",
+  "projectsIntro": "Selected systems, engine, simulation, and gameplay prototypes focused on modular implementation and runtime behavior.",
   "projects": [
     {
       "id": 15,
-      "title": "Procedural Surface Generation",
-      "description": "Chunk-based terrain system with LOD, spatial hashing, and multithreaded generation. Reduces frame hitches by 8.5x through async chunk loading and memory pooling.",
+      "title": "Procedural Terrain System",
+      "description": "Multithreaded terrain generation system with chunk-based streaming.",
       "tags": ["C++", "UE5", "Multithreading", "Optimization"],
       "thumbnail": "pic_ProceduralSurface.png",
       "video": "ProceduralSurface.mp4",
@@ -70,7 +70,7 @@
     {
       "id": 7,
       "title": "KIU Infinite Runner (Custom Engine)",
-      "description": "An infinite runner prototype built in 48 hours with a custom C++/OpenGL framework, combining real-time rendering, instancing, and modular gameplay systems.",
+      "description": "Custom C++ and OpenGL runner project with modular gameplay systems and a Wolf Runner released demo build.",
       "tags": ["C++", "OpenGL", "Engine", "Graphics"],
       "thumbnail": "pic_WolfRunner.png",
       "video": "WolfRunner.mp4",
@@ -80,7 +80,7 @@
     {
       "id": 8,
       "title": "UE5 Data Table Query Plugin",
-      "description": "Plugin architecture enabling relational data management with SQL-like queries in Blueprints. Demonstrates plugin development, serialization, and data abstraction patterns.",
+      "description": "UE5 C++ plugin project for SQL-style Blueprint queries and modular gameplay data access.",
       "tags": ["UE5", "Plugin", "Systems", "C++"],
       "thumbnail": "pic_UE_SQL.png",
       "video": "UE_SQL.mp4",
@@ -90,7 +90,7 @@
     {
       "id": 14,
       "title": "ISS Cupola Simulator (NASA Space Apps)",
-      "description": "3D spatial simulation with zero-gravity interaction systems, deployed via Pixel Streaming. Features input abstraction layer and real-time environment feedback.",
+      "description": "Zero-gravity UE5 simulation project for NASA Space Apps with interaction systems and Pixel Streaming demo support.",
       "tags": ["UE5", "Simulation", "PixelStreaming", "Systems"],
       "thumbnail": "pic_Cupola.png",
       "video": "Cupola.mp4",
@@ -100,7 +100,7 @@
     {
       "id": 13,
       "title": "PropGenie (3D Renovation Simulator)",
-      "description": "Real-time UI-driven asset spawning and customization system in UE5. Demonstrates data binding, material swapping, and dynamic property exposure.",
+      "description": "UE5 renovation simulator prototype with UI-driven asset spawning, runtime property editing, and material swapping.",
       "tags": ["UE5", "Simulation", "UI", "Tools"],
       "thumbnail": "pic_PropGenie.png",
       "video": "PropGenie.mp4",
@@ -110,7 +110,7 @@
     {
       "id": 6,
       "title": "ML Self-Taught Cars",
-      "description": "Machine learning agent training system in UE5. Demonstrates neural network integration with gameplay mechanics and reward loop design.",
+      "description": "UE5 machine-learning driving prototype for testing control policies, reward shaping, and runtime updates.",
       "tags": ["UE5", "MachineLearning", "Systems"],
       "thumbnail": "pic_MLCars.png",
       "video": "Self-TaughtCars_Showcase.mp4",
@@ -120,7 +120,7 @@
     {
       "id": 12,
       "title": "Goat Ate Vineyard (Global Game Jam)",
-      "description": "Transformation state machine with counter-progression hierarchy. Systems-driven gameplay where each form enables/disables abilities in structured ruleset.",
+      "description": "Game jam prototype with a transformation state machine and form-based ability rules.",
       "tags": ["UE5", "Gameplay", "Systems", "GameJam"],
       "thumbnail": "pic_GoatAteVineYard.png",
       "video": "GoatAteVineYard.mp4",
@@ -130,7 +130,7 @@
     {
       "id": 2,
       "title": "Trapshooter",
-      "description": "Input-responsive arcade shooter demonstrating polished feel through precise control mapping, lag compensation, and rapid feedback loops.",
+      "description": "Arcade shooter prototype focused on input timing, combat feedback, and loop iteration.",
       "tags": ["UE5", "Arcade", "Gameplay"],
       "thumbnail": "pic_trapshooter.PNG",
       "video": "Trapshooter_Showcase.mp4",
@@ -140,7 +140,7 @@
     {
       "id": 4,
       "title": "Bending Simulator",
-      "description": "Ability system with chained state transitions and balanced resource flow. Demonstrates combat loop design through elemental control mechanics.",
+      "description": "Elemental combat prototype with chained ability states and resource management rules.",
       "tags": ["UE5", "Gameplay", "Combat"],
       "thumbnail": "pic_ElementBending.png",
       "video": "ElementBending_Showcase.mp4",
@@ -150,7 +150,7 @@
     {
       "id": 1,
       "title": "Survival Game",
-      "description": "Progression system with crafting loops and resource management. Demonstrates data-driven gameplay and systemic player interaction.",
+      "description": "Survival gameplay prototype with crafting progression, resource loops, and state tracking.",
       "tags": ["UE5", "Gameplay"],
       "thumbnail": "pic_survivalGame.PNG",
       "video": "SurvivalGame_Showcase.mp4",
@@ -160,7 +160,7 @@
     {
       "id": 3,
       "title": "Subway Surfers Remake",
-      "description": "Procedural lane navigation with tuned traversal feel. Implements constant-forward movement and reactive lane-switching feedback.",
+      "description": "Runner remake prototype with lane switching, obstacle flow, and movement timing control.",
       "tags": ["UE5", "Gameplay", "Remake"],
       "thumbnail": "pic_subwaySurfers.png",
       "video": "SubwaySurfers_Showcase.mp4",
@@ -170,7 +170,7 @@
     {
       "id": 5,
       "title": "Bend It All",
-      "description": "Environmental manipulation sandbox with physics-based interactions. Demonstrates constraint-based gameplay and dynamic object linking systems.",
+      "description": "Physics sandbox prototype for environmental manipulation and constraint-based object interaction systems.",
       "tags": ["UE5", "Gameplay", "Physics"],
       "thumbnail": "pic_BendItAll.png",
       "video": "BendItAll_Showcase.mp4",
@@ -178,8 +178,8 @@
       "codeUrl": "https://drive.google.com/drive/folders/1VTmhzg7KgtnbwpTgZ28eysDPRsQNvti-?usp=drive_link"
     }
   ],
-  "contactIntro": "Open to UE5 gameplay programming roles, prototype-heavy collaboration, and teams that value strong player experience.",
-  "contactDescription": "Reach out by email or connect through platforms below. I am always interested in discussing gameplay systems, combat feel, and how to ship polished, fun interactive experiences.",
+  "contactIntro": "Open to UE5 C++ gameplay and systems roles.",
+  "contactDescription": "Reach out by email or connect through the platforms below.",
   "footer": {
     "year": 2024,
     "author": "Shota Khakhishvili"

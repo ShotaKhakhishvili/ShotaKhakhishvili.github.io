@@ -84,9 +84,9 @@ export function PinnedProjectStorySection() {
       <Container className="grid gap-12 lg:grid-cols-[1.03fr_0.97fr] lg:gap-16">
         <div ref={pinRef} className="lg:h-[min(74vh,720px)]">
           <div className="space-y-4 pb-5">
-            <p className="text-xs font-medium uppercase tracking-[0.22em] text-accent">Flagship Systems Story</p>
+            <p className="text-xs font-medium uppercase tracking-[0.22em] text-accent">Selected Project Walkthrough</p>
             <h2 className="max-w-xl text-3xl font-semibold tracking-tight text-textMain md:text-5xl">
-              One system focus at a time.
+              One technical system at a time.
             </h2>
           </div>
 
@@ -157,7 +157,7 @@ export function PinnedProjectStorySection() {
 
               {project.compactBullets.length > 0 ? (
                 <ul className="mt-4 space-y-2 text-sm text-textMuted">
-                  {project.compactBullets.slice(0, 2).map((bullet) => (
+                  {project.compactBullets.slice(0, index === 0 ? 4 : 2).map((bullet) => (
                     <li key={bullet}>- {bullet}</li>
                   ))}
                 </ul>

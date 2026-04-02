@@ -17,14 +17,14 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "Shota Khakhishvili | UE5 C++ Gameplay / Systems Programmer",
   description:
-    "UE5 C++ gameplay and systems programming portfolio focused on runtime architecture, performance, plugin tooling, and shippable technical systems.",
+    "UE5 C++ gameplay and systems programming portfolio focused on runtime architecture, plugin tooling, rendering experiments, and playable prototypes.",
   icons: {
     icon: "/icons/favicon.svg"
   },
   openGraph: {
     title: "Shota Khakhishvili | UE5 C++ Gameplay / Systems Programmer",
     description:
-      "Systems-focused portfolio with featured procedural terrain architecture, UE5 plugin development, and gameplay runtime engineering.",
+      "Technical portfolio featuring UE5 C++ systems prototypes, plugin development, and gameplay runtime implementation.",
     images: ["/images/pic_ProceduralSurface.png"]
   }
 };

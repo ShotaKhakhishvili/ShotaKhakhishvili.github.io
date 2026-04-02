@@ -26,7 +26,7 @@ export function HeroSection() {
             <p className="max-w-xl text-sm leading-relaxed text-textMuted">
               {heroValueStatement}
             </p>
-            <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-textMuted/85">Featured: {heroProject.title}</p>
+            <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-textMuted/85">Featured System: {heroProject.title}</p>
           </div>
 
           <div className="flex flex-wrap gap-2.5">
@@ -61,7 +61,7 @@ export function HeroSection() {
               <span className="hero-scroll-cue-dot mt-1 h-1.5 w-1.5 rounded-full bg-accent/80" />
             </span>
             <span className="hero-scroll-cue-line h-px w-14 bg-gradient-to-r from-line via-accent/60 to-transparent" />
-            <span>Scroll For Systems Narrative</span>
+            <span>Scroll For Project Breakdown</span>
           </motion.div>
         </Reveal>
 

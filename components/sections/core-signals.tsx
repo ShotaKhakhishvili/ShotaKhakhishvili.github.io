@@ -9,8 +9,8 @@ export function CoreSignalsSection() {
         <Reveal>
           <header className="mb-5 space-y-2 lg:sticky lg:top-24 lg:mb-0">
             <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-accent/90">Core Signals</p>
-            <h2 className="text-lg font-semibold tracking-tight text-textMain md:text-xl">Technical Strength Map</h2>
-            <p className="text-[11px] uppercase tracking-[0.16em] text-textMuted">High-signal only</p>
+            <h2 className="text-lg font-semibold tracking-tight text-textMain md:text-xl">Technical Focus</h2>
+            <p className="text-[11px] uppercase tracking-[0.16em] text-textMuted">Key Skills</p>
           </header>
         </Reveal>
 
