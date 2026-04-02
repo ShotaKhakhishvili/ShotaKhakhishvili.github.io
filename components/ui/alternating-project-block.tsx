@@ -23,6 +23,7 @@ interface AlternatingProjectBlockProps {
   isActive?: boolean;
   delay?: number;
   className?: string;
+  cardClassName?: string;
 }
 
 const widthClasses: Record<BlockWidth, string> = {
@@ -39,7 +40,8 @@ export function AlternatingProjectBlock({
   showBullets = false,
   isActive = false,
   delay = 0,
-  className
+  className,
+  cardClassName
 }: AlternatingProjectBlockProps) {
   const prefersReducedMotion = useReducedMotion();
 
@@ -52,20 +54,26 @@ export function AlternatingProjectBlock({
         transition={{ duration: MOTION_DURATION_REVEAL, ease: MOTION_EASE_STANDARD, delay }}
         whileHover={prefersReducedMotion ? undefined : { y: -3 }}
         className={cn(
-          "w-full rounded-2xl border border-line/80 bg-panel/90 p-4 shadow-card transition-all duration-300 md:p-5",
+          "w-full rounded-2xl border border-line/80 bg-panel/90 p-4 shadow-card transition-all duration-300 will-change-transform md:p-5",
           widthClasses[width],
-          isActive ? "scale-[1.012] opacity-100 ring-1 ring-accent/20" : "opacity-62 hover:opacity-80"
+          isActive ? "scale-[1.012] opacity-100 ring-1 ring-accent/20" : "opacity-62 hover:opacity-80",
+          cardClassName
         )}
       >
-        <ProjectVideo src={project.video} poster={project.image} title={project.title} className="border-line/70" />
+        <ProjectVideo
+          src={project.presentation.mediaType === "video" ? project.video : undefined}
+          poster={project.image}
+          title={project.title}
+          className="border-line/70"
+        />
 
-        <div className="mt-4 space-y-2.5">
-          <h3 className="text-2xl font-semibold tracking-tight text-textMain">{project.title}</h3>
-          <p className="max-w-2xl text-sm leading-relaxed text-textMuted">{project.summary}</p>
+        <div className="mt-4 space-y-2">
+          <h3 className="text-xl font-semibold tracking-tight text-textMain md:text-2xl">{project.title}</h3>
+          <p className="max-w-2xl text-sm leading-relaxed text-textMuted/95">{project.shortSummary}</p>
 
-          {showBullets && project.bullets.length > 0 ? (
+          {showBullets && project.compactBullets.length > 0 ? (
             <ul className="space-y-1.5 text-xs text-textMuted/90 md:text-sm">
-              {project.bullets.slice(0, 2).map((bullet) => (
+              {project.compactBullets.slice(0, 2).map((bullet) => (
                 <li key={bullet}>- {bullet}</li>
               ))}
             </ul>

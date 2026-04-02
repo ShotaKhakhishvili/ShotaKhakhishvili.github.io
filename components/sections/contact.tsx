@@ -7,35 +7,29 @@ import { Reveal } from "@/components/ui/reveal";
 export function ContactSection() {
   return (
     <section id="contact" className="py-16 md:py-20">
-      <Container>
-        <Reveal className="rounded-xl border border-line bg-panel px-6 py-7 shadow-card md:px-8 md:py-8">
-          <p className="text-xs font-medium uppercase tracking-[0.22em] text-accent">Contact</p>
-          <h2 className="mt-3 max-w-3xl text-2xl font-semibold tracking-tight text-textMain md:text-3xl">
-            Open to UE5 C++ gameplay and systems roles.
+      <Container className="flex justify-center">
+        <Reveal className="w-full rounded-xl border border-line/80 bg-panel/90 px-5 py-6 shadow-card md:px-7 md:py-7 lg:max-w-3xl">
+          <p className="text-[10px] font-medium uppercase tracking-[0.22em] text-accent/90">Contact</p>
+          <h2 className="mt-2 max-w-3xl text-xl font-semibold tracking-tight text-textMain md:text-2xl">
+            Available for UE5 C++ systems and gameplay roles.
           </h2>
 
-          <p className="mt-3 text-sm text-textMuted">Fastest path is email. Profiles below.</p>
-
-          <div className="mt-6 flex flex-wrap items-center gap-3 text-sm">
-            <Link
-              href="mailto:shota.khakhishvili@gmail.com"
-              className="inline-flex rounded-md border border-accent/60 bg-accentSoft px-4 py-2 font-medium text-textMain transition hover:border-accent hover:text-white"
-            >
-              shota.khakhishvili@gmail.com
-            </Link>
-            {contactLinks
-              .filter((link) => link.label !== "Email")
-              .map((link) => (
-                <Link
-                  key={link.label}
-                  href={link.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex rounded-md border border-line bg-panelSoft px-4 py-2 font-medium text-textMain transition hover:border-accent/60 hover:text-white"
-                >
-                  {link.label}
-                </Link>
-              ))}
+          <div className="mt-5 flex flex-wrap items-center gap-2.5 text-sm">
+            {contactLinks.map((link, index) => (
+              <Link
+                key={link.label}
+                href={link.href}
+                target={link.label === "Email" ? undefined : "_blank"}
+                rel={link.label === "Email" ? undefined : "noreferrer"}
+                className={
+                  index === 0
+                    ? "inline-flex rounded-md border border-accent/60 bg-accentSoft px-3.5 py-2 font-medium text-textMain transition hover:border-accent hover:text-white"
+                    : "inline-flex rounded-md border border-line/80 bg-panelSoft/50 px-3.5 py-2 font-medium text-textMain transition hover:border-accent/60 hover:text-white"
+                }
+              >
+                {link.label === "Email" ? "shota.khakhishvili@gmail.com" : link.label}
+              </Link>
+            ))}
           </div>
         </Reveal>
       </Container>

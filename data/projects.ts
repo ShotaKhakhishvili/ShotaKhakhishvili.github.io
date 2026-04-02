@@ -27,22 +27,37 @@ export interface ProjectLinks {
   demo?: string;
 }
 
+export type PriorityTier = "hero" | "pinned" | "marquee" | "supporting";
+
+export type LayoutMode = "pinned" | "split" | "offset" | "alternating";
+
+export type EntrySide = "left" | "right";
+
+export type MediaType = "video" | "image";
+
+export interface ProjectPresentation {
+  priorityTier: PriorityTier;
+  layoutMode: LayoutMode;
+  entrySide: EntrySide;
+  mediaType: MediaType;
+  pinnedStoryEligible: boolean;
+  narrativeOrder: number;
+}
+
 export interface Project {
   id: number;
   slug: string;
   title: string;
-  summary: string;
-  bullets: string[];
+  shortSummary: string;
+  compactBullets: string[];
   tags: string[];
   video?: string;
   image: string;
   links: ProjectLinks;
+  presentation: ProjectPresentation;
 }
 
-export interface CinematicProject extends Project {
-  entry: "left" | "right";
-  width: "narrow" | "wide";
-}
+export type CinematicProject = Project;
 
 export interface CoreSignal {
   title: string;
@@ -56,80 +71,161 @@ export interface ContactLink {
 
 const portfolio = portfolioData as PortfolioSchema;
 
-const copyOverrides: Record<string, { summary: string; bullets?: string[] }> = {
+const copyOverrides: Record<string, { shortSummary: string; compactBullets?: string[] }> = {
   "Procedural Surface Generation": {
-    summary: "Chunked UE5 terrain runtime built for deterministic streaming and stable frame time.",
-    bullets: [
+    shortSummary: "Chunked UE5 terrain runtime built for deterministic streaming and stable frame time.",
+    compactBullets: [
       "Async generation queues keep heavy mesh work off the game thread.",
       "Spatial partitioning plus LOD policy stabilizes traversal frame time."
     ]
   },
   "UE5 Data Table Query Plugin": {
-    summary: "UE5 C++ plugin that adds SQL-style data queries without gameplay-table coupling.",
-    bullets: [
+    shortSummary: "UE5 C++ plugin that adds SQL-style data queries without gameplay-table coupling.",
+    compactBullets: [
       "C++ modules preserve Blueprint ergonomics with schema-aware query APIs.",
       "Data abstraction isolates query execution from gameplay systems."
     ]
   },
   "KIU Infinite Runner (Custom Engine)": {
-    summary: "Custom C++ and OpenGL runtime tuned for stable spawn, simulation, and render loops.",
-    bullets: [
+    shortSummary: "Custom C++ and OpenGL runtime tuned for stable spawn, simulation, and render loops.",
+    compactBullets: [
       "Module boundaries separate simulation, rendering, and gameplay update paths.",
       "Instanced rendering strategy maintains pacing during continuous spawning."
     ]
   },
   "ISS Cupola Simulator (NASA Space Apps)": {
-    summary: "Zero-gravity interaction simulator shipped under strict pixel-streaming constraints.",
-    bullets: [
+    shortSummary: "Zero-gravity interaction simulator shipped under strict pixel-streaming constraints.",
+    compactBullets: [
       "Input abstraction supports multiple interaction modes without control coupling.",
       "Runtime object interaction loops tuned for stable manipulation behavior."
     ]
   },
-  PropGenie: {
-    summary: "Real-time renovation tool with data-bound spawning and live material state updates.",
-    bullets: [
+  "PropGenie (3D Renovation Simulator)": {
+    shortSummary: "Real-time renovation tool with data-bound spawning and live material state updates.",
+    compactBullets: [
       "Data-bound controls update object properties in real time.",
       "Dynamic material and asset hooks keep iteration fast for design passes."
     ]
   },
   "ML Self-Taught Cars": {
-    summary: "UE5 ML training loop for autonomous driving behavior and reward tuning.",
-    bullets: ["Runtime feedback loop links sensor state to policy updates."]
+    shortSummary: "UE5 ML training loop for autonomous driving behavior and reward tuning.",
+    compactBullets: ["Runtime feedback loop links sensor state to policy updates."]
   },
   "Goat Ate Vineyard (Global Game Jam)": {
-    summary: "Transformation-state gameplay system where each form changes available abilities.",
-    bullets: ["Counter-progression rules enforce clear system-level interaction logic."]
+    shortSummary: "Transformation-state gameplay system where each form changes available abilities.",
+    compactBullets: ["Counter-progression rules enforce clear system-level interaction logic."]
   },
   Trapshooter: {
-    summary: "Arcade shooter prototype focused on input latency, feedback timing, and loop clarity."
+    shortSummary: "Arcade shooter prototype focused on input latency, feedback timing, and loop clarity."
   },
   "Bending Simulator": {
-    summary: "Elemental combat prototype with chained ability states and controlled resource flow."
+    shortSummary: "Elemental combat prototype with chained ability states and controlled resource flow."
   },
   "Survival Game": {
-    summary: "UE5 survival systems prototype with crafting, progression, and resource loops."
+    shortSummary: "UE5 survival systems prototype with crafting, progression, and resource loops."
   },
   "Subway Surfers Remake": {
-    summary: "Constant-forward runner remake with tuned lane-switch response and traversal pacing."
+    shortSummary: "Constant-forward runner remake with tuned lane-switch response and traversal pacing."
   },
   "Bend It All": {
-    summary: "Physics-driven environment control sandbox built around dynamic object constraints."
+    shortSummary: "Physics-driven environment control sandbox built around dynamic object constraints."
   }
 };
 
-const pinnedTitles = new Set([
-  "Procedural Surface Generation",
-  "KIU Infinite Runner (Custom Engine)",
-  "UE5 Data Table Query Plugin",
-  "PropGenie"
-]);
+type CurationInput = {
+  priorityTier: PriorityTier;
+  layoutMode: LayoutMode;
+  entrySide: EntrySide;
+  pinnedStoryEligible: boolean;
+  narrativeOrder: number;
+};
 
-const pinnedTitleOrder = [
-  "Procedural Surface Generation",
-  "KIU Infinite Runner (Custom Engine)",
-  "UE5 Data Table Query Plugin",
-  "PropGenie"
-] as const;
+const curatedPresentationByTitle: Record<string, CurationInput> = {
+  "Procedural Surface Generation": {
+    priorityTier: "hero",
+    layoutMode: "pinned",
+    entrySide: "left",
+    pinnedStoryEligible: true,
+    narrativeOrder: 1
+  },
+  "KIU Infinite Runner (Custom Engine)": {
+    priorityTier: "pinned",
+    layoutMode: "pinned",
+    entrySide: "right",
+    pinnedStoryEligible: true,
+    narrativeOrder: 2
+  },
+  "UE5 Data Table Query Plugin": {
+    priorityTier: "pinned",
+    layoutMode: "pinned",
+    entrySide: "left",
+    pinnedStoryEligible: true,
+    narrativeOrder: 3
+  },
+  "PropGenie (3D Renovation Simulator)": {
+    priorityTier: "marquee",
+    layoutMode: "offset",
+    entrySide: "right",
+    pinnedStoryEligible: false,
+    narrativeOrder: 6
+  },
+  "ISS Cupola Simulator (NASA Space Apps)": {
+    priorityTier: "marquee",
+    layoutMode: "split",
+    entrySide: "left",
+    pinnedStoryEligible: false,
+    narrativeOrder: 5
+  },
+  "ML Self-Taught Cars": {
+    priorityTier: "marquee",
+    layoutMode: "offset",
+    entrySide: "right",
+    pinnedStoryEligible: false,
+    narrativeOrder: 7
+  },
+  "Goat Ate Vineyard (Global Game Jam)": {
+    priorityTier: "marquee",
+    layoutMode: "alternating",
+    entrySide: "left",
+    pinnedStoryEligible: false,
+    narrativeOrder: 8
+  },
+  Trapshooter: {
+    priorityTier: "supporting",
+    layoutMode: "alternating",
+    entrySide: "right",
+    pinnedStoryEligible: false,
+    narrativeOrder: 9
+  },
+  "Bending Simulator": {
+    priorityTier: "supporting",
+    layoutMode: "offset",
+    entrySide: "left",
+    pinnedStoryEligible: false,
+    narrativeOrder: 10
+  },
+  "Survival Game": {
+    priorityTier: "supporting",
+    layoutMode: "alternating",
+    entrySide: "right",
+    pinnedStoryEligible: false,
+    narrativeOrder: 11
+  },
+  "Subway Surfers Remake": {
+    priorityTier: "supporting",
+    layoutMode: "alternating",
+    entrySide: "left",
+    pinnedStoryEligible: false,
+    narrativeOrder: 12
+  },
+  "Bend It All": {
+    priorityTier: "supporting",
+    layoutMode: "offset",
+    entrySide: "left",
+    pinnedStoryEligible: false,
+    narrativeOrder: 13
+  }
+};
 
 const toSlug = (value: string) =>
   value
@@ -147,22 +243,43 @@ const toOneSentence = (value: string): string => {
   return `${sentence.slice(0, 93).trimEnd()}...`;
 };
 
+const resolvePresentation = (project: PortfolioProject): ProjectPresentation => {
+  const configured = curatedPresentationByTitle[project.title];
+  if (configured) {
+    return {
+      ...configured,
+      mediaType: project.video ? "video" : "image"
+    };
+  }
+
+  return {
+    priorityTier: "supporting",
+    layoutMode: "alternating",
+    entrySide: project.id % 2 === 0 ? "left" : "right",
+    mediaType: project.video ? "video" : "image",
+    pinnedStoryEligible: false,
+    narrativeOrder: 1000 + project.id
+  };
+};
+
 const normalizeProject = (project: PortfolioProject): Project => {
   const override = copyOverrides[project.title];
+  const presentation = resolvePresentation(project);
 
   return {
     id: project.id,
     slug: toSlug(project.title),
     title: project.title,
-    summary: override?.summary ?? toOneSentence(project.description),
-    bullets: override?.bullets ?? [],
+    shortSummary: override?.shortSummary ?? toOneSentence(project.description),
+    compactBullets: override?.compactBullets ?? [],
     tags: project.tags,
-    video: project.video ? `/videos/${project.video}` : undefined,
+    video: presentation.mediaType === "video" && project.video ? `/videos/${project.video}` : undefined,
     image: `/images/${project.thumbnail}`,
     links: {
       repo: project.codeUrl,
       demo: project.downloadUrl
-    }
+    },
+    presentation
   };
 };
 
@@ -171,29 +288,34 @@ export const heroChips: readonly string[] = ["UE5", "C++", "Gameplay Systems", "
 export const heroValueStatement =
   "UE5 C++ systems for stable frame time, modular architecture, and fast shipping.";
 
-export const projects: Project[] = portfolio.projects.map(normalizeProject);
+export const projects: Project[] = portfolio.projects
+  .map(normalizeProject)
+  .sort((a, b) => a.presentation.narrativeOrder - b.presentation.narrativeOrder);
 
-export const pinnedStoryProjects: Project[] = pinnedTitleOrder
-  .map((title) => projects.find((project) => project.title === title))
-  .filter((project): project is Project => Boolean(project));
+export const pinnedStoryProjects: Project[] = projects.filter((project) => project.presentation.pinnedStoryEligible);
 
-export const featuredProject: Project = pinnedStoryProjects[0] ?? projects[0];
+export const featuredProject: Project =
+  projects.find((project) => project.presentation.priorityTier === "hero") ?? pinnedStoryProjects[0] ?? projects[0];
 
 export const heroProject: Project = featuredProject;
 
-export const cinematicProjects: CinematicProject[] = projects
-  .filter((project) => !pinnedTitles.has(project.title))
-  .map((project, index) => ({
-    ...project,
-    entry: index % 2 === 0 ? "left" : "right",
-    width: index % 3 === 0 ? "wide" : "narrow"
-  }));
+export const cinematicProjects: CinematicProject[] = projects.filter((project) => !project.presentation.pinnedStoryEligible);
+
+export const marqueeCinematicProjects: CinematicProject[] = cinematicProjects.filter(
+  (project) => project.presentation.priorityTier === "marquee"
+);
+
+export const supportingCinematicProjects: CinematicProject[] = cinematicProjects.filter(
+  (project) => project.presentation.priorityTier === "supporting"
+);
 
 export const coreSignals: CoreSignal[] = [
-  { title: "Systems First", text: "Gameplay architecture with deterministic runtime behavior." },
-  { title: "C++ Depth", text: "Engine-facing module design with clean ownership boundaries." },
-  { title: "Plugin Mindset", text: "Reusable tooling built to scale beyond single prototypes." },
-  { title: "Frame-Time Discipline", text: "Threading and rendering decisions measured against stability." }
+  { title: "UE5 Systems", text: "Deterministic gameplay frameworks." },
+  { title: "C++ Architecture", text: "Clean modules, strong ownership." },
+  { title: "Plugins", text: "Reusable engine-side tooling." },
+  { title: "Multithreading", text: "Stable frame-time under load." },
+  { title: "Rendering", text: "Practical real-time pipeline control." },
+  { title: "Shippable Gameplay", text: "Fast iteration to playable builds." }
 ];
 
 export const contactLinks: ContactLink[] = [

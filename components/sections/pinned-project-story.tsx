@@ -59,10 +59,13 @@ export function PinnedProjectStorySection() {
           });
 
           steps.forEach((step, index) => {
+            const stepStart = index === 0 ? "top center+=160" : "top center+=90";
+            const stepEnd = index === 0 ? "bottom center-=40" : "bottom center";
+
             ScrollTrigger.create({
               trigger: step,
-              start: "top center+=90",
-              end: "bottom center",
+              start: stepStart,
+              end: stepEnd,
               onEnter: () => activateStep(index),
               onEnterBack: () => activateStep(index)
             });
@@ -77,8 +80,8 @@ export function PinnedProjectStorySection() {
   }, []);
 
   return (
-    <section id="pinned-story" ref={sectionRef} className="bg-engineered-depth relative border-b border-line/60 py-20 md:py-28">
-      <Container className="grid gap-10 lg:grid-cols-[1.02fr_0.98fr] lg:gap-14">
+    <section id="pinned-story" ref={sectionRef} className="bg-engineered-depth relative border-b border-line/60 py-24 md:py-32">
+      <Container className="grid gap-12 lg:grid-cols-[1.03fr_0.97fr] lg:gap-16">
         <div ref={pinRef} className="lg:h-[min(74vh,720px)]">
           <div className="space-y-4 pb-5">
             <p className="text-xs font-medium uppercase tracking-[0.22em] text-accent">Flagship Systems Story</p>
@@ -97,7 +100,7 @@ export function PinnedProjectStorySection() {
                 )}
               >
                 <ProjectVideo
-                  src={project.video}
+                  src={project.presentation.mediaType === "video" ? project.video : undefined}
                   poster={project.image}
                   title={project.title}
                   priority={index === 0}
@@ -106,6 +109,13 @@ export function PinnedProjectStorySection() {
               </div>
             ))}
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-bg/45 via-transparent to-transparent" />
+
+            <div className="pointer-events-none absolute right-5 top-5 z-30 rounded-md border border-line/75 bg-bg/55 px-2.5 py-1.5 backdrop-blur-sm">
+              <p className="text-[10px] font-medium uppercase tracking-[0.16em] text-textMuted/85">
+                {String(activeIndex + 1).padStart(2, "0")} / {String(pinnedStoryProjects.length).padStart(2, "0")}
+              </p>
+              <p className="mt-0.5 text-xs font-semibold tracking-tight text-textMain">{pinnedStoryProjects[activeIndex]?.title}</p>
+            </div>
 
             <div className="absolute bottom-4 left-4 right-4 z-30 flex items-center gap-2">
               {pinnedStoryProjects.map((project, index) => (
@@ -133,20 +143,21 @@ export function PinnedProjectStorySection() {
               onFocus={() => setActiveIndex(index)}
               className={cn(
                 "rounded-xl border border-line/70 bg-panelSoft/45 p-5 transition-all duration-300 md:p-6",
+                index % 2 === 0 ? "lg:mr-8" : "lg:ml-8",
                 index === activeIndex
                   ? "opacity-100 shadow-card ring-1 ring-accent/25"
-                  : "opacity-45 hover:opacity-65"
+                  : "opacity-38 hover:opacity-58"
               )}
             >
               <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-accent/90">
                 {String(index + 1).padStart(2, "0")}
               </p>
               <h3 className="mt-2 text-2xl font-semibold tracking-tight text-textMain">{project.title}</h3>
-              <p className="mt-3 max-w-lg text-sm leading-relaxed text-textMuted md:text-base">{project.summary}</p>
+              <p className="mt-3 max-w-lg text-sm leading-relaxed text-textMuted md:text-base">{project.shortSummary}</p>
 
-              {project.bullets.length > 0 ? (
+              {project.compactBullets.length > 0 ? (
                 <ul className="mt-4 space-y-2 text-sm text-textMuted">
-                  {project.bullets.slice(0, 2).map((bullet) => (
+                  {project.compactBullets.slice(0, 2).map((bullet) => (
                     <li key={bullet}>- {bullet}</li>
                   ))}
                 </ul>

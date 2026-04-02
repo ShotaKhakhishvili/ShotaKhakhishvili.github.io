@@ -22,9 +22,9 @@ export function ProjectCard({ project }: ProjectCardProps) {
 
       <div className="space-y-3">
         <h3 className="text-xl font-semibold tracking-tight text-textMain">{project.title}</h3>
-        <p className="text-sm text-textMuted">{project.summary}</p>
+        <p className="text-sm text-textMuted">{project.shortSummary}</p>
         <ul className="space-y-2 text-sm text-textMuted">
-          {project.bullets.slice(0, 3).map((bullet) => (
+          {project.compactBullets.slice(0, 3).map((bullet) => (
             <li key={bullet} className="leading-relaxed">
               - {bullet}
             </li>

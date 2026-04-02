@@ -13,23 +13,24 @@ import { MOTION_DURATION_REVEAL, MOTION_EASE_STANDARD } from "@/lib/motion";
 
 export function HeroSection() {
   return (
-    <section id="home" className="relative overflow-hidden border-b border-line/60 py-16 md:py-24 lg:py-28">
+    <section id="home" className="relative overflow-hidden border-b border-line/60 py-20 md:py-28 lg:py-36">
       <GridBackground />
 
-      <Container className="grid gap-10 lg:grid-cols-[1.02fr_1fr] lg:gap-16">
-        <Reveal className="space-y-7" delay={0.03}>
+      <Container className="grid gap-12 lg:grid-cols-[1.03fr_0.97fr] lg:gap-20">
+        <Reveal className="space-y-8 lg:pt-4" delay={0.03}>
           <div className="space-y-4">
             <p className="text-xs font-medium uppercase tracking-[0.22em] text-accent">UE5 Systems Programming</p>
             <h1 className="max-w-2xl text-4xl font-semibold leading-[1.04] tracking-tight text-textMain md:text-6xl">
-              UE5 C++ Gameplay / Systems Programmer
+              UE5 C++ Systems and Gameplay Programmer
             </h1>
-            <p className="max-w-xl text-sm leading-relaxed text-textMuted md:text-base">
+            <p className="max-w-xl text-sm leading-relaxed text-textMuted">
               {heroValueStatement}
             </p>
+            <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-textMuted/85">Featured: {heroProject.title}</p>
           </div>
 
           <div className="flex flex-wrap gap-2.5">
-            {heroChips.slice(0, 4).map((chip) => (
+            {heroChips.slice(0, 3).map((chip) => (
               <TechChip key={chip}>{chip}</TechChip>
             ))}
           </div>
@@ -43,7 +44,7 @@ export function HeroSection() {
             </Link>
             <Link
               href="#cinematic-projects"
-              className="inline-flex items-center justify-center rounded-md border border-line bg-panel/80 px-4.5 py-2.5 text-sm font-medium tracking-wide text-textMain transition duration-300 hover:border-accent/60 hover:text-white"
+              className="inline-flex items-center justify-center rounded-md border border-line bg-panel/80 px-5 py-2.5 text-sm font-medium tracking-wide text-textMain transition duration-300 hover:border-accent/60 hover:text-white"
             >
               All Projects
             </Link>
@@ -65,10 +66,10 @@ export function HeroSection() {
         </Reveal>
 
         <Reveal delay={0.11}>
-          <div className="relative rounded-[1.45rem] border border-line/75 bg-panel/88 p-2.5 shadow-glow">
+          <div className="relative rounded-[1.45rem] border border-line/75 bg-panel/88 p-2.5 shadow-glow lg:translate-y-4">
             <div className="pointer-events-none absolute inset-0 rounded-[1.45rem] bg-gradient-to-b from-white/[0.035] via-transparent to-transparent" />
             <ProjectVideo
-              src={heroProject.video}
+              src={heroProject.presentation.mediaType === "video" ? heroProject.video : undefined}
               poster={heroProject.image}
               title={`${heroProject.title} showcase`}
               priority
