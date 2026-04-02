@@ -1,58 +1,82 @@
-import Link from "next/link";
+"use client";
 
-import { featuredProject, heroChips, heroValueStatement } from "@/data/projects";
+import Link from "next/link";
+import { motion } from "framer-motion";
+
+import { heroChips, heroProject, heroValueStatement } from "@/data/projects";
 import { Container } from "@/components/ui/container";
 import { GridBackground } from "@/components/ui/grid-background";
 import { ProjectVideo } from "@/components/ui/project-video";
 import { Reveal } from "@/components/ui/reveal";
 import { TechChip } from "@/components/ui/tech-chip";
+import { MOTION_DURATION_REVEAL, MOTION_EASE_STANDARD } from "@/lib/motion";
 
 export function HeroSection() {
   return (
-    <section id="home" className="relative overflow-hidden border-b border-line/60 py-16 md:py-24">
+    <section id="home" className="relative overflow-hidden border-b border-line/60 py-16 md:py-24 lg:py-28">
       <GridBackground />
 
-      <Container className="grid gap-10 lg:grid-cols-[1.15fr_1fr] lg:gap-14">
-        <Reveal className="space-y-8">
+      <Container className="grid gap-10 lg:grid-cols-[1.02fr_1fr] lg:gap-16">
+        <Reveal className="space-y-7" delay={0.03}>
           <div className="space-y-4">
             <p className="text-xs font-medium uppercase tracking-[0.22em] text-accent">UE5 Systems Programming</p>
-            <h1 className="max-w-2xl text-4xl font-semibold leading-tight tracking-tight text-textMain md:text-6xl">
+            <h1 className="max-w-2xl text-4xl font-semibold leading-[1.04] tracking-tight text-textMain md:text-6xl">
               UE5 C++ Gameplay / Systems Programmer
             </h1>
-            <p className="max-w-2xl text-sm leading-relaxed text-textMuted md:text-base">{heroValueStatement}</p>
+            <p className="max-w-xl text-sm leading-relaxed text-textMuted md:text-base">
+              {heroValueStatement}
+            </p>
           </div>
 
-          <div className="flex flex-wrap gap-2">
-            {heroChips.map((chip) => (
+          <div className="flex flex-wrap gap-2.5">
+            {heroChips.slice(0, 4).map((chip) => (
               <TechChip key={chip}>{chip}</TechChip>
             ))}
           </div>
 
           <div className="flex flex-wrap items-center gap-3">
             <Link
-              href="#selected-projects"
+              href="#pinned-story"
               className="inline-flex items-center justify-center rounded-md border border-accent bg-accentSoft px-5 py-2.5 text-sm font-medium tracking-wide text-textMain shadow-glow transition duration-300 hover:-translate-y-0.5 hover:bg-[#1b4f6e]"
             >
-              See Systems Work
+              Enter Story
             </Link>
             <Link
-              href="#contact"
-              className="inline-flex items-center justify-center rounded-md border border-line bg-panel px-5 py-2.5 text-sm font-medium tracking-wide text-textMain transition duration-300 hover:-translate-y-0.5 hover:border-accent/60 hover:text-white"
+              href="#cinematic-projects"
+              className="inline-flex items-center justify-center rounded-md border border-line bg-panel/80 px-4.5 py-2.5 text-sm font-medium tracking-wide text-textMain transition duration-300 hover:border-accent/60 hover:text-white"
             >
-              Contact
+              All Projects
             </Link>
           </div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.7 }}
+            transition={{ duration: MOTION_DURATION_REVEAL, ease: MOTION_EASE_STANDARD, delay: 0.24 }}
+            className="hidden items-center gap-3 pt-1 text-xs uppercase tracking-[0.18em] text-textMuted/85 md:flex"
+          >
+            <span className="relative flex h-6 w-3 items-start justify-center rounded-full border border-line/80">
+              <span className="hero-scroll-cue-dot mt-1 h-1.5 w-1.5 rounded-full bg-accent/80" />
+            </span>
+            <span className="hero-scroll-cue-line h-px w-14 bg-gradient-to-r from-line via-accent/60 to-transparent" />
+            <span>Scroll For Systems Narrative</span>
+          </motion.div>
         </Reveal>
 
-        <Reveal delay={0.08}>
-          <div className="rounded-2xl border border-line/90 bg-panel/90 p-2 shadow-glow">
+        <Reveal delay={0.11}>
+          <div className="relative rounded-[1.45rem] border border-line/75 bg-panel/88 p-2.5 shadow-glow">
+            <div className="pointer-events-none absolute inset-0 rounded-[1.45rem] bg-gradient-to-b from-white/[0.035] via-transparent to-transparent" />
             <ProjectVideo
-              src={featuredProject.video}
-              poster={featuredProject.image}
-              title={`${featuredProject.title} showcase`}
+              src={heroProject.video}
+              poster={heroProject.image}
+              title={`${heroProject.title} showcase`}
               priority
-              className="rounded-xl border border-line/80"
+              className="rounded-[1.15rem] border border-line/70"
             />
+            <p className="mt-3 px-1 text-[10px] font-medium uppercase tracking-[0.16em] text-textMuted/80">
+              Procedural Terrain Runtime Anchor
+            </p>
           </div>
         </Reveal>
       </Container>

@@ -1,14 +1,26 @@
-export type ProjectTag =
-  | "UE5"
-  | "C++"
-  | "Systems"
-  | "Plugin"
-  | "Multithreading"
-  | "Rendering"
-  | "Gameplay"
-  | "Simulation"
-  | "Performance"
-  | "OpenGL";
+import portfolioData from "@/data/portfolio.json";
+
+interface PortfolioProject {
+  id: number;
+  title: string;
+  description: string;
+  tags: string[];
+  thumbnail: string;
+  video?: string;
+  downloadUrl?: string;
+  codeUrl?: string;
+}
+
+interface PortfolioSchema {
+  profile: {
+    email: string;
+    social: {
+      github: string;
+      linkedin: string;
+    };
+  };
+  projects: PortfolioProject[];
+}
 
 export interface ProjectLinks {
   repo?: string;
@@ -16,15 +28,20 @@ export interface ProjectLinks {
 }
 
 export interface Project {
+  id: number;
   slug: string;
   title: string;
   summary: string;
   bullets: string[];
-  tags: ProjectTag[];
+  tags: string[];
   video?: string;
   image: string;
-  featured: boolean;
   links: ProjectLinks;
+}
+
+export interface CinematicProject extends Project {
+  entry: "left" | "right";
+  width: "narrow" | "wide";
 }
 
 export interface CoreSignal {
@@ -37,127 +54,150 @@ export interface ContactLink {
   href: string;
 }
 
-export const heroChips: readonly string[] = [
-  "UE5",
-  "C++",
-  "Plugins",
-  "Systems",
-  "Multithreading",
-  "Rendering"
-];
+const portfolio = portfolioData as PortfolioSchema;
+
+const copyOverrides: Record<string, { summary: string; bullets?: string[] }> = {
+  "Procedural Surface Generation": {
+    summary: "Chunked UE5 terrain runtime built for deterministic streaming and stable frame time.",
+    bullets: [
+      "Async generation queues keep heavy mesh work off the game thread.",
+      "Spatial partitioning plus LOD policy stabilizes traversal frame time."
+    ]
+  },
+  "UE5 Data Table Query Plugin": {
+    summary: "UE5 C++ plugin that adds SQL-style data queries without gameplay-table coupling.",
+    bullets: [
+      "C++ modules preserve Blueprint ergonomics with schema-aware query APIs.",
+      "Data abstraction isolates query execution from gameplay systems."
+    ]
+  },
+  "KIU Infinite Runner (Custom Engine)": {
+    summary: "Custom C++ and OpenGL runtime tuned for stable spawn, simulation, and render loops.",
+    bullets: [
+      "Module boundaries separate simulation, rendering, and gameplay update paths.",
+      "Instanced rendering strategy maintains pacing during continuous spawning."
+    ]
+  },
+  "ISS Cupola Simulator (NASA Space Apps)": {
+    summary: "Zero-gravity interaction simulator shipped under strict pixel-streaming constraints.",
+    bullets: [
+      "Input abstraction supports multiple interaction modes without control coupling.",
+      "Runtime object interaction loops tuned for stable manipulation behavior."
+    ]
+  },
+  PropGenie: {
+    summary: "Real-time renovation tool with data-bound spawning and live material state updates.",
+    bullets: [
+      "Data-bound controls update object properties in real time.",
+      "Dynamic material and asset hooks keep iteration fast for design passes."
+    ]
+  },
+  "ML Self-Taught Cars": {
+    summary: "UE5 ML training loop for autonomous driving behavior and reward tuning.",
+    bullets: ["Runtime feedback loop links sensor state to policy updates."]
+  },
+  "Goat Ate Vineyard (Global Game Jam)": {
+    summary: "Transformation-state gameplay system where each form changes available abilities.",
+    bullets: ["Counter-progression rules enforce clear system-level interaction logic."]
+  },
+  Trapshooter: {
+    summary: "Arcade shooter prototype focused on input latency, feedback timing, and loop clarity."
+  },
+  "Bending Simulator": {
+    summary: "Elemental combat prototype with chained ability states and controlled resource flow."
+  },
+  "Survival Game": {
+    summary: "UE5 survival systems prototype with crafting, progression, and resource loops."
+  },
+  "Subway Surfers Remake": {
+    summary: "Constant-forward runner remake with tuned lane-switch response and traversal pacing."
+  },
+  "Bend It All": {
+    summary: "Physics-driven environment control sandbox built around dynamic object constraints."
+  }
+};
+
+const pinnedTitles = new Set([
+  "Procedural Surface Generation",
+  "KIU Infinite Runner (Custom Engine)",
+  "UE5 Data Table Query Plugin",
+  "PropGenie"
+]);
+
+const pinnedTitleOrder = [
+  "Procedural Surface Generation",
+  "KIU Infinite Runner (Custom Engine)",
+  "UE5 Data Table Query Plugin",
+  "PropGenie"
+] as const;
+
+const toSlug = (value: string) =>
+  value
+    .toLowerCase()
+    .replace(/\([^)]*\)/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+
+const toOneSentence = (value: string): string => {
+  const sentence = value.split(/[.!?]/)[0]?.trim() ?? value.trim();
+  if (sentence.length <= 96) {
+    return sentence;
+  }
+
+  return `${sentence.slice(0, 93).trimEnd()}...`;
+};
+
+const normalizeProject = (project: PortfolioProject): Project => {
+  const override = copyOverrides[project.title];
+
+  return {
+    id: project.id,
+    slug: toSlug(project.title),
+    title: project.title,
+    summary: override?.summary ?? toOneSentence(project.description),
+    bullets: override?.bullets ?? [],
+    tags: project.tags,
+    video: project.video ? `/videos/${project.video}` : undefined,
+    image: `/images/${project.thumbnail}`,
+    links: {
+      repo: project.codeUrl,
+      demo: project.downloadUrl
+    }
+  };
+};
+
+export const heroChips: readonly string[] = ["UE5", "C++", "Gameplay Systems", "Plugins", "Multithreading", "Rendering"];
 
 export const heroValueStatement =
-  "Modular, data-driven gameplay architecture with multithreaded runtime systems, plugin tooling, and performance-focused rendering decisions.";
+  "UE5 C++ systems for stable frame time, modular architecture, and fast shipping.";
 
-export const projects: Project[] = [
-  {
-    slug: "procedural-surface-generation",
-    title: "Procedural Surface Generation",
-    summary:
-      "Data-driven procedural terrain runtime engineered for deterministic updates and stable frame time under continuous world streaming.",
-    bullets: [
-      "Chunk-based terrain architecture with spatial partitioning and predictable region invalidation.",
-      "Multithreaded generation queues that offload heavy mesh work from the game thread.",
-      "LOD and memory strategy tuned for sustained traversal without hitch-heavy transitions.",
-      "Rendering update path designed for consistent mesh/material pass behavior during streaming churn."
-    ],
-    tags: ["UE5", "C++", "Systems", "Multithreading", "Performance", "Rendering"],
-    video: "/videos/ProceduralSurface.mp4",
-    image: "/images/pic_ProceduralSurface.png",
-    featured: true,
-    links: {
-      repo: "https://github.com/ShotaKhakhishvili/Procedural-Surface-Terrain-Generation"
-    }
-  },
-  {
-    slug: "ue5-data-query-plugin",
-    title: "UE5 Data Table Query Plugin",
-    summary:
-      "UE5 plugin architecture that exposes SQL-like data access while keeping gameplay systems decoupled from table-specific logic.",
-    bullets: [
-      "C++ plugin modules provide data-query APIs while preserving Blueprint ergonomics.",
-      "Data abstraction layer isolates runtime query execution from gameplay systems.",
-      "Schema-aware serialization and query routing keep tooling scalable across feature teams."
-    ],
-    tags: ["UE5", "C++", "Plugin", "Systems"],
-    video: "/videos/UE_SQL.mp4",
-    image: "/images/pic_UE_SQL.png",
-    featured: false,
-    links: {
-      repo: "https://github.com/ShotaKhakhishvili/UE5-Data-Query-System"
-    }
-  },
-  {
-    slug: "kiu-infinite-runner-custom-engine",
-    title: "KIU Infinite Runner (Custom Engine)",
-    summary:
-      "Custom C++/OpenGL runtime with modular gameplay, simulation, and rendering subsystems built for sustained high-frequency update loops.",
-    bullets: [
-      "Engine-side module boundaries separate render path, simulation update, and gameplay loop logic.",
-      "Instanced rendering and draw-call discipline keep frame pacing stable during continuous spawning.",
-      "Tooling-oriented asset and scene flow supports rapid iteration without coupling gameplay logic to render internals."
-    ],
-    tags: ["C++", "OpenGL", "Systems", "Rendering", "Performance"],
-    video: "/videos/WolfRunner.mp4",
-    image: "/images/pic_WolfRunner.png",
-    featured: false,
-    links: {
-      repo: "https://github.com/ShotaKhakhishvili/KIU_ClubEngine"
-    }
-  },
-  {
-    slug: "iss-cupola-simulator",
-    title: "ISS Cupola Simulator",
-    summary:
-      "Simulation-focused interaction runtime with zero-gravity controls and deployment-grade behavior under pixel-streamed constraints.",
-    bullets: [
-      "Input abstraction supports simulation interactions without coupling to one camera/control mode.",
-      "Runtime interaction systems prioritize stable behavior for object manipulation and scanning loops.",
-      "Pixel-streamed delivery constraints shaped performance budgets and systems architecture from the first implementation pass."
-    ],
-    tags: ["UE5", "C++", "Simulation", "Systems"],
-    video: "/videos/Cupola.mp4",
-    image: "/images/pic_Cupola.png",
-    featured: false,
-    links: {
-      repo: "https://github.com/ShotaKhakhishvili/BeyondTheWindow"
-    }
-  }
-];
+export const projects: Project[] = portfolio.projects.map(normalizeProject);
 
-export const featuredProject: Project = projects.find((project) => project.featured) ?? projects[0];
+export const pinnedStoryProjects: Project[] = pinnedTitleOrder
+  .map((title) => projects.find((project) => project.title === title))
+  .filter((project): project is Project => Boolean(project));
 
-export const selectedProjects: Project[] = projects.filter((project) => !project.featured);
+export const featuredProject: Project = pinnedStoryProjects[0] ?? projects[0];
+
+export const heroProject: Project = featuredProject;
+
+export const cinematicProjects: CinematicProject[] = projects
+  .filter((project) => !pinnedTitles.has(project.title))
+  .map((project, index) => ({
+    ...project,
+    entry: index % 2 === 0 ? "left" : "right",
+    width: index % 3 === 0 ? "wide" : "narrow"
+  }));
 
 export const coreSignals: CoreSignal[] = [
-  {
-    title: "UE5 Gameplay Systems",
-    text: "State-driven gameplay architecture built for deterministic behavior, rapid iteration, and runtime stability."
-  },
-  {
-    title: "C++ Architecture",
-    text: "Runtime-first C++ boundaries across gameplay logic, data flow, and engine-facing systems code."
-  },
-  {
-    title: "Plugins & Tooling",
-    text: "Reusable UE5 plugin modules and tooling pipelines that reduce duplication and accelerate systems delivery."
-  },
-  {
-    title: "Multithreaded Runtime Work",
-    text: "Multithreaded workload pipelines that keep frame pacing predictable under heavy generation and simulation updates."
-  },
-  {
-    title: "Rendering / Engine Fundamentals",
-    text: "Practical command of rendering cost, LOD strategy, memory pressure, and GPU-aware runtime tradeoffs."
-  },
-  {
-    title: "Rapid Playable Prototyping",
-    text: "Rapid playable prototypes that validate gameplay architecture and systems decisions before full production investment."
-  }
+  { title: "Systems First", text: "Gameplay architecture with deterministic runtime behavior." },
+  { title: "C++ Depth", text: "Engine-facing module design with clean ownership boundaries." },
+  { title: "Plugin Mindset", text: "Reusable tooling built to scale beyond single prototypes." },
+  { title: "Frame-Time Discipline", text: "Threading and rendering decisions measured against stability." }
 ];
 
 export const contactLinks: ContactLink[] = [
-  { label: "Email", href: "mailto:shota.khakhishvili@gmail.com" },
-  { label: "GitHub", href: "https://github.com/shotakhakhishvili" },
-  { label: "LinkedIn", href: "https://www.linkedin.com/in/shota-khakhishvili-a544b2325/" }
+  { label: "Email", href: `mailto:${portfolio.profile.email}` },
+  { label: "GitHub", href: portfolio.profile.social.github },
+  { label: "LinkedIn", href: portfolio.profile.social.linkedin }
 ];

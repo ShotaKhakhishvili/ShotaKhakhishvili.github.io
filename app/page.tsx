@@ -1,16 +1,16 @@
 import Link from "next/link";
 
+import { CinematicProjectFlowSection } from "@/components/sections/cinematic-project-flow";
 import { ContactSection } from "@/components/sections/contact";
 import { CoreSignalsSection } from "@/components/sections/core-signals";
-import { FeaturedProjectSection } from "@/components/sections/featured-project";
 import { HeroSection } from "@/components/sections/hero";
-import { SelectedProjectsSection } from "@/components/sections/selected-projects";
+import { PinnedProjectStorySection } from "@/components/sections/pinned-project-story";
 import { Container } from "@/components/ui/container";
 
 const navLinks = [
   { href: "#home", label: "Home" },
-  { href: "#featured-project", label: "Featured" },
-  { href: "#selected-projects", label: "Projects" },
+  { href: "#pinned-story", label: "Story" },
+  { href: "#cinematic-projects", label: "Projects" },
   { href: "#core-signals", label: "Signals" },
   { href: "#contact", label: "Contact" }
 ] as const;
@@ -36,7 +36,7 @@ export default function Home() {
           </nav>
           <div className="flex items-center gap-3 md:hidden">
             <Link
-              href="#selected-projects"
+              href="#cinematic-projects"
               className="text-[11px] font-medium uppercase tracking-[0.12em] text-textMuted transition hover:text-textMain"
             >
               Projects
@@ -53,8 +53,8 @@ export default function Home() {
 
       <main>
         <HeroSection />
-        <FeaturedProjectSection />
-        <SelectedProjectsSection />
+        <PinnedProjectStorySection />
+        <CinematicProjectFlowSection />
         <CoreSignalsSection />
         <ContactSection />
       </main>

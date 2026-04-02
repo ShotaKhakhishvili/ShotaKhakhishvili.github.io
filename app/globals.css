@@ -117,6 +117,18 @@ main {
 .hero-glow {
   background: radial-gradient(circle at center, rgba(98, 187, 235, 0.15), rgba(98, 187, 235, 0));
   filter: blur(14px);
+  animation: drift-glow 12s ease-in-out infinite;
+}
+
+.hero-orb {
+  background: radial-gradient(circle at center, rgba(113, 196, 240, 0.2), rgba(113, 196, 240, 0));
+  filter: blur(18px);
+  animation: drift-orb 16s ease-in-out infinite;
+}
+
+.hero-vignette {
+  background: radial-gradient(circle at 52% 44%, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.56));
+  opacity: 0.64;
 }
 
 .hero-scanlines {
@@ -137,6 +149,29 @@ main {
   opacity: 0.085;
 }
 
+.hero-scroll-cue-line {
+  animation: scroll-pulse 1.7s ease-in-out infinite;
+  transform-origin: center top;
+}
+
+.hero-scroll-cue-dot {
+  animation: scroll-dot 1.7s ease-in-out infinite;
+}
+
+.bg-engineered-depth {
+  background:
+    radial-gradient(circle at 12% 8%, rgba(98, 187, 235, 0.08), transparent 36%),
+    radial-gradient(circle at 84% 90%, rgba(33, 49, 72, 0.38), transparent 34%);
+}
+
+.bg-editorial-rhythm {
+  background-image:
+    linear-gradient(to right, rgba(151, 168, 191, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(151, 168, 191, 0.045) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: linear-gradient(to bottom, transparent 0%, black 16%, black 84%, transparent 100%);
+}
+
 @keyframes pulse-grid {
   0%,
   100% {
@@ -147,15 +182,71 @@ main {
   }
 }
 
+@keyframes drift-glow {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.9;
+  }
+  50% {
+    transform: translate3d(0, 12px, 0) scale(1.05);
+    opacity: 0.7;
+  }
+}
+
+@keyframes drift-orb {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+    opacity: 0.32;
+  }
+  50% {
+    transform: translate3d(-14px, -10px, 0);
+    opacity: 0.5;
+  }
+}
+
+@keyframes scroll-pulse {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: scaleY(0.84);
+  }
+  50% {
+    opacity: 0.95;
+    transform: scaleY(1);
+  }
+}
+
+@keyframes scroll-dot {
+  0% {
+    opacity: 0.45;
+    transform: translateY(0);
+  }
+  65% {
+    opacity: 1;
+    transform: translateY(9px);
+  }
+  100% {
+    opacity: 0.45;
+    transform: translateY(0);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .hero-grid {
+  .hero-grid,
+  .hero-glow,
+  .hero-orb,
+  .hero-scroll-cue-line,
+  .hero-scroll-cue-dot {
     animation: none;
   }
 
   .hero-scanlines,
   .hero-noise,
   .bg-tech-scanline,
-  .bg-tech-noise {
+  .bg-tech-noise,
+  .bg-editorial-rhythm {
     opacity: 0.06;
   }
 

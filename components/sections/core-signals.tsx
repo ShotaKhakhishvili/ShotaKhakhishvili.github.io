@@ -6,21 +6,21 @@ import { SignalPill } from "@/components/ui/signal-pill";
 
 export function CoreSignalsSection() {
   return (
-    <section id="core-signals" className="border-b border-line/60 py-20 md:py-24">
+    <section id="core-signals" className="border-b border-line/60 py-16 md:py-20">
       <Container>
         <Reveal>
           <SectionHeading
             label="Core Signals"
             title="Execution Signals"
-            description="Architecture quality, runtime discipline, and systems-level delivery signal without filler metrics."
+            description="Short, technical indicators of how systems are built and shipped."
           />
         </Reveal>
 
-        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+        <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
           {coreSignals.map((signal, index) => (
             <Reveal
               key={signal.title}
-              delay={0.04 * (index + 1)}
+              delay={0.03 * (index + 1)}
               className="h-full"
             >
               <SignalPill title={signal.title} text={signal.text} />
