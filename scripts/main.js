@@ -304,7 +304,15 @@ function openModalFromCard(card) {
 
   modalTitle.textContent = title;
   modalVideoSource.src = video;
+  modalVideo.autoplay = true;
+  modalVideo.muted = true;
+  modalVideo.loop = true;
+  modalVideo.playsInline = true;
+  modalVideo.controls = false;
   modalVideo.load();
+  modalVideo.play().catch(() => {
+    // Autoplay can be blocked by some browser policies.
+  });
   modalDownload.href = download;
 
   projectModal.classList.add('open');
