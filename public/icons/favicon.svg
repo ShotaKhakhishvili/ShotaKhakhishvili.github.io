@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="SK favicon">
+  <rect width="64" height="64" rx="12" fill="#11151C"/>
+  <rect x="4" y="4" width="56" height="56" rx="10" fill="none" stroke="#E6C77A" stroke-opacity="0.5"/>
+  <text x="32" y="39" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="700" fill="#F4D992">SK</text>
+</svg>
