@@ -10,9 +10,10 @@ interface ProjectVideoProps {
   title: string;
   priority?: boolean;
   className?: string;
+  videoClassName?: string;
 }
 
-export function ProjectVideo({ src, poster, title, priority = false, className }: ProjectVideoProps) {
+export function ProjectVideo({ src, poster, title, priority = false, className, videoClassName }: ProjectVideoProps) {
   const [videoFailed, setVideoFailed] = useState(false);
   const showVideo = Boolean(src) && !videoFailed;
 
@@ -20,7 +21,10 @@ export function ProjectVideo({ src, poster, title, priority = false, className }
     <div className={cn("group relative overflow-hidden rounded-xl border border-line bg-panel shadow-card", className)}>
       {showVideo ? (
         <video
-          className="aspect-video w-full object-cover transition duration-500 group-hover:scale-[1.01]"
+          className={cn(
+            "aspect-video w-full object-cover brightness-[0.96] transition duration-500 group-hover:scale-[1.03] group-hover:brightness-[1.04]",
+            videoClassName
+          )}
           autoPlay
           muted
           loop
@@ -34,7 +38,10 @@ export function ProjectVideo({ src, poster, title, priority = false, className }
         </video>
       ) : (
         <img
-          className="aspect-video w-full object-cover transition duration-500 group-hover:scale-[1.01]"
+          className={cn(
+            "aspect-video w-full object-cover transition duration-500 group-hover:scale-[1.03]",
+            videoClassName
+          )}
           src={poster}
           alt={title}
           loading={priority ? "eager" : "lazy"}

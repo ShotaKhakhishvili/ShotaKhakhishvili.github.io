@@ -69,6 +69,13 @@ export interface ContactLink {
   href: string;
 }
 
+export interface FloatingProjectCard {
+  slug: string;
+  title: string;
+  video?: string;
+  image: string;
+}
+
 const portfolio = portfolioData as PortfolioSchema;
 
 const copyOverrides: Record<string, { shortSummary: string; compactBullets?: string[] }> = {
@@ -338,6 +345,18 @@ export const featuredProject: Project =
 
 export const heroProject: Project = featuredProject;
 
+export const heroBackgroundVideo = featuredProject.video;
+
+export const floatingHeroCards: FloatingProjectCard[] = projects
+  .filter((project) => project.slug !== featuredProject.slug)
+  .slice(0, 5)
+  .map((project) => ({
+    slug: project.slug,
+    title: project.title,
+    video: project.video,
+    image: project.image
+  }));
+
 export const cinematicProjects: CinematicProject[] = projects.filter((project) => !project.presentation.pinnedStoryEligible);
 
 export const marqueeCinematicProjects: CinematicProject[] = cinematicProjects.filter(
@@ -348,13 +367,15 @@ export const supportingCinematicProjects: CinematicProject[] = cinematicProjects
   (project) => project.presentation.priorityTier === "supporting"
 );
 
+export const selectedProjects: Project[] = projects
+  .filter((project) => project.slug !== featuredProject.slug);
+
 export const coreSignals: CoreSignal[] = [
-  { title: "UE5 Systems", text: "Built and tested gameplay systems in UE5 C++." },
-  { title: "C++ Architecture", text: "Designed modular code with clear ownership." },
-  { title: "Plugins", text: "Implemented reusable UE5 plugin tooling." },
-  { title: "Multithreading", text: "Used async tasks for heavy runtime work." },
-  { title: "Rendering", text: "Built OpenGL and UE rendering experiments." },
-  { title: "Gameplay Implementation", text: "Iterated prototypes into playable builds." }
+  { title: "UE5 Gameplay Systems", text: "Runtime-focused implementation." },
+  { title: "C++ Architecture", text: "Modular ownership and extensibility." },
+  { title: "Plugins and Tooling", text: "Reusable editor and runtime modules." },
+  { title: "Multithreading", text: "Async work for heavy world logic." },
+  { title: "Rendering Fundamentals", text: "Engine and OpenGL rendering experiments." }
 ];
 
 export const contactLinks: ContactLink[] = [

@@ -6,12 +6,12 @@ import { Reveal } from "@/components/ui/reveal";
 
 export function ContactSection() {
   return (
-    <section id="contact" className="py-16 md:py-20">
+    <section id="contact" className="py-14 md:py-16">
       <Container className="flex justify-center">
         <Reveal className="w-full rounded-xl border border-line/80 bg-panel/90 px-5 py-6 shadow-card md:px-7 md:py-7 lg:max-w-3xl">
           <p className="text-[10px] font-medium uppercase tracking-[0.22em] text-accent/90">Contact</p>
           <h2 className="mt-2 max-w-3xl text-xl font-semibold tracking-tight text-textMain md:text-2xl">
-            Available for UE5 C++ systems and gameplay roles.
+            Open to UE5 gameplay and systems programming roles.
           </h2>
 
           <div className="mt-5 flex flex-wrap items-center gap-2.5 text-sm">
@@ -27,7 +27,7 @@ export function ContactSection() {
                     : "inline-flex rounded-md border border-line/80 bg-panelSoft/50 px-3.5 py-2 font-medium text-textMain transition hover:border-accent/60 hover:text-white"
                 }
               >
-                {link.label === "Email" ? "shota.khakhishvili@gmail.com" : link.label}
+                {link.label === "Email" ? "Email" : link.label}
               </Link>
             ))}
           </div>
