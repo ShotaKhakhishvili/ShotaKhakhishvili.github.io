@@ -506,7 +506,7 @@ export function SelectedProjectsSection() {
           <header className="mb-10 space-y-3 md:mb-14">
             <p className="text-xs font-medium uppercase tracking-[0.22em] text-accent">Selected Projects</p>
             <h2 className="max-w-3xl text-3xl font-semibold tracking-tight text-textMain md:text-5xl">
-              Additional gameplay and systems builds.
+              Systems & Gameplay Projects
             </h2>
           </header>
         </Reveal>
@@ -573,7 +573,7 @@ export function SelectedProjectsSection() {
                       onPointerMove={() => hoverProject(project.slug)}
                       onFocus={() => hoverProject(project.slug)}
                       onMouseLeave={() => setActiveHoverSlug(null)}
-                      className={`group relative cursor-pointer overflow-hidden rounded-2xl bg-panel/76 backdrop-blur-md transition-all duration-300 active:scale-[1.01] ${isDimmed ? "opacity-38 saturate-[0.76]" : "opacity-100"} ${isActive ? "border border-accent/55 shadow-[0_30px_90px_-45px_rgba(98,187,235,0.65)]" : "border border-line/75 shadow-card"}`}
+                      className={`group relative cursor-pointer overflow-hidden rounded-2xl bg-panel/76 backdrop-blur-md transition-all duration-300 active:scale-[1.01] ${isDimmed ? "opacity-38 saturate-[0.76]" : "opacity-100"} ${isActive ? "border border-accent/80 shadow-[0_36px_110px_-42px_rgba(98,187,235,0.78)]" : "border border-line/75 shadow-card"}`}
                     >
                       <div className="relative">
                         {project.video ? (
@@ -647,34 +647,45 @@ export function SelectedProjectsSection() {
             >
               <defs>
                 <linearGradient id="project-connection-gradient" x1="0" y1="0" x2="1" y2="0">
-                  <stop offset="0%" stopColor="rgba(98,187,235,0.06)" />
-                  <stop offset="50%" stopColor="rgba(125,204,248,0.36)" />
-                  <stop offset="100%" stopColor="rgba(98,187,235,0.08)" />
+                  <stop offset="0%" stopColor="rgba(98,187,235,0.14)" />
+                  <stop offset="50%" stopColor="rgba(146,220,255,0.72)" />
+                  <stop offset="100%" stopColor="rgba(98,187,235,0.18)" />
                 </linearGradient>
                 <filter id="project-connection-glow" x="-25%" y="-25%" width="150%" height="150%">
-                  <feGaussianBlur stdDeviation="2.8" />
+                  <feGaussianBlur stdDeviation="3.4" />
                 </filter>
               </defs>
               <motion.path
                 d={`M ${beam.startX} ${beam.startY} C ${(beam.startX + beam.endX) / 2} ${beam.startY - 8}, ${(beam.startX + beam.endX) / 2} ${beam.endY + 8}, ${beam.endX} ${beam.endY}`}
                 stroke="url(#project-connection-gradient)"
-                strokeWidth="2"
+                strokeWidth="3.2"
                 strokeLinecap="round"
                 fill="none"
                 filter="url(#project-connection-glow)"
                 initial={{ pathLength: 0.1, opacity: 0 }}
-                animate={{ pathLength: 1, opacity: 0.9 }}
+                animate={{ pathLength: 1, opacity: 1 }}
                 exit={{ pathLength: 0.1, opacity: 0 }}
                 transition={{ duration: 0.34, ease: "easeInOut" }}
               />
               <motion.path
                 d={`M ${beam.startX + (beam.side === "left" ? -22 : 22)} ${beam.startY + 14} C ${(beam.startX + beam.endX) / 2} ${beam.startY + 20}, ${(beam.startX + beam.endX) / 2} ${beam.endY - 22}, ${beam.endX + (beam.side === "left" ? 12 : -12)} ${beam.endY - 14}`}
-                stroke="rgba(142, 212, 250, 0.42)"
-                strokeWidth="1.1"
+                stroke="rgba(142, 212, 250, 0.64)"
+                strokeWidth="2"
                 strokeLinecap="round"
                 fill="none"
                 initial={{ opacity: 0 }}
-                animate={{ opacity: 0.52 }}
+                animate={{ opacity: 0.74 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.24, ease: "easeOut" }}
+              />
+              <motion.path
+                d={`M ${beam.startX + (beam.side === "left" ? -12 : 12)} ${beam.startY - 10} C ${(beam.startX + beam.endX) / 2} ${beam.startY - 18}, ${(beam.startX + beam.endX) / 2} ${beam.endY + 16}, ${beam.endX + (beam.side === "left" ? 8 : -8)} ${beam.endY + 9}`}
+                stroke="rgba(188, 235, 255, 0.46)"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+                fill="none"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 0.62 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.24, ease: "easeOut" }}
               />
