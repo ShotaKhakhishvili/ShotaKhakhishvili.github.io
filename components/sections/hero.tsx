@@ -30,11 +30,11 @@ export function HeroSection() {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_28%,rgba(144,214,255,0.2),transparent_36%),radial-gradient(circle_at_82%_75%,rgba(67,103,140,0.24),transparent_30%)]" />
       <FloatingProjectLayer cards={floatingHeroCards} />
 
-      <Container className="relative z-20 py-16 md:py-20 lg:pl-2">
-        <Reveal className="max-w-3xl space-y-14 lg:-ml-7" delay={0.03}>
+      <Container className="relative z-20 py-16 md:py-20 lg:pl-0">
+        <Reveal className="max-w-3xl space-y-14 lg:-ml-40" delay={0.03}>
           <div className="space-y-5">
             <div className="inline-flex rounded-xl border border-white/20 bg-[#07101a]/58 px-4 py-3 shadow-[0_20px_40px_-34px_rgba(0,0,0,0.95)] backdrop-blur-[3px] md:px-5 md:py-4">
-              <h1 className="max-w-3xl text-4xl font-semibold leading-[1.03] tracking-tight text-[#96d4fb] [text-shadow:0_0_24px_rgba(98,187,235,0.26)] md:text-6xl lg:text-[4.2rem]">
+              <h1 className="max-w-3xl text-4xl font-semibold leading-[1.03] tracking-tight text-[#4f6578] [text-shadow:0_0_12px_rgba(27,44,60,0.24)] md:text-6xl lg:text-[4.2rem]">
                 UE5 C++ Gameplay / Systems Programmer
               </h1>
             </div>
@@ -51,7 +51,7 @@ export function HeroSection() {
               <span className="hero-scroll-cue-dot mt-2 h-2.5 w-2.5 rounded-full bg-accent" />
             </span>
             <span className="hero-scroll-cue-line h-[3px] w-24 bg-gradient-to-r from-white/30 via-accent to-transparent" />
-            <span>Scroll For System Highlights</span>
+            <span>Scroll To See Projects</span>
           </motion.div>
         </Reveal>
       </Container>
