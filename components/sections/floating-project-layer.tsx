@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 interface FloatingProjectLayerProps {
   cards: FloatingProjectCard[];
   className?: string;
+  onProjectPress?: (slug: string) => void;
 }
 
 const cardAnchors = [
@@ -28,17 +29,18 @@ const driftVariants = [
   { x: [-12, 12, -12], y: [10, -10, 10], duration: 14 }
 ];
 
-export function FloatingProjectLayer({ cards, className }: FloatingProjectLayerProps) {
+export function FloatingProjectLayer({ cards, className, onProjectPress }: FloatingProjectLayerProps) {
   const prefersReducedMotion = useReducedMotion();
 
   return (
-    <div className={cn("pointer-events-none absolute inset-0 hidden overflow-hidden lg:block", className)}>
+    <div className={cn("pointer-events-none absolute inset-0 z-30 hidden overflow-hidden lg:block", className)}>
       {cards.slice(0, 5).map((card, index) => (
         <FloatingCard
           key={card.slug}
           card={card}
           index={index}
           prefersReducedMotion={prefersReducedMotion}
+          onProjectPress={onProjectPress}
         />
       ))}
     </div>
@@ -49,9 +51,10 @@ interface FloatingCardProps {
   card: FloatingProjectCard;
   index: number;
   prefersReducedMotion: boolean | null;
+  onProjectPress?: (slug: string) => void;
 }
 
-function FloatingCard({ card, index, prefersReducedMotion }: FloatingCardProps) {
+function FloatingCard({ card, index, prefersReducedMotion, onProjectPress }: FloatingCardProps) {
   const drift = driftVariants[index % driftVariants.length];
   const enterX = index % 2 === 0 ? 32 : -30;
   const enterY = index % 3 === 0 ? -20 : 20;
@@ -72,6 +75,15 @@ function FloatingCard({ card, index, prefersReducedMotion }: FloatingCardProps) 
       style={{ zIndex: layerOrder[index % layerOrder.length] }}
     >
       <motion.article
+        role="button"
+        tabIndex={0}
+        onClick={() => onProjectPress?.(card.slug)}
+        onKeyDown={(event) => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            onProjectPress?.(card.slug);
+          }
+        }}
         animate={
           prefersReducedMotion
             ? { x: 0, y: 0, scale: 1 }
@@ -90,7 +102,7 @@ function FloatingCard({ card, index, prefersReducedMotion }: FloatingCardProps) 
                 scale: { duration: drift.duration + 1, repeat: Infinity, ease: "easeInOut" }
               }
         }
-        className="transform-gpu will-change-transform overflow-hidden rounded-2xl border border-white/20 bg-[#0f1725]/50 shadow-[0_24px_55px_-40px_rgba(0,0,0,0.95)] backdrop-blur-md"
+        className="pointer-events-auto transform-gpu will-change-transform cursor-pointer overflow-hidden rounded-2xl border border-white/20 bg-[#0f1725]/50 shadow-[0_24px_55px_-40px_rgba(0,0,0,0.95)] backdrop-blur-md"
         style={{ transform: "translate3d(0, 0, 0)", backfaceVisibility: "hidden" }}
       >
         <div className="relative">

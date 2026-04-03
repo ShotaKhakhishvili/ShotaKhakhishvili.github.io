@@ -1,5 +1,6 @@
 "use client";
 
+import { useCallback } from "react";
 import { motion } from "framer-motion";
 
 import { floatingHeroCards, heroBackgroundVideo } from "@/data/projects";
@@ -9,6 +10,17 @@ import { Reveal } from "@/components/ui/reveal";
 import { MOTION_DURATION_REVEAL, MOTION_EASE_STANDARD } from "@/lib/motion";
 
 export function HeroSection() {
+  const handleTopProjectPress = useCallback((slug: string) => {
+    window.dispatchEvent(
+      new CustomEvent("selected-project:focus", {
+        detail: { slug, scrollToCard: true }
+      })
+    );
+
+    const section = document.getElementById("selected-projects");
+    section?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, []);
+
   return (
     <section id="home" className="relative isolate flex min-h-screen items-center overflow-hidden border-b border-line/60">
       {heroBackgroundVideo ? (
@@ -26,9 +38,9 @@ export function HeroSection() {
         </video>
       ) : null}
 
-      <div className="absolute inset-0 bg-gradient-to-r from-[#060b14]/88 via-[#060b14]/70 to-[#060b14]/22" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_28%,rgba(144,214,255,0.2),transparent_36%),radial-gradient(circle_at_82%_75%,rgba(67,103,140,0.24),transparent_30%)]" />
-      <FloatingProjectLayer cards={floatingHeroCards} />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#060b14]/88 via-[#060b14]/70 to-[#060b14]/22" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_28%,rgba(144,214,255,0.2),transparent_36%),radial-gradient(circle_at_82%_75%,rgba(67,103,140,0.24),transparent_30%)]" />
+      <FloatingProjectLayer cards={floatingHeroCards} onProjectPress={handleTopProjectPress} />
 
       <Container className="relative z-20 py-16 md:py-20 lg:pl-0">
         <Reveal className="max-w-3xl space-y-14 lg:-ml-40" delay={0.03}>

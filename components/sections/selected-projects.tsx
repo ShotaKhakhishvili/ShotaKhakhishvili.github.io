@@ -25,9 +25,34 @@ interface BeamState {
   side: "left" | "right";
 }
 
+type TetherDirection = "above" | "below";
+
+interface TetherState {
+  x: number;
+  y: number;
+  targetX: number;
+  targetY: number;
+  direction: TetherDirection;
+}
+
+interface GlobalParticle {
+  id: number;
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  life: number;
+  ttl: number;
+  size: number;
+}
+
 export function SelectedProjectsSection() {
   const cardRefs = useRef<Record<string, HTMLDivElement | null>>({});
   const panelRef = useRef<HTMLDivElement | null>(null);
+  const tetherAnimationRef = useRef<number | null>(null);
+  const tetherVelocityRef = useRef({ x: 0, y: 0 });
+  const beamRef = useRef<BeamState | null>(null);
+  const particleIdRef = useRef(0);
   const defaultProject = useMemo(
     () => selectedProjects.find((project) => project.title.includes("Custom Engine")) ?? selectedProjects[0],
     []
@@ -39,13 +64,56 @@ export function SelectedProjectsSection() {
   const [selectedSlug, setSelectedSlug] = useState<string>(defaultProject?.slug ?? "");
   const [activeHoverSlug, setActiveHoverSlug] = useState<string | null>(null);
   const [beam, setBeam] = useState<BeamState | null>(null);
+  const [globalParticles, setGlobalParticles] = useState<GlobalParticle[]>([]);
   const [previewSlug, setPreviewSlug] = useState<string | null>(null);
-  const connectedSlug = activeHoverSlug ?? selectedSlug;
+  const [tetherState, setTetherState] = useState<TetherState | null>(null);
+  const connectedSlug = selectedSlug;
 
-  const activateProject = useCallback((slug: string) => {
+  const selectProject = useCallback((slug: string) => {
     setSelectedSlug((prev) => (prev === slug ? prev : slug));
+  }, []);
+
+  const hoverProject = useCallback((slug: string) => {
     setActiveHoverSlug((prev) => (prev === slug ? prev : slug));
   }, []);
+
+  const focusProjectFromExternal = useCallback((slug: string, scrollToCard: boolean) => {
+    if (!projectMetaBySlug.has(slug)) {
+      return;
+    }
+
+    setSelectedSlug(slug);
+    setActiveHoverSlug(null);
+    setPreviewSlug(null);
+
+    const section = document.getElementById("selected-projects");
+    section?.scrollIntoView({ behavior: "smooth", block: "start" });
+
+    if (scrollToCard) {
+      requestAnimationFrame(() => {
+        const node = cardRefs.current[slug];
+        node?.scrollIntoView({ behavior: "smooth", block: "center" });
+      });
+    }
+  }, [projectMetaBySlug]);
+
+  useEffect(() => {
+    const handleExternalFocus = (event: Event) => {
+      const customEvent = event as CustomEvent<{ slug?: string; scrollToCard?: boolean }>;
+      const slug = customEvent.detail?.slug;
+      if (!slug) {
+        return;
+      }
+
+      focusProjectFromExternal(slug, Boolean(customEvent.detail?.scrollToCard));
+    };
+
+    window.addEventListener("selected-project:focus", handleExternalFocus as EventListener);
+
+    return () => {
+      window.removeEventListener("selected-project:focus", handleExternalFocus as EventListener);
+    };
+  }, [focusProjectFromExternal]);
   const focusedProject = useMemo(
     () => selectedProjects.find((project) => project.slug === selectedSlug) ?? defaultProject,
     [defaultProject, selectedSlug]
@@ -54,6 +122,40 @@ export function SelectedProjectsSection() {
     () => selectedProjects.find((project) => project.slug === previewSlug) ?? null,
     [previewSlug]
   );
+  const tetherProject = useMemo(
+    () => selectedProjects.find((project) => project.slug === selectedSlug) ?? defaultProject,
+    [defaultProject, selectedSlug]
+  );
+
+  const updateTetherState = useCallback(() => {
+    const selectedCard = cardRefs.current[selectedSlug];
+    if (!selectedCard) {
+      setTetherState(null);
+      return;
+    }
+
+    const rect = selectedCard.getBoundingClientRect();
+    const viewportHeight = window.innerHeight;
+    const nextDirection: TetherDirection | null =
+      rect.bottom < 88 ? "above" : rect.top > viewportHeight - 88 ? "below" : null;
+
+    if (!nextDirection) {
+      setTetherState(null);
+      tetherVelocityRef.current = { x: 0, y: 0 };
+      return;
+    }
+
+    const targetX = window.innerWidth * 0.5 - 220;
+    const targetY = window.innerHeight * (nextDirection === "above" ? 0.08 : 0.64);
+
+    setTetherState((prev) => ({
+      x: prev?.x ?? rect.left,
+      y: prev?.y ?? rect.top,
+      targetX,
+      targetY,
+      direction: nextDirection
+    }));
+  }, [selectedSlug]);
 
   const updateBeam = useCallback(() => {
     if (!connectedSlug || !panelRef.current) {
@@ -70,52 +172,247 @@ export function SelectedProjectsSection() {
     const panelRect = panelRef.current.getBoundingClientRect();
     const cardRect = card.getBoundingClientRect();
     const side = projectMetaBySlug.get(connectedSlug)?.side ?? "left";
-    const startX = side === "left" ? cardRect.right - 6 : cardRect.left + 6;
-    const startY = cardRect.top + cardRect.height * 0.52;
+    const tethered = Boolean(tetherState && connectedSlug === selectedSlug);
+    const tetherSource = tetherState;
+    const virtualRect = tethered && tetherSource
+      ? {
+          left: tetherSource.x,
+          right: tetherSource.x + 440,
+          top: tetherSource.y,
+          bottom: tetherSource.y + 248
+        }
+      : null;
+    const sourceRect = virtualRect ?? cardRect;
+
+    const sourceCenterX = (sourceRect.left + sourceRect.right) * 0.5;
+    const sourceCenterY = (sourceRect.top + sourceRect.bottom) * 0.5;
 
     const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));
-    const borderCandidates = [
+    const panelBorderCandidates = [
       {
         x: panelRect.left + 8,
-        y: clamp(startY, panelRect.top + 12, panelRect.bottom - 12)
+        y: clamp(sourceCenterY, panelRect.top + 12, panelRect.bottom - 12)
       },
       {
         x: panelRect.right - 8,
-        y: clamp(startY, panelRect.top + 12, panelRect.bottom - 12)
+        y: clamp(sourceCenterY, panelRect.top + 12, panelRect.bottom - 12)
       },
       {
-        x: clamp(startX, panelRect.left + 12, panelRect.right - 12),
+        x: clamp(sourceCenterX, panelRect.left + 12, panelRect.right - 12),
         y: panelRect.top + 8
       },
       {
-        x: clamp(startX, panelRect.left + 12, panelRect.right - 12),
+        x: clamp(sourceCenterX, panelRect.left + 12, panelRect.right - 12),
         y: panelRect.bottom - 8
       }
     ];
-    const nearestPoint = borderCandidates.reduce((closest, point) => {
-      const closestDist = Math.hypot(closest.x - startX, closest.y - startY);
-      const pointDist = Math.hypot(point.x - startX, point.y - startY);
+    const nearestPanelPoint = panelBorderCandidates.reduce((closest, point) => {
+      const closestDist = Math.hypot(closest.x - sourceCenterX, closest.y - sourceCenterY);
+      const pointDist = Math.hypot(point.x - sourceCenterX, point.y - sourceCenterY);
       return pointDist < closestDist ? point : closest;
-    }, borderCandidates[0]);
+    }, panelBorderCandidates[0]);
 
-    setBeam({
-      startX,
-      startY,
-      endX: nearestPoint.x,
-      endY: nearestPoint.y,
-      side
+    const sourceBorderCandidates = [
+      {
+        x: sourceRect.left + 6,
+        y: clamp(nearestPanelPoint.y, sourceRect.top + 12, sourceRect.bottom - 12)
+      },
+      {
+        x: sourceRect.right - 6,
+        y: clamp(nearestPanelPoint.y, sourceRect.top + 12, sourceRect.bottom - 12)
+      },
+      {
+        x: clamp(nearestPanelPoint.x, sourceRect.left + 12, sourceRect.right - 12),
+        y: sourceRect.top + 6
+      },
+      {
+        x: clamp(nearestPanelPoint.x, sourceRect.left + 12, sourceRect.right - 12),
+        y: sourceRect.bottom - 6
+      }
+    ];
+
+    const nearestSourcePoint = sourceBorderCandidates.reduce((closest, point) => {
+      const closestDist = Math.hypot(closest.x - nearestPanelPoint.x, closest.y - nearestPanelPoint.y);
+      const pointDist = Math.hypot(point.x - nearestPanelPoint.x, point.y - nearestPanelPoint.y);
+      return pointDist < closestDist ? point : closest;
+    }, sourceBorderCandidates[0]);
+
+    const resolvedSide = side;
+
+    setBeam((prev) => {
+      if (!prev || prev.side !== resolvedSide) {
+        return {
+          startX: nearestSourcePoint.x,
+          startY: nearestSourcePoint.y,
+          endX: nearestPanelPoint.x,
+          endY: nearestPanelPoint.y,
+          side: resolvedSide
+        };
+      }
+
+      const smoothing = 0.22;
+      return {
+        startX: prev.startX + (nearestSourcePoint.x - prev.startX) * smoothing,
+        startY: prev.startY + (nearestSourcePoint.y - prev.startY) * smoothing,
+        endX: prev.endX + (nearestPanelPoint.x - prev.endX) * smoothing,
+        endY: prev.endY + (nearestPanelPoint.y - prev.endY) * smoothing,
+        side: resolvedSide
+      };
     });
-  }, [connectedSlug, projectMetaBySlug]);
+  }, [connectedSlug, projectMetaBySlug, selectedSlug, tetherState]);
 
   useEffect(() => {
     updateBeam();
   }, [updateBeam]);
 
   useEffect(() => {
+    beamRef.current = beam;
+    if (!beam) {
+      setGlobalParticles([]);
+    }
+  }, [beam]);
+
+  useEffect(() => {
+    updateTetherState();
+  }, [selectedSlug, updateTetherState]);
+
+  useEffect(() => {
+    if (!tetherState) {
+      if (tetherAnimationRef.current) {
+        cancelAnimationFrame(tetherAnimationRef.current);
+        tetherAnimationRef.current = null;
+      }
+      return;
+    }
+
+    const step = () => {
+      setTetherState((prev) => {
+        if (!prev) {
+          return prev;
+        }
+
+        const spring = 0.062;
+        const damping = 0.56;
+        const maxSpeed = 13.2;
+        const velocity = tetherVelocityRef.current;
+
+        velocity.x = (velocity.x + (prev.targetX - prev.x) * spring) * damping;
+        velocity.y = (velocity.y + (prev.targetY - prev.y) * spring) * damping;
+        const speed = Math.hypot(velocity.x, velocity.y);
+        if (speed > maxSpeed) {
+          const scale = maxSpeed / speed;
+          velocity.x *= scale;
+          velocity.y *= scale;
+        }
+
+        const nextX = prev.x + velocity.x;
+        const nextY = prev.y + velocity.y;
+        const closeEnough = Math.abs(prev.targetX - nextX) < 0.12 && Math.abs(prev.targetY - nextY) < 0.12;
+
+        return {
+          ...prev,
+          x: closeEnough ? prev.targetX : nextX,
+          y: closeEnough ? prev.targetY : nextY
+        };
+      });
+
+      tetherAnimationRef.current = requestAnimationFrame(step);
+    };
+
+    tetherAnimationRef.current = requestAnimationFrame(step);
+
+    return () => {
+      if (tetherAnimationRef.current) {
+        cancelAnimationFrame(tetherAnimationRef.current);
+        tetherAnimationRef.current = null;
+      }
+    };
+  }, [tetherState]);
+
+  useEffect(() => {
+    let rafId = 0;
+    let last = performance.now();
+    let spawnCarry = 0;
+
+    const step = (now: number) => {
+      const dt = Math.min((now - last) / 1000, 0.033);
+      last = now;
+
+      setGlobalParticles((prev) => {
+        const activeBeam = beamRef.current;
+        if (!activeBeam && prev.length === 0) {
+          return prev;
+        }
+
+        const damp = Math.pow(0.985, dt * 60);
+        let next = prev
+          .map((particle) => ({
+            ...particle,
+            x: particle.x + particle.vx * dt,
+            y: particle.y + particle.vy * dt,
+            vx: particle.vx * damp,
+            vy: particle.vy * damp - 1.2 * dt,
+            life: particle.life + dt
+          }))
+          .filter((particle) => particle.life < particle.ttl);
+
+        if (activeBeam) {
+          spawnCarry += dt;
+          while (spawnCarry >= 0.08) {
+            spawnCarry -= 0.08;
+
+            const lineX = activeBeam.endX - activeBeam.startX;
+            const lineY = activeBeam.endY - activeBeam.startY;
+            const lineLength = Math.max(1, Math.hypot(lineX, lineY));
+            const dirX = lineX / lineLength;
+            const dirY = lineY / lineLength;
+            const perpX = -dirY;
+            const perpY = dirX;
+            const t = 0.12 + Math.random() * 0.76;
+            const baseX = activeBeam.startX + lineX * t;
+            const baseY = activeBeam.startY + lineY * t;
+            const offset = (Math.random() - 0.5) * 22;
+            const forwardSpeed = 16 + Math.random() * 26;
+            const lateralSpeed = (Math.random() - 0.5) * 30;
+
+            next.push({
+              id: particleIdRef.current++,
+              x: baseX + perpX * offset,
+              y: baseY + perpY * offset,
+              vx: dirX * forwardSpeed + perpX * lateralSpeed,
+              vy: dirY * forwardSpeed + perpY * lateralSpeed,
+              life: 0,
+              ttl: 0.85 + Math.random() * 1.15,
+              size: 1.2 + Math.random() * 1.5
+            });
+          }
+        }
+
+        if (next.length > 64) {
+          next = next.slice(next.length - 64);
+        }
+
+        return next;
+      });
+
+      rafId = requestAnimationFrame(step);
+    };
+
+    rafId = requestAnimationFrame(step);
+
+    return () => {
+      cancelAnimationFrame(rafId);
+    };
+  }, []);
+
+  useEffect(() => {
     let rafId = 0;
     const syncBeam = () => {
       cancelAnimationFrame(rafId);
-      rafId = requestAnimationFrame(updateBeam);
+      rafId = requestAnimationFrame(() => {
+        updateBeam();
+        updateTetherState();
+      });
     };
 
     window.addEventListener("scroll", syncBeam, { passive: true });
@@ -126,7 +423,15 @@ export function SelectedProjectsSection() {
       window.removeEventListener("scroll", syncBeam);
       window.removeEventListener("resize", syncBeam);
     };
-  }, [updateBeam]);
+  }, [updateBeam, updateTetherState]);
+
+  useEffect(() => {
+    return () => {
+      if (tetherAnimationRef.current) {
+        cancelAnimationFrame(tetherAnimationRef.current);
+      }
+    };
+  }, []);
 
   const activeSide = connectedSlug ? projectMetaBySlug.get(connectedSlug)?.side ?? null : null;
 
@@ -177,8 +482,8 @@ export function SelectedProjectsSection() {
                     ref={(node) => {
                       cardRefs.current[project.slug] = node;
                     }}
-                    onPointerEnter={() => activateProject(project.slug)}
-                    onPointerMove={() => activateProject(project.slug)}
+                    onPointerEnter={() => hoverProject(project.slug)}
+                    onPointerMove={() => hoverProject(project.slug)}
                     animate={{
                       y: fieldMotion[index % fieldMotion.length].y,
                       x: fieldMotion[index % fieldMotion.length].x
@@ -196,14 +501,13 @@ export function SelectedProjectsSection() {
                       whileTap={{ scale: 1.016 }}
                       transition={{ duration: 0.26, ease: "easeOut" }}
                       onClick={() => {
-                        activateProject(project.slug);
-                        setPreviewSlug(project.slug);
+                        selectProject(project.slug);
                       }}
-                      onMouseEnter={() => activateProject(project.slug)}
-                      onMouseMove={() => activateProject(project.slug)}
-                      onPointerEnter={() => activateProject(project.slug)}
-                      onPointerMove={() => activateProject(project.slug)}
-                      onFocus={() => activateProject(project.slug)}
+                      onMouseEnter={() => hoverProject(project.slug)}
+                      onMouseMove={() => hoverProject(project.slug)}
+                      onPointerEnter={() => hoverProject(project.slug)}
+                      onPointerMove={() => hoverProject(project.slug)}
+                      onFocus={() => hoverProject(project.slug)}
                       onMouseLeave={() => setActiveHoverSlug(null)}
                       className={`group relative cursor-pointer overflow-hidden rounded-2xl bg-panel/76 backdrop-blur-md transition-all duration-300 active:scale-[1.01] ${isDimmed ? "opacity-38 saturate-[0.76]" : "opacity-100"} ${isActive ? "border border-accent/55 shadow-[0_30px_90px_-45px_rgba(98,187,235,0.65)]" : "border border-line/75 shadow-card"}`}
                     >
@@ -237,6 +541,17 @@ export function SelectedProjectsSection() {
                           transition={{ duration: isActive ? 1.25 : 0.2, ease: "linear", repeat: isActive ? Infinity : 0, repeatDelay: 0.55 }}
                           className="pointer-events-none absolute inset-y-0 left-0 w-[42%] bg-gradient-to-r from-transparent via-white/22 to-transparent"
                         />
+                        <button
+                          type="button"
+                          onClick={(event) => {
+                            event.stopPropagation();
+                            selectProject(project.slug);
+                            setPreviewSlug(project.slug);
+                          }}
+                          className="pointer-events-auto absolute right-3 top-3 inline-flex items-center rounded-md border border-accent/45 bg-[#08192b]/85 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.13em] text-[#d8eeff] opacity-0 transition duration-200 group-hover:opacity-100 group-focus-within:opacity-100 hover:border-accent hover:text-white"
+                        >
+                          View Media
+                        </button>
                         <div className="absolute bottom-3 left-3 right-3">
                           <p className="inline-flex rounded-md border border-white/20 bg-black/45 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.15em] text-[#e0ebf8] backdrop-blur-sm">
                             {project.title}
@@ -293,50 +608,68 @@ export function SelectedProjectsSection() {
                 stroke="rgba(142, 212, 250, 0.42)"
                 strokeWidth="1.1"
                 strokeLinecap="round"
-                strokeDasharray="2 10"
                 fill="none"
                 initial={{ opacity: 0 }}
-                animate={{ opacity: 0.68, strokeDashoffset: [0, -62] }}
+                animate={{ opacity: 0.52 }}
                 exit={{ opacity: 0 }}
-                transition={{
-                  opacity: { duration: 0.24, ease: "easeOut" },
-                  strokeDashoffset: { duration: 2.4, repeat: Infinity, ease: "linear" }
-                }}
+                transition={{ duration: 0.24, ease: "easeOut" }}
               />
-              <motion.path
-                d={`M ${beam.startX - (beam.side === "left" ? -22 : 22)} ${beam.startY - 14} C ${(beam.startX + beam.endX) / 2} ${beam.startY - 24}, ${(beam.startX + beam.endX) / 2} ${beam.endY + 20}, ${beam.endX - (beam.side === "left" ? 12 : -12)} ${beam.endY + 14}`}
-                stroke="rgba(168, 222, 255, 0.82)"
-                strokeWidth="1.2"
-                strokeLinecap="round"
-                strokeDasharray="1 13"
-                fill="none"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 0.72, strokeDashoffset: [0, -56] }}
-                exit={{ opacity: 0 }}
-                transition={{
-                  opacity: { duration: 0.24, ease: "easeOut" },
-                  strokeDashoffset: { duration: 2.8, repeat: Infinity, ease: "linear" }
-                }}
-              />
-              <motion.path
-                d={`M ${beam.startX} ${beam.startY - 10} C ${(beam.startX + beam.endX) / 2} ${beam.startY - 26}, ${(beam.startX + beam.endX) / 2} ${beam.endY + 18}, ${beam.endX} ${beam.endY + 10}`}
-                stroke="rgba(163, 228, 255, 0.28)"
-                strokeWidth="1"
-                strokeLinecap="round"
-                strokeDasharray="1 12"
-                fill="none"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 0.55, strokeDashoffset: [0, -48] }}
-                exit={{ opacity: 0 }}
-                transition={{
-                  opacity: { duration: 0.24, ease: "easeOut" },
-                  strokeDashoffset: { duration: 3.2, repeat: Infinity, ease: "linear" }
-                }}
-              />
+              {globalParticles.map((particle) => {
+                const lifeProgress = particle.life / particle.ttl;
+                const fade = Math.max(0, 1 - lifeProgress);
+                return (
+                  <circle
+                    key={particle.id}
+                    cx={particle.x}
+                    cy={particle.y}
+                    r={particle.size * (0.52 + fade * 0.48)}
+                    fill="rgba(162,226,255,0.85)"
+                    fillOpacity={0.16 + fade * 0.54}
+                  />
+                );
+              })}
             </motion.svg>
           ) : null}
         </AnimatePresence>
       </div>
+
+      <AnimatePresence>
+        {tetherState ? (
+          <motion.article
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.98 }}
+            transition={{ duration: 0.24, ease: "easeOut" }}
+            className="pointer-events-none fixed z-40 hidden w-[440px] overflow-hidden rounded-2xl border border-accent/45 bg-panel/78 shadow-[0_28px_80px_-40px_rgba(98,187,235,0.6)] backdrop-blur-md lg:block"
+            style={{ left: tetherState.x, top: tetherState.y }}
+            aria-hidden
+          >
+            <div className="relative">
+              {tetherProject.video ? (
+                <video
+                  className="aspect-[16/10] w-full object-cover brightness-[0.95]"
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  preload="metadata"
+                  poster={tetherProject.image}
+                >
+                  <source src={tetherProject.video} type="video/mp4" />
+                </video>
+              ) : (
+                <img src={tetherProject.image} alt={tetherProject.title} className="aspect-[16/10] w-full object-cover" loading="eager" />
+              )}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/78 via-transparent to-transparent" />
+              <div className="absolute bottom-3 left-3 right-3">
+                <p className="inline-flex rounded-md border border-white/20 bg-black/45 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.15em] text-[#e0ebf8] backdrop-blur-sm">
+                  {tetherProject.title}
+                </p>
+              </div>
+            </div>
+          </motion.article>
+        ) : null}
+      </AnimatePresence>
 
       <AnimatePresence>
         {previewProject ? (
@@ -396,7 +729,12 @@ export function SelectedProjectsSection() {
           ref={panelRef}
           initial={false}
           layout
-          animate={{ opacity: 1, scale: 1, y: 0 }}
+          animate={{
+            opacity: 1,
+            scale: 1,
+            y: tetherState ? (tetherState.direction === "above" ? 132 : -228) : 0,
+            x: 0
+          }}
           transition={{
             duration: 0.24,
             ease: "easeOut",
