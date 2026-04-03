@@ -462,6 +462,34 @@ export function SelectedProjectsSection() {
   }, [updateBeam, updateTetherState]);
 
   useEffect(() => {
+    let rafId = 0;
+    let lastBeamAt = 0;
+    let lastTetherAt = 0;
+
+    const step = (now: number) => {
+      // Keep endpoint updates visually smooth without forcing heavy work every frame.
+      if (now - lastBeamAt >= 33) {
+        updateBeam();
+        lastBeamAt = now;
+      }
+
+      // Guarantee fallback tether refresh at least every 0.5s when idle.
+      if (now - lastTetherAt >= 500) {
+        updateTetherState();
+        lastTetherAt = now;
+      }
+
+      rafId = requestAnimationFrame(step);
+    };
+
+    rafId = requestAnimationFrame(step);
+
+    return () => {
+      cancelAnimationFrame(rafId);
+    };
+  }, [updateBeam, updateTetherState]);
+
+  useEffect(() => {
     return () => {
       if (tetherAnimationRef.current) {
         cancelAnimationFrame(tetherAnimationRef.current);
