@@ -15,6 +15,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://shotakhakhishvili.github.io"),
   title: "Shota Khakhishvili | UE5 C++ Gameplay / Systems Programmer",
   description:
     "UE5 C++ gameplay and systems programming portfolio focused on runtime architecture, plugin tooling, rendering experiments, and playable prototypes.",

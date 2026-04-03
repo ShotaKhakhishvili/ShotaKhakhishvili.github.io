@@ -51,6 +51,7 @@ export function SelectedProjectsSection() {
   const panelRef = useRef<HTMLDivElement | null>(null);
   const tetherAnimationRef = useRef<number | null>(null);
   const tetherVelocityRef = useRef({ x: 0, y: 0 });
+  const tetherStateRef = useRef<TetherState | null>(null);
   const beamRef = useRef<BeamState | null>(null);
   const particleIdRef = useRef(0);
   const defaultProject = useMemo(
@@ -148,13 +149,24 @@ export function SelectedProjectsSection() {
     const targetX = window.innerWidth * 0.5 - 220;
     const targetY = window.innerHeight * (nextDirection === "above" ? 0.08 : 0.64);
 
-    setTetherState((prev) => ({
-      x: prev?.x ?? rect.left,
-      y: prev?.y ?? rect.top,
-      targetX,
-      targetY,
-      direction: nextDirection
-    }));
+    setTetherState((prev) => {
+      if (
+        prev &&
+        prev.direction === nextDirection &&
+        Math.abs(prev.targetX - targetX) < 0.05 &&
+        Math.abs(prev.targetY - targetY) < 0.05
+      ) {
+        return prev;
+      }
+
+      return {
+        x: prev?.x ?? rect.left,
+        y: prev?.y ?? rect.top,
+        targetX,
+        targetY,
+        direction: nextDirection
+      };
+    });
   }, [selectedSlug]);
 
   const updateBeam = useCallback(() => {
@@ -172,8 +184,8 @@ export function SelectedProjectsSection() {
     const panelRect = panelRef.current.getBoundingClientRect();
     const cardRect = card.getBoundingClientRect();
     const side = projectMetaBySlug.get(connectedSlug)?.side ?? "left";
-    const tethered = Boolean(tetherState && connectedSlug === selectedSlug);
-    const tetherSource = tetherState;
+    const tetherSource = tetherStateRef.current;
+    const tethered = Boolean(tetherSource && connectedSlug === selectedSlug);
     const virtualRect = tethered && tetherSource
       ? {
           left: tetherSource.x,
@@ -251,24 +263,42 @@ export function SelectedProjectsSection() {
       }
 
       const smoothing = 0.22;
+      const nextStartX = prev.startX + (nearestSourcePoint.x - prev.startX) * smoothing;
+      const nextStartY = prev.startY + (nearestSourcePoint.y - prev.startY) * smoothing;
+      const nextEndX = prev.endX + (nearestPanelPoint.x - prev.endX) * smoothing;
+      const nextEndY = prev.endY + (nearestPanelPoint.y - prev.endY) * smoothing;
+      const tinyDelta =
+        Math.abs(nextStartX - prev.startX) < 0.04 &&
+        Math.abs(nextStartY - prev.startY) < 0.04 &&
+        Math.abs(nextEndX - prev.endX) < 0.04 &&
+        Math.abs(nextEndY - prev.endY) < 0.04;
+
+      if (tinyDelta) {
+        return prev;
+      }
+
       return {
-        startX: prev.startX + (nearestSourcePoint.x - prev.startX) * smoothing,
-        startY: prev.startY + (nearestSourcePoint.y - prev.startY) * smoothing,
-        endX: prev.endX + (nearestPanelPoint.x - prev.endX) * smoothing,
-        endY: prev.endY + (nearestPanelPoint.y - prev.endY) * smoothing,
+        startX: nextStartX,
+        startY: nextStartY,
+        endX: nextEndX,
+        endY: nextEndY,
         side: resolvedSide
       };
     });
-  }, [connectedSlug, projectMetaBySlug, selectedSlug, tetherState]);
+  }, [connectedSlug, projectMetaBySlug, selectedSlug]);
 
   useEffect(() => {
     updateBeam();
   }, [updateBeam]);
 
   useEffect(() => {
+    tetherStateRef.current = tetherState;
+  }, [tetherState]);
+
+  useEffect(() => {
     beamRef.current = beam;
     if (!beam) {
-      setGlobalParticles([]);
+      setGlobalParticles((prev) => (prev.length > 0 ? [] : prev));
     }
   }, [beam]);
 
@@ -277,7 +307,7 @@ export function SelectedProjectsSection() {
   }, [selectedSlug, updateTetherState]);
 
   useEffect(() => {
-    if (!tetherState) {
+    if (!tetherStateRef.current) {
       if (tetherAnimationRef.current) {
         cancelAnimationFrame(tetherAnimationRef.current);
         tetherAnimationRef.current = null;
@@ -309,6 +339,12 @@ export function SelectedProjectsSection() {
         const nextY = prev.y + velocity.y;
         const closeEnough = Math.abs(prev.targetX - nextX) < 0.12 && Math.abs(prev.targetY - nextY) < 0.12;
 
+        if (closeEnough && Math.abs(prev.targetX - prev.x) < 0.08 && Math.abs(prev.targetY - prev.y) < 0.08) {
+          velocity.x = 0;
+          velocity.y = 0;
+          return prev;
+        }
+
         return {
           ...prev,
           x: closeEnough ? prev.targetX : nextX,
@@ -327,7 +363,7 @@ export function SelectedProjectsSection() {
         tetherAnimationRef.current = null;
       }
     };
-  }, [tetherState]);
+  }, [Boolean(tetherState)]);
 
   useEffect(() => {
     let rafId = 0;

@@ -63,7 +63,7 @@
       "description": "Multithreaded terrain generation system with chunk-based streaming.",
       "tags": ["C++", "UE5", "Multithreading", "Optimization"],
       "thumbnail": "pic_ProceduralSurface.png",
-      "video": "ProceduralSurface.mp4",
+      "video": "ProceduralSurface_v2.mp4",
       "downloadUrl": "https://github.com/ShotaKhakhishvili/Procedural-Surface-Terrain-Generation",
       "codeUrl": "https://github.com/ShotaKhakhishvili/Procedural-Surface-Terrain-Generation"
     },
