@@ -172,6 +172,29 @@ export function BunnyVideo({
   }, [active, autoPlay, hoverPreview, isHovered, isNearViewport]);
 
   useEffect(() => {
+    const video = videoRef.current;
+    if (!video) {
+      return;
+    }
+
+    const handleCanPlay = () => {
+      const shouldPlay = autoPlay && active && (!hoverPreview || isHovered) && isNearViewport;
+      if (!shouldPlay) {
+        return;
+      }
+
+      void video.play().catch(() => {
+        // Autoplay failures are expected on some platforms.
+      });
+    };
+
+    video.addEventListener("canplay", handleCanPlay);
+    return () => {
+      video.removeEventListener("canplay", handleCanPlay);
+    };
+  }, [active, autoPlay, hoverPreview, isHovered, isNearViewport, source]);
+
+  useEffect(() => {
     return () => {
       if (hlsRef.current) {
         hlsRef.current.destroy();
@@ -198,6 +221,7 @@ export function BunnyVideo({
       <video
         ref={videoRef}
         className={cn("h-full w-full object-cover", className)}
+        autoPlay={autoPlay}
         muted={muted}
         loop={loop}
         playsInline={playsInline}

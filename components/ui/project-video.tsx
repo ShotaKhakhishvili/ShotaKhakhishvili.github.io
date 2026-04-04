@@ -112,8 +112,8 @@ export function ProjectVideo({
                 className="aspect-video w-full"
                 controls
                 loop={false}
-                muted={false}
-                autoPlay={false}
+                muted
+                autoPlay
                 preload="metadata"
                 priority
               />

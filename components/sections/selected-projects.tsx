@@ -584,7 +584,7 @@ export function SelectedProjectsSection() {
                             title={`${project.title} preview`}
                             className="aspect-[16/10] w-full brightness-[0.93] transition duration-300 group-hover:brightness-[1.04]"
                             preload="metadata"
-                            active={activeHoverSlug ? activeHoverSlug === project.slug : isActive}
+                            active
                           />
                         ) : (
                           <img src={project.image} alt={project.title} className="aspect-[16/10] w-full object-cover" loading="lazy" />
