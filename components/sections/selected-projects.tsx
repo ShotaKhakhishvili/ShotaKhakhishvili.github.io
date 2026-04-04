@@ -790,7 +790,7 @@ export function SelectedProjectsSection() {
                 ) : (
                   <img src={previewProject.image} alt={previewProject.title} className="aspect-video w-full object-cover" loading="eager" />
                 )}
-                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/76 via-black/18 to-transparent px-5 pb-4 pt-12">
+                <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/76 via-black/18 to-transparent px-5 pb-4 pt-12">
                   <p className="text-sm font-semibold uppercase tracking-[0.16em] text-[#deedfb]">{previewProject.title}</p>
                 </div>
               </div>

@@ -40,6 +40,7 @@ export function FeaturedProjectSection() {
             poster={featuredProject.image}
             title={`${featuredProject.title} deep highlight`}
             priority
+            enableExpandedView
             className="rounded-2xl border border-line/75 bg-panel/80"
             videoClassName="aspect-[16/9]"
           />
