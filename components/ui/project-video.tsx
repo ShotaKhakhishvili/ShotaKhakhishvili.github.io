@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 
+import { BunnyVideo } from "@/components/ui/bunny-video";
 import { cn } from "@/lib/utils";
 
 interface ProjectVideoProps {
@@ -49,22 +50,18 @@ export function ProjectVideo({
     <>
       <div className={cn("group relative overflow-hidden rounded-xl border border-line bg-panel shadow-card", className)}>
         {showVideo ? (
-          <video
+          <BunnyVideo
+            src={src}
+            poster={poster}
+            title={title}
+            priority={priority}
             className={cn(
-              "aspect-video w-full object-cover brightness-[0.96] transition duration-500 group-hover:scale-[1.03] group-hover:brightness-[1.04]",
+              "aspect-video w-full brightness-[0.96] transition duration-500 group-hover:scale-[1.03] group-hover:brightness-[1.04]",
               videoClassName
             )}
-            autoPlay
-            muted
-            loop
-            playsInline
             preload={priority ? "auto" : "metadata"}
-            poster={poster}
-            aria-label={title}
             onError={() => setVideoFailed(true)}
-          >
-            <source src={src} type="video/mp4" />
-          </video>
+          />
         ) : (
           <img
             className={cn(
@@ -108,16 +105,18 @@ export function ProjectVideo({
             </button>
 
             <div className="relative">
-              <video
-                className="aspect-video w-full object-cover"
-                controls
-                playsInline
-                preload="metadata"
+              <BunnyVideo
+                src={src}
                 poster={poster}
-                aria-label={`${title} expanded preview`}
-              >
-                <source src={src} type="video/mp4" />
-              </video>
+                title={`${title} expanded preview`}
+                className="aspect-video w-full"
+                controls
+                loop={false}
+                muted={false}
+                autoPlay={false}
+                preload="metadata"
+                priority
+              />
               <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/76 via-black/18 to-transparent px-5 pb-4 pt-12">
                 <p className="text-sm font-semibold uppercase tracking-[0.16em] text-[#deedfb]">{title}</p>
               </div>

@@ -6,6 +6,7 @@ import { AnimatePresence, motion } from "framer-motion";
 
 import { selectedProjects } from "@/data/projects";
 import { Container } from "@/components/ui/container";
+import { BunnyVideo } from "@/components/ui/bunny-video";
 import { Reveal } from "@/components/ui/reveal";
 
 const fieldMotion = [
@@ -577,18 +578,14 @@ export function SelectedProjectsSection() {
                     >
                       <div className="relative">
                         {project.video ? (
-                          <video
-                            className="aspect-[16/10] w-full object-cover brightness-[0.93] transition duration-300 group-hover:brightness-[1.04]"
-                            autoPlay
-                            muted
-                            loop
-                            playsInline
-                            preload="metadata"
+                          <BunnyVideo
+                            src={project.video}
                             poster={project.image}
-                            aria-label={`${project.title} preview`}
-                          >
-                            <source src={project.video} type="video/mp4" />
-                          </video>
+                            title={`${project.title} preview`}
+                            className="aspect-[16/10] w-full brightness-[0.93] transition duration-300 group-hover:brightness-[1.04]"
+                            preload="metadata"
+                            active={activeHoverSlug ? activeHoverSlug === project.slug : isActive}
+                          />
                         ) : (
                           <img src={project.image} alt={project.title} className="aspect-[16/10] w-full object-cover" loading="lazy" />
                         )}
@@ -721,17 +718,14 @@ export function SelectedProjectsSection() {
           >
             <div className="relative">
               {tetherProject.video ? (
-                <video
-                  className="aspect-[16/10] w-full object-cover brightness-[0.95]"
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  preload="metadata"
+                <BunnyVideo
+                  src={tetherProject.video}
                   poster={tetherProject.image}
-                >
-                  <source src={tetherProject.video} type="video/mp4" />
-                </video>
+                  title={`${tetherProject.title} preview`}
+                  className="aspect-[16/10] w-full brightness-[0.95]"
+                  preload="metadata"
+                  active
+                />
               ) : (
                 <img src={tetherProject.image} alt={tetherProject.title} className="aspect-[16/10] w-full object-cover" loading="eager" />
               )}
@@ -774,19 +768,19 @@ export function SelectedProjectsSection() {
 
               <div className="relative">
                 {previewProject.video ? (
-                  <video
-                    className="aspect-video w-full object-cover"
+                  <BunnyVideo
+                    src={previewProject.video}
+                    poster={previewProject.image}
+                    title={`${previewProject.title} expanded preview`}
+                    className="aspect-video w-full"
+                    controls
                     autoPlay
                     muted
                     loop
-                    playsInline
-                    controls
                     preload="metadata"
-                    poster={previewProject.image}
-                    aria-label={`${previewProject.title} expanded preview`}
-                  >
-                    <source src={previewProject.video} type="video/mp4" />
-                  </video>
+                    priority
+                    active
+                  />
                 ) : (
                   <img src={previewProject.image} alt={previewProject.title} className="aspect-video w-full object-cover" loading="eager" />
                 )}

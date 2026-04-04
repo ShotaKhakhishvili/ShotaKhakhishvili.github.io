@@ -280,6 +280,21 @@ const toSlug = (value: string) =>
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/(^-|-$)/g, "");
 
+const bunnyEmbedBySlug: Record<string, string> = {
+  "bending-simulator": "https://player.mediadelivery.net/embed/630899/42b4a128-290f-446f-918c-c76bbbc1e155?autoplay=true&loop=true&muted=true&preload=true",
+  "bend-it-all": "https://player.mediadelivery.net/embed/630899/a7c2e8d3-087c-42e8-8a52-0daed94263e7?autoplay=true&loop=true&muted=true&preload=true",
+  "kiu-infinite-runner": "https://player.mediadelivery.net/embed/630899/6571dae3-6292-4931-8cce-e5f0bb1d4de2?autoplay=true&loop=true&muted=true&preload=true",
+  "ue5-data-table-query-plugin": "https://player.mediadelivery.net/embed/630899/fb742e61-e5e0-450c-98bc-e43f8fa28aca?autoplay=true&loop=true&muted=true&preload=true",
+  trapshooter: "https://player.mediadelivery.net/embed/630899/d656878a-5591-4d10-8eea-d1e9dbf3085c?autoplay=true&loop=true&muted=true&preload=true",
+  "survival-game": "https://player.mediadelivery.net/embed/630899/1dd02ed7-cc49-491b-8542-f7588246f301?autoplay=true&loop=true&muted=true&preload=true",
+  "subway-surfers-remake": "https://player.mediadelivery.net/embed/630899/26abce00-0c46-4562-a517-eeb22793baf1?autoplay=true&loop=true&muted=true&preload=true",
+  "procedural-terrain-system": "https://player.mediadelivery.net/embed/630899/48315161-13fb-45ce-b04f-8419f74532f9?autoplay=true&loop=true&muted=true&preload=true",
+  "ml-self-taught-cars": "https://player.mediadelivery.net/embed/630899/d10358a6-36f4-4a2e-a6ab-f07000b336e4?autoplay=true&loop=true&muted=true&preload=true",
+  propgenie: "https://player.mediadelivery.net/embed/630899/2193fc56-9546-41e4-815d-98da86e7f06f?autoplay=true&loop=true&muted=true&preload=true",
+  "goat-ate-vineyard": "https://player.mediadelivery.net/embed/630899/8307ac58-84ee-4c5f-87a9-c106b021e7ef?autoplay=true&loop=true&muted=true&preload=true",
+  "iss-cupola-simulator": "https://player.mediadelivery.net/embed/630899/5edbb804-448e-478c-af11-bdd3530480e8?autoplay=true&loop=true&muted=true&preload=true"
+};
+
 const toOneSentence = (value: string): string => {
   const sentence = value.split(/[.!?]/)[0]?.trim() ?? value.trim();
   if (sentence.length <= 96) {
@@ -311,15 +326,17 @@ const resolvePresentation = (project: PortfolioProject): ProjectPresentation => 
 const normalizeProject = (project: PortfolioProject): Project => {
   const override = copyOverrides[project.title];
   const presentation = resolvePresentation(project);
+  const slug = toSlug(project.title);
+  const bunnyEmbed = bunnyEmbedBySlug[slug];
 
   return {
     id: project.id,
-    slug: toSlug(project.title),
+    slug,
     title: project.title,
     shortSummary: override?.shortSummary ?? toOneSentence(project.description),
     compactBullets: override?.compactBullets ?? [],
     tags: project.tags,
-    video: presentation.mediaType === "video" && project.video ? `/videos/${project.video}` : undefined,
+    video: presentation.mediaType === "video" && project.video ? bunnyEmbed ?? `/videos/${project.video}` : undefined,
     image: `/images/${project.thumbnail}`,
     links: {
       repo: project.codeUrl,

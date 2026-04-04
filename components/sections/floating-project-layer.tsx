@@ -2,6 +2,7 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 
+import { BunnyVideo } from "@/components/ui/bunny-video";
 import type { FloatingProjectCard } from "@/data/projects";
 import { cn } from "@/lib/utils";
 
@@ -107,18 +108,14 @@ function FloatingCard({ card, index, prefersReducedMotion, onProjectPress }: Flo
       >
         <div className="relative">
           {card.video ? (
-            <video
-              className="h-[138px] w-full object-cover saturate-110"
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="metadata"
+            <BunnyVideo
+              src={card.video}
               poster={card.image}
-              aria-label={`${card.title} preview`}
-            >
-              <source src={card.video} type="video/mp4" />
-            </video>
+              title={`${card.title} preview`}
+              className="h-[138px] w-full saturate-110"
+              preload="metadata"
+              priority
+            />
           ) : (
             <img src={card.image} alt={card.title} className="h-[138px] w-full object-cover" loading="lazy" />
           )}
