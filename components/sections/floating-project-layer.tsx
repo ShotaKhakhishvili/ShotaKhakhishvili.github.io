@@ -103,7 +103,7 @@ function FloatingCard({ card, index, prefersReducedMotion, onProjectPress }: Flo
                 scale: { duration: drift.duration + 1, repeat: Infinity, ease: "easeInOut" }
               }
         }
-        className="pointer-events-auto transform-gpu will-change-transform cursor-pointer overflow-hidden rounded-2xl border border-white/20 bg-[#0f1725]/50 shadow-[0_24px_55px_-40px_rgba(0,0,0,0.95)] backdrop-blur-md"
+        className="pointer-events-auto transform-gpu will-change-transform cursor-pointer select-none overflow-hidden rounded-2xl border border-white/20 bg-[#0f1725]/50 shadow-[0_24px_55px_-40px_rgba(0,0,0,0.95)] backdrop-blur-md"
         style={{ transform: "translate3d(0, 0, 0)", backfaceVisibility: "hidden" }}
       >
         <div className="relative">
@@ -121,7 +121,7 @@ function FloatingCard({ card, index, prefersReducedMotion, onProjectPress }: Flo
           )}
           <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/15 to-transparent" />
         </div>
-        <p className="px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.13em] text-[#dce8f8]/92">{card.title}</p>
+        <p className="select-none px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.13em] text-[#dce8f8]/92">{card.title}</p>
       </motion.article>
     </motion.div>
   );

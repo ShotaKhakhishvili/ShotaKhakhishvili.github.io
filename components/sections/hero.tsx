@@ -131,7 +131,7 @@ export function HeroSection() {
             initial={false}
             animate={{ opacity: showScrollPrompt ? 1 : 0, y: showScrollPrompt ? 0 : 10 }}
             transition={{ duration: MOTION_DURATION_REVEAL, ease: MOTION_EASE_STANDARD, delay: 0.08 }}
-            className="hidden w-fit items-center gap-4 rounded-xl border border-white/35 bg-[#091322]/62 px-5 py-3 text-sm uppercase tracking-[0.2em] text-[#dff1ff] shadow-[0_25px_55px_-42px_rgba(98,187,235,0.9)] backdrop-blur-sm md:flex md:text-base"
+            className="hidden w-fit select-none items-center gap-4 rounded-xl border border-white/35 bg-[#091322]/62 px-5 py-3 text-sm uppercase tracking-[0.2em] text-[#dff1ff] shadow-[0_25px_55px_-42px_rgba(98,187,235,0.9)] backdrop-blur-sm md:flex md:text-base"
           >
             <span className="relative flex h-11 w-6 items-start justify-center rounded-full border border-white/45 bg-black/20">
               <span className="hero-scroll-cue-dot mt-2 h-2.5 w-2.5 rounded-full bg-accent" />

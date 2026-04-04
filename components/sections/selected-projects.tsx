@@ -574,7 +574,7 @@ export function SelectedProjectsSection() {
                       onPointerMove={() => hoverProject(project.slug)}
                       onFocus={() => hoverProject(project.slug)}
                       onMouseLeave={() => setActiveHoverSlug(null)}
-                      className={`group relative cursor-pointer overflow-hidden rounded-2xl bg-panel/76 backdrop-blur-md transition-all duration-300 active:scale-[1.01] ${isDimmed ? "opacity-38 saturate-[0.76]" : "opacity-100"} ${isActive ? "border border-accent/80 shadow-[0_36px_110px_-42px_rgba(98,187,235,0.78)]" : "border border-line/75 shadow-card"}`}
+                      className={`group relative cursor-pointer select-none overflow-hidden rounded-2xl bg-panel/76 backdrop-blur-md transition-all duration-300 active:scale-[1.01] ${isDimmed ? "opacity-38 saturate-[0.76]" : "opacity-100"} ${isActive ? "border border-accent/80 shadow-[0_36px_110px_-42px_rgba(98,187,235,0.78)]" : "border border-line/75 shadow-card"}`}
                     >
                       <div className="relative">
                         {project.video ? (
@@ -609,12 +609,12 @@ export function SelectedProjectsSection() {
                             selectProject(project.slug);
                             setPreviewSlug(project.slug);
                           }}
-                          className="pointer-events-auto absolute right-3 top-3 inline-flex items-center rounded-md border border-accent/45 bg-[#08192b]/85 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.13em] text-[#d8eeff] opacity-0 transition duration-200 group-hover:opacity-100 group-focus-within:opacity-100 hover:border-accent hover:text-white"
+                          className="pointer-events-auto absolute right-3 top-3 inline-flex select-none items-center rounded-md border border-accent/45 bg-[#08192b]/85 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.13em] text-[#d8eeff] opacity-0 transition duration-200 group-hover:opacity-100 group-focus-within:opacity-100 hover:border-accent hover:text-white"
                         >
                           View Media
                         </button>
                         <div className="absolute bottom-3 left-3 right-3">
-                          <p className="inline-flex rounded-md border border-white/20 bg-black/45 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.15em] text-[#e0ebf8] backdrop-blur-sm">
+                          <p className="inline-flex select-none rounded-md border border-white/20 bg-black/45 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.15em] text-[#e0ebf8] backdrop-blur-sm">
                             {project.title}
                           </p>
                         </div>
@@ -731,7 +731,7 @@ export function SelectedProjectsSection() {
               )}
               <div className="absolute inset-0 bg-gradient-to-t from-black/78 via-transparent to-transparent" />
               <div className="absolute bottom-3 left-3 right-3">
-                <p className="inline-flex rounded-md border border-white/20 bg-black/45 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.15em] text-[#e0ebf8] backdrop-blur-sm">
+                <p className="inline-flex select-none rounded-md border border-white/20 bg-black/45 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.15em] text-[#e0ebf8] backdrop-blur-sm">
                   {tetherProject.title}
                 </p>
               </div>
@@ -761,7 +761,7 @@ export function SelectedProjectsSection() {
               <button
                 type="button"
                 onClick={() => setPreviewSlug(null)}
-                className="absolute right-3 top-3 z-10 inline-flex cursor-pointer rounded-md border border-white/25 bg-black/55 px-2.5 py-1 text-[11px] font-medium uppercase tracking-[0.12em] text-[#d7e9fa] transition hover:border-accent/65 hover:text-white"
+                className="absolute right-3 top-3 z-10 inline-flex cursor-pointer select-none rounded-md border border-white/25 bg-black/55 px-2.5 py-1 text-[11px] font-medium uppercase tracking-[0.12em] text-[#d7e9fa] transition hover:border-accent/65 hover:text-white"
               >
                 Close
               </button>
@@ -785,7 +785,7 @@ export function SelectedProjectsSection() {
                   <img src={previewProject.image} alt={previewProject.title} className="aspect-video w-full object-cover" loading="eager" />
                 )}
                 <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/76 via-black/18 to-transparent px-5 pb-4 pt-12">
-                  <p className="text-sm font-semibold uppercase tracking-[0.16em] text-[#deedfb]">{previewProject.title}</p>
+                  <p className="select-none text-sm font-semibold uppercase tracking-[0.16em] text-[#deedfb]">{previewProject.title}</p>
                 </div>
               </div>
             </motion.div>
@@ -821,7 +821,7 @@ export function SelectedProjectsSection() {
             layout
             transition={{ layout: { type: "spring", stiffness: 155, damping: 25, mass: 0.75 } }}
           >
-            <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-accent/90">Focused Project</p>
+            <p className="select-none text-[10px] font-medium uppercase tracking-[0.18em] text-accent/90">Focused Project</p>
             <h3 className="mt-2 text-2xl font-semibold tracking-tight text-textMain">{focusedProject.title}</h3>
             <p className="mt-2 text-sm leading-relaxed text-textMuted">{focusedProject.shortSummary}</p>
 
@@ -833,7 +833,7 @@ export function SelectedProjectsSection() {
 
             <div className="mt-3 flex flex-wrap gap-2 text-[10px] font-medium uppercase tracking-[0.13em] text-[#c4d6ec]">
               {focusedProject.tags.slice(0, 4).map((tag) => (
-                <span key={`${focusedProject.slug}-${tag}`} className="rounded-md border border-line/80 bg-panel/80 px-2 py-1">
+                <span key={`${focusedProject.slug}-${tag}`} className="select-none rounded-md border border-line/80 bg-panel/80 px-2 py-1">
                   {tag}
                 </span>
               ))}

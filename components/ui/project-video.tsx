@@ -78,7 +78,7 @@ export function ProjectVideo({
           <button
             type="button"
             onClick={() => setExpanded(true)}
-            className="absolute right-3 top-3 inline-flex items-center rounded-md border border-accent/45 bg-[#08192b]/85 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.13em] text-[#d8eeff] opacity-0 transition duration-200 group-hover:opacity-100 group-focus-within:opacity-100 hover:border-accent hover:text-white"
+            className="absolute right-3 top-3 inline-flex select-none items-center rounded-md border border-accent/45 bg-[#08192b]/85 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.13em] text-[#d8eeff] opacity-0 transition duration-200 group-hover:opacity-100 group-focus-within:opacity-100 hover:border-accent hover:text-white"
           >
             View Media
           </button>
@@ -99,7 +99,7 @@ export function ProjectVideo({
             <button
               type="button"
               onClick={() => setExpanded(false)}
-              className="absolute right-3 top-3 z-10 inline-flex cursor-pointer rounded-md border border-white/25 bg-black/55 px-2.5 py-1 text-[11px] font-medium uppercase tracking-[0.12em] text-[#d7e9fa] transition hover:border-accent/65 hover:text-white"
+              className="absolute right-3 top-3 z-10 inline-flex cursor-pointer select-none rounded-md border border-white/25 bg-black/55 px-2.5 py-1 text-[11px] font-medium uppercase tracking-[0.12em] text-[#d7e9fa] transition hover:border-accent/65 hover:text-white"
             >
               Close
             </button>
@@ -118,7 +118,7 @@ export function ProjectVideo({
                 priority
               />
               <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/76 via-black/18 to-transparent px-5 pb-4 pt-12">
-                <p className="text-sm font-semibold uppercase tracking-[0.16em] text-[#deedfb]">{title}</p>
+                <p className="select-none text-sm font-semibold uppercase tracking-[0.16em] text-[#deedfb]">{title}</p>
               </div>
             </div>
           </div>
