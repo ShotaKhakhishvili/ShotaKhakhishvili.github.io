@@ -14,19 +14,41 @@ const jetbrainsMono = JetBrains_Mono({
   variable: "--font-mono"
 });
 
+const siteUrl = "https://shotakhakhishvili.github.io";
+const siteTitle = "Shota Khakhishvili | UE5 C++ Gameplay / Systems Programmer";
+const siteDescription =
+  "UE5 C++ gameplay and systems programmer portfolio featuring runtime architecture, plugin tooling, rendering experiments, and playable prototypes.";
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://shotakhakhishvili.github.io"),
-  title: "Shota Khakhishvili | UE5 C++ Gameplay / Systems Programmer",
-  description:
-    "UE5 C++ gameplay and systems programming portfolio focused on runtime architecture, plugin tooling, rendering experiments, and playable prototypes.",
+  metadataBase: new URL(siteUrl),
+  title: siteTitle,
+  description: siteDescription,
+  alternates: {
+    canonical: "/"
+  },
   icons: {
     icon: "/icons/favicon.svg"
   },
   openGraph: {
-    title: "Shota Khakhishvili | UE5 C++ Gameplay / Systems Programmer",
-    description:
-      "Technical portfolio featuring UE5 C++ systems prototypes, plugin development, and gameplay runtime implementation.",
-    images: ["/images/pic_ProceduralSurface.png"]
+    type: "website",
+    url: siteUrl,
+    siteName: "Shota Khakhishvili Portfolio",
+    title: siteTitle,
+    description: siteDescription,
+    images: [
+      {
+        url: "/images/website.png",
+        width: 1200,
+        height: 630,
+        alt: "Shota Khakhishvili portfolio preview"
+      }
+    ]
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteTitle,
+    description: siteDescription,
+    images: ["/images/website.png"]
   }
 };
 
